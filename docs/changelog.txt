@@ -1,50 +1,84 @@
----------------------------------------
-0.96 Beta 1  2013-01-05
----------------------------------------
+<h5>1.00 RC 1  [NOT RELEASED]</h5>
+<hr>
 
-- Converted to XOOPS 2.5.5 Admin GUI (Mamba)
+- XOOPS 2.5.9, PHP 7 (mamba)
+- Converted to XOOPS 2.5.8 Admin GUI (mamba)
+- removed @<h5>(mamba)
+- PSR-2 code cosmetics (mamba)
+- addNavigation(basename(__FILE__))  (mamba)
+- dirname(__FILE__) to __DIR__ (mamba)
+- replaced < br /> with < br > (mamba)
+- Unnecessary double quotes (mamba)
+- reference mismatch (mamba)
+- Hardening to type safe (mamba)
+- update Help (mamba)
+- changed _handler to Handler (mamba)
+- removed '/' from void HTML elements (&lt;br&gt;, &lt;img&gt;, etc) (mamba)
+- HTML 5: removed 'selected' and 'checked' (mamba)
+- updated file headers for consistency (mamba)
+- renamed several $indexAdmin with $adminObject for consistency (mamba)
+- Updates for PayPal changes (zyspec)
+- added Contributing.md (mamba)
+- include_once to require_once (mamba)
+- php-cs-fixer updates (mamba)
+- started con<h5>to XMF (mamba)
+    &nbsp;&nbsp;- updated addInfoBoxLine entries (mamba)
+    &nbsp;&nbsp;- displayNavigation(basename(__FILE__))  (mamba)
+    &nbsp;&nbsp;- changed to ->displayButton('left') (mamba)
+    
 
-VERSION 0.95-3:
----------------------------------------
+<h5>1.00 Beta 1             [NOT RELEASED]</h5>
+<hr>
+
+- moved payment classes to /class (mamba)
+- moved form classes to /class/forms (mamba)
+- moved functions to Utility class (mamba)
+- moved all images, CSS, and JS files to /assets (mamba)
+- renamed .html Smarty templates to .tpl (mamba)
+
+<h5>0.95-3</h5>
+<hr>
 Fixed bug in sub_detail.php report.
 
-VERSION 0.95-2:
----------------------------------------
+<h5>0.95-2:</h5>
+               <hr>
 Fixed bugs in lists.php file.
-VERSION 0.95-1:
+
+<h5>0.95-1</h5>
+<hr>
 Fixed bugs in xoops_version.php file.
 
-VERSION 0.95:
----------------------------------------
+<h5>0.95 </h5>
+<hr>
 Fixed bugs in addmanualtransaction.
 
-VERSION 0.90:
----------------------------------------
+<h5>0.90 </h5>
+<hr>
 Fixed some issues with addmanualtransaction, cron and a few other bugs...
 prep for ccbill.
 
-VERSION 0.89:
----------------------------------------
+<h5>0.89 </h5>
+<hr>
 Bug fixes galore in gateways and admin
 New Details in reports
 
-VERSION 0.85pre:
----------------------------------------
+<h5>0.85pre </h5>
+<hr>
 Currency Fixes
 Bug fixes - see notes
 
-version 0.70
-------------
+<h5>0.70</h5>
+<hr>
 added gateway admin to module admin
 added module preferences to admin
 fixed bug in paymentdata.php
 replaced all references to HTTP_POST_VARS and HTTP_GET_VARS
 
-version 0.57
-------------
+<h5>0.57</h5>
+<hr>
 fixed minor bug in ssl url handing for payments.
 
-version 0.56
-------------
+<h5>0.56</h5>
+<hr>
 first public release of module
 

@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -23,62 +23,43 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-	include "../../../include/cp_header.php";
+include __DIR__ . '/../../../include/cp_header.php';
 
-	xoops_cp_header();
-	global $xoopsDB, $xoopsConfig, $xoopsModule, $_POST;
+xoops_cp_header();
+global $xoopsDB, $xoopsConfig, $xoopsModule, $_POST;
 
-	$gw = $_POST['gateway'];
+$gw = $_POST['gateway'];
 
-	$sql = "delete from " . $xoopsDB->prefix("subscription_gateway_config") . 
-			" where gateway = '$gw'";
+$sql = 'delete from ' . $xoopsDB->prefix('subscription_gateway_config') . " where gateway = '$gw'";
 
-	$xoopsDB->query($sql);
+$xoopsDB->query($sql);
 
-	if (isset($_POST['delete'])) {
-		$sql = "select conf_id from " . $xoopsDB->prefix("config") . 
-			" where conf_name = 'gateway' and conf_modid = " .
-			$xoopsModule->getVar("mid");
-		$result = $xoopsDB->query($sql);
-		list($confid) = $xoopsDB->fetchRow($result);
+if (isset($_POST['delete'])) {
+    $sql    = 'SELECT conf_id FROM ' . $xoopsDB->prefix('config') . " WHERE conf_name = 'gateway' AND conf_modid = " . $xoopsModule->getVar('mid');
+    $result = $xoopsDB->query($sql);
+    list($confid) = $xoopsDB->fetchRow($result);
 
-		$sql = "delete from " . $xoopsDB->prefix("configoption") . 
-				" where confop_name = '" . $gw . "' and conf_id = $confid";
-		$xoopsDB->query($sql);
-	}
-	else {
-		$query = "insert into " . $xoopsDB->prefix("subscription_gateway_config") . 
-			" (gateway, name, title, value, orderbit) " .
-				" values('%s', '%s', '%s', '%s', %d)";
+    $sql = 'delete from ' . $xoopsDB->prefix('configoption') . " where confop_name = '" . $gw . "' and conf_id = $confid";
+    $xoopsDB->query($sql);
+} else {
+    $query = 'INSERT INTO ' . $xoopsDB->prefix('subscription_gateway_config') . ' (gateway, name, title, value, orderbit) ' . " VALUES('%s', '%s', '%s', '%s', %d)";
 
-		foreach ($_POST as $k=>$v) {
-			if (eregi("$gw".":", $k)) {
-				$names = explode(":", $k);
-				$name = $names[1];
-				$title = $_POST[$name]; // this is the title;
-				$order = $names[2];
-				$sql = sprintf($query, 
-					$gw,
-					$name,
-					$title,
-					$v,
-					$order);
-				$xoopsDB->query($sql);
-			}
-		}
+    foreach ($_POST as $k => $v) {
+        if (eregi("$gw" . ':', $k)) {
+            $names = explode(':', $k);
+            $name  = $names[1];
+            $title = $_POST[$name]; // this is the title;
+            $order = $names[2];
+            $sql   = sprintf($query, $gw, $name, $title, $v, $order);
+            $xoopsDB->query($sql);
+        }
+    }
 
-		// update the module config with the default gw
-		if (isset($_POST['active'])) {
-			$query = "update " . $xoopsDB->prefix("config") . 
-				" set conf_value = '" . $gw . "' where conf_modid = " . 
-				$xoopsModule->getVar("mid") . " and conf_name = 'gateway'";
-			$xoopsDB->query($query);
-		}
+    // update the module config with the default gw
+    if (isset($_POST['active'])) {
+        $query = 'update ' . $xoopsDB->prefix('config') . " set conf_value = '" . $gw . "' where conf_modid = " . $xoopsModule->getVar('mid') . " and conf_name = 'gateway'";
+        $xoopsDB->query($query);
+    }
+}
 
-	}
-
-	redirect_header("gateways.php", 5, "The configuration was saved" .
-			" successfully.");
-
-?>
-
+redirect_header('gateways.php', 5, 'The configuration was saved' . ' successfully.');

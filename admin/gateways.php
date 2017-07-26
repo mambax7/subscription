@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -23,60 +23,49 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-    include_once dirname(__FILE__) . '/admin_header.php';
-    include_once "../../../include/cp_header.php";
-	include_once XOOPS_ROOT_PATH . "/class/template.php";
-	include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
-	include_once XOOPS_ROOT_PATH . "/class/xoopslists.php";
-	include_once XOOPS_ROOT_PATH . "/class/pagenav.php";
-	include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar('dirname') .
-		"/include/lists.php";
-	include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar('dirname') .
-		"/include/formselectgateway.php";
+require_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/../../../include/cp_header.php';
+require_once XOOPS_ROOT_PATH . '/class/template.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
+require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectgateway.php';
 
-	xoops_cp_header();
+xoops_cp_header();
 
-    $aboutAdmin = new ModuleAdmin();
-    echo $aboutAdmin->addNavigation('gateways.php');
-	global $xoopsDB, $xoopsConfig;
+$aboutAdmin = \Xmf\Module\Admin::getInstance();
+$adminObject->displayNavigation(basename(__FILE__));
+global $xoopsDB, $xoopsConfig;
 
-	
-	global $xoopsDB, $xoopsConfig, $xoopsModule, $xoopsModuleConfig;;
-	
-	$tpl = new XoopsTpl();
+global $xoopsDB, $xoopsConfig, $xoopsModule, $xoopsModuleConfig;
 
-	$gwForm = new XoopsThemeForm(
-		'Installed Gateways','gateway',"edit_gw_config.php");
+$tpl = new XoopsTpl();
 
-	$gwselect = new XoopsFormSelectGateway('Gateways', 'gateway',
-			$xoopsModuleConfig['gateway'],1);
+$gwForm = new XoopsThemeForm('Installed Gateways', 'gateway', 'edit_gw_config.php');
 
-	$gwForm->addElement($gwselect);
+$gwselect = new XoopsFormSelectGateway('Gateways', 'gateway', $xoopsModuleConfig['gateway'], 1);
 
-	$modifybutton = new XoopsFormButton('', 'submit', '  Modify ', 'submit');
+$gwForm->addElement($gwselect);
 
-	$gwForm->addElement($modifybutton);
-	$tpl->assign('gwform', $gwForm->render());
+$modifybutton = new XoopsFormButton('', 'submit', '  Modify ', 'submit');
 
-	$tpl->assign('editinstructions', 
-		"To configure a payment gateway, select it from the list and click " . 
-				"'Modify'");
+$gwForm->addElement($modifybutton);
+$tpl->assign('gwform', $gwForm->render());
 
-	$createForm = new XoopsThemeForm(
-		'Add Gateway', "gw", "add_gw.php");
+$tpl->assign('editinstructions', 'To configure a payment gateway, select it from the list and click ' . "'Modify'");
 
-	$gwname = new XoopsFormText("Gateway Name", "gateway",20,50,'');
+$createForm = new XoopsThemeForm('Add Gateway', 'gw', 'add_gw.php');
 
-	$createForm->addElement($gwname);
+$gwname = new XoopsFormText('Gateway Name', 'gateway', 20, 50, '');
 
-	$createbutton = new XoopsFormButton('','submit', ' Create ', 'submit');
-	$createForm->addElement($createbutton);
-	
-	$tpl->assign('form', $createForm->render());
+$createForm->addElement($gwname);
 
-	$tpl->display(XOOPS_ROOT_PATH . 
-			"/modules/subscription/templates/subscription_admin_gateways.html");
+$createbutton = new XoopsFormButton('', 'submit', ' Create ', 'submit');
+$createForm->addElement($createbutton);
 
-	xoops_cp_footer();
+$tpl->assign('form', $createForm->render());
 
-?>
+$tpl->display(XOOPS_ROOT_PATH . '/modules/subscription/templates/subscription_admin_gateways.tpl');
+
+xoops_cp_footer();

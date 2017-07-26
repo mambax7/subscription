@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -23,14 +23,21 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-function dateadd($timestamp, $seconds, $minutes, $hours, $days, $months, $years) {
-   $timePieces = getdate($timestamp);
-   return mktime(    $timePieces["hours"] + $hours,
-                   $timePieces["minutes"] + $minutes,
-                   $timePieces["seconds"] + $seconds,
-                   $timePieces["mon"] + $months,
-                   $timePieces["mday"] + $days,
-                   $timePieces["year"] + $years );
+/**
+ * @param $timestamp
+ * @param $seconds
+ * @param $minutes
+ * @param $hours
+ * @param $days
+ * @param $months
+ * @param $years
+ * @return false|int
+ */
+function dateadd($timestamp, $seconds, $minutes, $hours, $days, $months, $years)
+{
+    $timePieces = getdate($timestamp);
+
+    return mktime($timePieces['hours'] + $hours, $timePieces['minutes'] + $minutes, $timePieces['seconds'] + $seconds, $timePieces['mon'] + $months, $timePieces['mday'] + $days, $timePieces['year'] + $years);
 }
 /*
 function dateadd($interval, $number, $date) {
@@ -44,7 +51,7 @@ function dateadd($interval, $number, $date) {
     $year = $date_time_array['year'];
 
     switch ($interval) {
-    
+
         case 'yyyy':
             $year+=$number;
             break;
@@ -69,11 +76,10 @@ function dateadd($interval, $number, $date) {
             $minutes+=$number;
             break;
         case 's':
-            $seconds+=$number; 
-            break;            
+            $seconds+=$number;
+            break;
     }
        $timestamp= mktime($hours,$minutes,$seconds,$month,$day,$year);
     return $timestamp;
 }
-*/?>
-
+*/

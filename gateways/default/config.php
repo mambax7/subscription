@@ -1,8 +1,8 @@
-<?
+<?php
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -24,13 +24,10 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-$config[0]['name'] = "default_test1";
-$config[0]['title'] = "default name";
-$config[0]['value'] = "default_value";
+$config[0]['name']  = 'default_test1';
+$config[0]['title'] = 'default name';
+$config[0]['value'] = 'default_value';
 
-$config[1]['name'] = "default_test2";
-$config[1]['value'] = "default_value1";
-$config[1]['title'] = "default name 2";
-
-?>
-
+$config[1]['name']  = 'default_test2';
+$config[1]['value'] = 'default_value1';
+$config[1]['title'] = 'default name 2';

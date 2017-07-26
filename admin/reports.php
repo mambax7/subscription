@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -23,24 +23,21 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-	include_once "../../../include/cp_header.php";
-	include_once XOOPS_ROOT_PATH . "/class/template.php";
-	include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
-	include_once XOOPS_ROOT_PATH . "/class/xoopslists.php";
-	include_once XOOPS_ROOT_PATH . "/class/pagenav.php";
-	xoops_cp_header();
-	global $xoopsDB, $xoopsConfig;
+require_once __DIR__ . '/../../../include/cp_header.php';
+require_once XOOPS_ROOT_PATH . '/class/template.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
+require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+xoops_cp_header();
+global $xoopsDB, $xoopsConfig;
 
 //die("access denied - under development");
-	
-	global $xoopsDB, $xoopsConfig, $xoopsModule;
-	
+
+global $xoopsDB, $xoopsConfig, $xoopsModule;
+
 //	include(XOOPS_ROOT_PATH.'/header.php');
-	$tpl = new XoopsTpl();
+$tpl = new XoopsTpl();
 
-	$tpl->display(XOOPS_ROOT_PATH .
-		"/modules/subscription/templates/subscription_admin_reports.html");
+$tpl->display(XOOPS_ROOT_PATH . '/modules/subscription/templates/subscription_admin_reports.tpl');
 
-	xoops_cp_footer();
-
-?>
+xoops_cp_footer();

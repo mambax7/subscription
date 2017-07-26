@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -23,50 +23,53 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-	include_once "../../../include/cp_header.php";
-	include_once XOOPS_ROOT_PATH . "/class/template.php";
-	xoops_cp_header();
-	global $xoopsDB, $xoopsConfig;
+require_once __DIR__ . '/../../../include/cp_header.php';
+require_once XOOPS_ROOT_PATH . '/class/template.php';
+xoops_cp_header();
+global $xoopsDB, $xoopsConfig;
 
-	
-	global $xoopsDB, $xoopsConfig, $xoopsModule;
-	
-	$tpl = new XoopsTpl();
+global $xoopsDB, $xoopsConfig, $xoopsModule;
 
-	$tpl->append('links', 
-		array('desc'=>'Manage Subscription Intervals',
-					'url'=>'subscriptionintervals.php'));
-	$tpl->append('links', 
-		array('desc'=>'Manage Subscription Types',
-					'url'=>'subscriptiontypes.php'));
-	$tpl->append('links', 
-		array('desc'=>'Manage Subscriptions',
-					'url'=>'subscriptions.php'));
+$tpl = new XoopsTpl();
 
-	$tpl->append('links', 
-		array('desc'=>'Manage Payment Gateways',
-					'url'=>'gateways.php'));
+$tpl->append('links', array(
+    'desc' => 'Manage Subscription Intervals',
+    'url'  => 'subscriptionintervals.php'
+));
+$tpl->append('links', array(
+    'desc' => 'Manage Subscription Types',
+    'url'  => 'subscriptiontypes.php'
+));
+$tpl->append('links', array(
+    'desc' => 'Manage Subscriptions',
+    'url'  => 'subscriptions.php'
+));
 
-	$tpl->append('links', 
-		array('desc'=>'Payment Transactions Report',
-					'url'=>'transactions.php'));
+$tpl->append('links', array(
+    'desc' => 'Manage Payment Gateways',
+    'url'  => 'gateways.php'
+));
 
-	$tpl->append('links', 
-		array('desc'=>'Current Subscriptions Report',
-					'url'=>'currentsubs.php'));
+$tpl->append('links', array(
+    'desc' => 'Payment Transactions Report',
+    'url'  => 'transactions.php'
+));
 
-	$tpl->append('links', 
-		array('desc'=>'Send Subscription Expiration Reminders',
-					'url'=>'reminders.php'));
+$tpl->append('links', array(
+    'desc' => 'Current Subscriptions Report',
+    'url'  => 'currentsubs.php'
+));
 
-	$tpl->append('links', 
-		array('desc'=>'Run Expiration Script',
-					'url'=>'cron.php'));
+$tpl->append('links', array(
+    'desc' => 'Send Subscription Expiration Reminders',
+    'url'  => 'reminders.php'
+));
 
-	$tpl->display(XOOPS_ROOT_PATH . "/modules/" . 
-		$xoopsModule->getVar('dirname') . "/templates/" . 
-		"subscription_admin_index.html");
+$tpl->append('links', array(
+    'desc' => 'Run Expiration Script',
+    'url'  => 'cron.php'
+));
 
-	xoops_cp_footer();
+$tpl->display(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/templates/' . 'subscription_admin_index.tpl');
 
-?>
+xoops_cp_footer();

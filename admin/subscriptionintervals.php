@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -23,77 +23,67 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-    include_once dirname(__FILE__) . '/admin_header.php';
-	include_once "../../../include/cp_header.php";
-	include_once XOOPS_ROOT_PATH . "/class/template.php";
-	include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
-	include_once XOOPS_ROOT_PATH . "/class/xoopslists.php";
-	include_once XOOPS_ROOT_PATH . "/class/pagenav.php";
-	include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar('dirname') .
-		"/include/lists.php";
-	include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar('dirname') .
-		"/include/formselectsubscriptiontype.php";
-	include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar('dirname') .
-		"/include/formselectsubscriptioninterval.php";
-	xoops_cp_header();
+require_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/../../../include/cp_header.php';
+require_once XOOPS_ROOT_PATH . '/class/template.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
+require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptiontype.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptioninterval.php';
+xoops_cp_header();
 
-$aboutAdmin = new ModuleAdmin();
-echo $aboutAdmin->addNavigation('subscriptionintervals.php');
-	
-	global $xoopsDB, $xoopsConfig, $xoopsModule;
-	
-	$tpl = new XoopsTpl();
+$aboutAdmin = \Xmf\Module\Admin::getInstance();
+$adminObject->displayNavigation(basename(__FILE__));
 
-	$existingSubForm = new XoopsThemeForm(
-		'Existing Subscription Intervals','intervals',"edit_subscription_interval.php");
+global $xoopsDB, $xoopsConfig, $xoopsModule;
 
-	$sub_select = new XoopsFormSelect('Subscription Intervals', 'subintervalid');
-		
-	$sql = "SELECT s.subintervalid, s.name, s.intervalamount, s.intervaltype " . 
-			"from " . $xoopsDB->prefix("subscription_interval") . " s order by s.orderbit";
+$tpl = new XoopsTpl();
 
-	$result = $xoopsDB->query($sql);
+$existingSubForm = new XoopsThemeForm('Existing Subscription Intervals', 'intervals', 'edit_subscription_interval.php');
 
-	while (list($subintervalid, $name) = $xoopsDB->fetchRow($result)) {
-		$sub_select->addOption($subintervalid, $name);
-	}
+$sub_select = new XoopsFormSelect('Subscription Intervals', 'subintervalid');
 
-	$existingSubForm->addElement($sub_select);
-	$modifybutton = new XoopsFormButton('', 'submit', '  Modify ', 'submit');
+$sql = 'SELECT s.subintervalid, s.name, s.intervalamount, s.intervaltype ' . 'from ' . $xoopsDB->prefix('subscription_interval') . ' s order by s.orderbit';
 
-	$existingSubForm->addElement($modifybutton);
-	$tpl->assign('existingsubform', $existingSubForm->render());
-	$tpl->assign('editinstructions', 
-		'To modify an existing subscription interval, choose subscription from the dropdown.');
-	
-	$createForm = new XoopsThemeForm(
-		'Create New Subscription Interval', "sub", "create_subscription_interval.php");
+$result = $xoopsDB->query($sql);
 
-	$subtypename = new XoopsFormText("Subscription Interval", "name",20,50,'');
-	$createForm->addElement($subtypename);
+while (list($subintervalid, $name) = $xoopsDB->fetchRow($result)) {
+    $sub_select->addOption($subintervalid, $name);
+}
 
-	$intervaltypes = new XoopsFormSelect('Interval Types', 'intervaltype');
-	$intervaltypes->addOption('d','Day');
-	$intervaltypes->addOption('w','Week');
-	$intervaltypes->addOption('m','Month');
-	$intervaltypes->addOption('y','Year');
-	$intervaltypes->addOption('p','Permanent');
-	$createForm->addElement($intervaltypes);
+$existingSubForm->addElement($sub_select);
+$modifybutton = new XoopsFormButton('', 'submit', '  Modify ', 'submit');
 
-	$intervalamount = new XoopsFormText("Interval Amount",'intervalamount',2,3,'0');
-	$createForm->addElement($intervalamount);
+$existingSubForm->addElement($modifybutton);
+$tpl->assign('existingsubform', $existingSubForm->render());
+$tpl->assign('editinstructions', 'To modify an existing subscription interval, choose subscription from the dropdown.');
 
-	$order = new XoopsFormText("Sort Order",'orderbit',2,3,'0');
-	$createForm->addElement($order);
+$createForm = new XoopsThemeForm('Create New Subscription Interval', 'sub', 'create_subscription_interval.php');
 
-	$createbutton = new XoopsFormButton('','submit', ' Create ', 'submit');
-	$createForm->addElement($createbutton);
-	
-	$tpl->assign('form', $createForm->render());
+$subtypename = new XoopsFormText('Subscription Interval', 'name', 20, 50, '');
+$createForm->addElement($subtypename);
 
-	$tpl->display(XOOPS_ROOT_PATH . 
-			"/modules/subscription/templates/subscription_admin_subscription_intervals.html");
+$intervaltypes = new XoopsFormSelect('Interval Types', 'intervaltype');
+$intervaltypes->addOption('d', 'Day');
+$intervaltypes->addOption('w', 'Week');
+$intervaltypes->addOption('m', 'Month');
+$intervaltypes->addOption('y', 'Year');
+$intervaltypes->addOption('p', 'Permanent');
+$createForm->addElement($intervaltypes);
 
-	xoops_cp_footer();
+$intervalamount = new XoopsFormText('Interval Amount', 'intervalamount', 2, 3, '0');
+$createForm->addElement($intervalamount);
 
-?>
+$order = new XoopsFormText('Sort Order', 'orderbit', 2, 3, '0');
+$createForm->addElement($order);
+
+$createbutton = new XoopsFormButton('', 'submit', ' Create ', 'submit');
+$createForm->addElement($createbutton);
+
+$tpl->assign('form', $createForm->render());
+
+$tpl->display(XOOPS_ROOT_PATH . '/modules/subscription/templates/subscription_admin_subscription_intervals.tpl');
+
+xoops_cp_footer();

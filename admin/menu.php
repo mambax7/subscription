@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -24,69 +24,75 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+$moduleDirName = basename(dirname(__DIR__));
 
-$path = dirname(dirname(dirname(dirname(__FILE__))));
-include_once $path . '/mainfile.php';
-
-$dirname         = basename(dirname(dirname(__FILE__)));
-$module_handler  = xoops_gethandler('module');
-$module          = $module_handler->getByDirname($dirname);
-$pathIcon32      = $module->getInfo('icons32');
-$pathModuleAdmin = $module->getInfo('dirmoduleadmin');
-$pathLanguage    = $path . $pathModuleAdmin;
-
-
-if (!file_exists($fileinc = $pathLanguage . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/' . 'main.php')) {
-    $fileinc = $pathLanguage . '/language/english/main.php';
+if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
+} else {
+    $moduleHelper = Xmf\Module\Helper::getHelper('system');
 }
+$adminObject = \Xmf\Module\Admin::getInstance();
 
-include_once $fileinc;
+$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+//$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
 
-$adminmenu = array();
-$i=0;
-$adminmenu[$i]["title"] = _AM_MODULEADMIN_HOME;
-$adminmenu[$i]['link'] = "admin/index.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/home.png';
-$i++;
-$adminmenu[$i]['title'] = _MI_SUBSCRIPTION_ADMIN_MENU_SUBSCRIPTION_INTERVALS;
-$adminmenu[$i]['link'] = "admin/subscriptionintervals.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/event.png';
-$i++;
-$adminmenu[$i]['title'] = _MI_SUBSCRIPTION_ADMIN_MENU_SUBSCRIPTION_TYPES;
-$adminmenu[$i]['link'] = "admin/subscriptiontypes.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/type.png';
-$i++;
-$adminmenu[$i]['title'] = _MI_SUBSCRIPTION_ADMIN_MENU_SUBSCRIPTIONS;
-$adminmenu[$i]['link'] = "admin/subscriptions.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/button_ok.png';
-$i++;
-$adminmenu[$i]['title'] = _MI_SUBSCRIPTION_ADMIN_MENU_GATEWAYS;
-$adminmenu[$i]['link'] = "admin/gateways.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/cash_stack.png';
-$i++;
-$adminmenu[$i]['title'] = _MI_SUBSCRIPTION_ADMIN_MENU_TRANSACTIONS;
-$adminmenu[$i]['link'] = "admin/transactions.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/discount.png';
-$i++;
-$adminmenu[$i]['title'] = _MI_SUBSCRIPTION_ADMIN_MENU_SUBS;
-$adminmenu[$i]['link'] = "admin/currentsubs.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/users.png';
-$i++;
-$adminmenu[$i]['title'] = _MI_SUBSCRIPTION_ADMIN_MENU_REMINDERS;
-$adminmenu[$i]['link'] = "admin/reminders.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/mail_foward.png';
-$i++;
-$adminmenu[$i]['title'] = _MI_SUBSCRIPTION_ADMIN_MENU_CRON;
-$adminmenu[$i]['link'] = "admin/cron.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/update.png';
-$i++;
-$adminmenu[$i]['title'] = _AM_MODULEADMIN_ABOUT;
-$adminmenu[$i]["link"]  = "admin/about.php";
-$adminmenu[$i]["icon"]  = $pathIcon32 . '/about.png';
+$moduleHelper->loadLanguage('modinfo');
 
+$adminmenu[] = array(
+    'title' => _AM_MODULEADMIN_HOME,
+    'link'  => 'admin/index.php',
+    'icon'  => $pathIcon32 . '/home.png'
+);
 
+$adminmenu[] = array(
+    'title' => _MI_SUBSCRIPTION_ADMIN_MENU_SUBSCRIPTION_INTERVALS,
+    'link'  => 'admin/subscriptionintervals.php',
+    'icon'  => $pathIcon32 . '/event.png'
+);
 
+$adminmenu[] = array(
+    'title' => _MI_SUBSCRIPTION_ADMIN_MENU_SUBSCRIPTION_TYPES,
+    'link'  => 'admin/subscriptiontypes.php',
+    'icon'  => $pathIcon32 . '/type.png'
+);
 
+$adminmenu[] = array(
+    'title' => _MI_SUBSCRIPTION_ADMIN_MENU_SUBSCRIPTIONS,
+    'link'  => 'admin/subscriptions.php',
+    'icon'  => $pathIcon32 . '/button_ok.png'
+);
 
+$adminmenu[] = array(
+    'title' => _MI_SUBSCRIPTION_ADMIN_MENU_GATEWAYS,
+    'link'  => 'admin/gateways.php',
+    'icon'  => $pathIcon32 . '/cash_stack.png'
+);
 
+$adminmenu[] = array(
+    'title' => _MI_SUBSCRIPTION_ADMIN_MENU_TRANSACTIONS,
+    'link'  => 'admin/transactions.php',
+    'icon'  => $pathIcon32 . '/discount.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_SUBSCRIPTION_ADMIN_MENU_SUBS,
+    'link'  => 'admin/currentsubs.php',
+    'icon'  => $pathIcon32 . '/users.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_SUBSCRIPTION_ADMIN_MENU_REMINDERS,
+    'link'  => 'admin/reminders.php',
+    'icon'  => $pathIcon32 . '/mail_foward.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_SUBSCRIPTION_ADMIN_MENU_CRON,
+    'link'  => 'admin/cron.php',
+    'icon'  => $pathIcon32 . '/update.png'
+);
+
+$adminmenu[] = array(
+    'title' => _AM_MODULEADMIN_ABOUT,
+    'link'  => 'admin/about.php',
+    'icon'  => $pathIcon32 . '/about.png'
+);

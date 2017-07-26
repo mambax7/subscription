@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -23,33 +23,28 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-include "../../../include/cp_header.php";
+include __DIR__ . '/../../../include/cp_header.php';
 
-include "../include/functions.php";
+include __DIR__ . '/../class/utility.php';
 
 global $xoopsUser, $xoopsDB, $xoopsConfig;
 
 //get sub types
 
-$subid = isset($_GET['subid']) ? $_GET['subid'] : "";
-$uid = isset($_GET['uid']) ? $_GET['uid'] : "";
+$subid = isset($_GET['subid']) ? $_GET['subid'] : '';
+$uid   = isset($_GET['uid']) ? $_GET['uid'] : '';
 
 if (empty($subid) || empty($uid)) {
-	redirect_header("currentsubs.php", 5, "Missing values.");
+    redirect_header('currentsubs.php', 5, 'Missing values.');
 }
 
 if (isset($_GET['revoke'])) {
-	revokeUserSubscription($uid, $subid);
+    SubscriptionUtility::revokeUserSubscription($uid, $subid);
+} else {
+    SubscriptionUtility::cancelSubscription($uid, $subid);
 }
-else {
-	cancelSubscription($uid, $subid);
-}
-
 
 // TO-DO: add revoke code
-redirect_header("currentsubs.php", 5, "This subscription was canceled.");
+redirect_header('currentsubs.php', 5, 'This subscription was canceled.');
 
-include "../../../include/cp_footer.php";
-
-?>
-
+include __DIR__ . '/../../../include/cp_footer.php';

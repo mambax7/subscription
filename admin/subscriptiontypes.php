@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -24,71 +24,58 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-    include_once dirname(__FILE__) . '/admin_header.php';
-    include_once "../../../include/cp_header.php";
-	include_once XOOPS_ROOT_PATH . "/class/template.php";
-	include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
-	include_once XOOPS_ROOT_PATH . "/class/xoopslists.php";
-	include_once XOOPS_ROOT_PATH . "/class/pagenav.php";
-	include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar('dirname') .
-		"/include/lists.php";
-	include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar('dirname') .
-		"/include/formselectsubscriptiontype.php";
-	include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar('dirname') .
-		"/include/formselectsubscriptioninterval.php";
+require_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/../../../include/cp_header.php';
+require_once XOOPS_ROOT_PATH . '/class/template.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
+require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptiontype.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptioninterval.php';
 
-	xoops_cp_header();
-    $aboutAdmin = new ModuleAdmin();
-    echo $aboutAdmin->addNavigation('subscriptiontypes.php');
-	
-	global $xoopsDB, $xoopsConfig, $xoopsModule;
-	
-	$tpl = new XoopsTpl();
+xoops_cp_header();
+$aboutAdmin = \Xmf\Module\Admin::getInstance();
+$adminObject->displayNavigation(basename(__FILE__));
 
-	$existingSubForm = new XoopsThemeForm(
-		'Existing Subscription Types','subtypes',"edit_subscription_type.php");
+global $xoopsDB, $xoopsConfig, $xoopsModule;
 
-	$sub_select = new XoopsFormSelect('Subscription Types', 'subtypeid');
-		
-	$sql = "SELECT s.subtypeid, s.type from " .
-			$xoopsDB->prefix("subscription_type") . " s " .
-			" order by s.type asc";
-	$result = $xoopsDB->query($sql);
+$tpl = new XoopsTpl();
 
-	while (list($subtypeid, $type) = $xoopsDB->fetchRow($result)) {
-		$sub_select->addOption($subtypeid, $type);
-	}
+$existingSubForm = new XoopsThemeForm('Existing Subscription Types', 'subtypes', 'edit_subscription_type.php');
 
-	$existingSubForm->addElement($sub_select);
-	$modifybutton = new XoopsFormButton('', 'submit', '  Modify ', 'submit');
+$sub_select = new XoopsFormSelect('Subscription Types', 'subtypeid');
 
-	$existingSubForm->addElement($modifybutton);
-	$tpl->assign('existingsubform', $existingSubForm->render());
-	$tpl->assign('editinstructions', 
-		'To modify an existing subscription type, choose subscription from the dropdown.');
-	
-	$createForm = new XoopsThemeForm(
-		'Create New Subscription Type', "sub", "create_subscription_type.php");
+$sql    = 'SELECT s.subtypeid, s.type FROM ' . $xoopsDB->prefix('subscription_type') . ' s ' . ' ORDER BY s.type ASC';
+$result = $xoopsDB->query($sql);
 
-	$subtypename = new XoopsFormText("Subscription Type", "type",20,50,'');
-	$createForm->addElement($subtypename);
-	$subtypeselect = new XoopsFormSelectSubscriptionType("Parent Subscription Type", 
-		"psid", '',1,null);
+while (list($subtypeid, $type) = $xoopsDB->fetchRow($result)) {
+    $sub_select->addOption($subtypeid, $type);
+}
 
-	$createForm->addElement($subtypeselect);
+$existingSubForm->addElement($sub_select);
+$modifybutton = new XoopsFormButton('', 'submit', '  Modify ', 'submit');
 
-	$group_select = new XoopsFormSelectGroup('Group Permission', 'groupid', false,
-			null, 5, false);
-	$createForm->addElement($group_select);
+$existingSubForm->addElement($modifybutton);
+$tpl->assign('existingsubform', $existingSubForm->render());
+$tpl->assign('editinstructions', 'To modify an existing subscription type, choose subscription from the dropdown.');
 
-	$createbutton = new XoopsFormButton('','submit', ' Create ', 'submit');
-	$createForm->addElement($createbutton);
-	
-	$tpl->assign('form', $createForm->render());
+$createForm = new XoopsThemeForm('Create New Subscription Type', 'sub', 'create_subscription_type.php');
 
-	$tpl->display(XOOPS_ROOT_PATH . 
-			"/modules/subscription/templates/subscription_admin_subscription_types.html");
+$subtypename = new XoopsFormText('Subscription Type', 'type', 20, 50, '');
+$createForm->addElement($subtypename);
+$subtypeselect = new XoopsFormSelectSubscriptionType('Parent Subscription Type', 'psid', '', 1, null);
 
-	xoops_cp_footer();
+$createForm->addElement($subtypeselect);
 
-?>
+$group_select = new XoopsFormSelectGroup('Group Permission', 'groupid', false, null, 5, false);
+$createForm->addElement($group_select);
+
+$createbutton = new XoopsFormButton('', 'submit', ' Create ', 'submit');
+$createForm->addElement($createbutton);
+
+$tpl->assign('form', $createForm->render());
+
+$tpl->display(XOOPS_ROOT_PATH . '/modules/subscription/templates/subscription_admin_subscription_types.tpl');
+
+xoops_cp_footer();

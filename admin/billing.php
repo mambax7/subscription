@@ -1,6 +1,3 @@
 <?php
 
-echo "under construction";
-
-?>
-
+echo 'under construction';

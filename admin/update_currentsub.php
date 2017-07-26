@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -23,25 +23,18 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-	include "../../../include/cp_header.php";
-	xoops_cp_header();
-	global $xoopsDB, $xoopsConfig, $xoopsModule, $_POST;
+include __DIR__ . '/../../../include/cp_header.php';
+xoops_cp_header();
+global $xoopsDB, $xoopsConfig, $xoopsModule, $_POST;
 
+$sid     = $_POST['sid'];
+$cancel  = $_POST['cancel'];
+$expdate = $_POST['expdate'];
 
-	$sid = $_POST['sid'];
-	$cancel = $_POST['cancel'];
-	$expdate = $_POST['expdate'];
+$sql = 'update ' . $xoopsDB->prefix('subscription_user') . " set cancel = '$cancel', expiration_date = '$expdate' " . " where id = $sid";
 
-	$sql = "update " . $xoopsDB->prefix("subscription_user") . 
-		" set cancel = '$cancel', expiration_date = '$expdate' " .
-		" where id = $sid";
+$xoopsDB->query($sql);
 
-	$xoopsDB->query($sql);
-			
-	redirect_header('currentsubs.php', 1, 'The subscription has been updated.');
+redirect_header('currentsubs.php', 1, 'The subscription has been updated.');
 
-	xoops_cp_footer();
-
-?>
-
-
+xoops_cp_footer();

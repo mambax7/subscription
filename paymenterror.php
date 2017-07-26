@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -23,21 +23,17 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-	require('header.php');
-	if (!is_object($xoopsUser)) {
-		redirect_header("index.php", 0, _NOPERM);
-		exit();
-	}
-	$respmsg = $_GET['RESPMSG'];
+require_once __DIR__ . '/header.php';
+if (!is_object($xoopsUser)) {
+    redirect_header('index.php', 0, _NOPERM);
+    exit();
+}
+$respmsg = $_GET['RESPMSG'];
 
-	$uname = $xoopsUser->getVar('uname','E'); 
-	$xoopsOption['template_main'] = 'payment_error.html';
-	
-	include(XOOPS_ROOT_PATH.'/header.php');
-	$xoopsTpl->assign('respmsg', $respmsg);
+$uname                                   = $xoopsUser->getVar('uname', 'E');
+$GLOBALS['xoopsOption']['template_main'] = 'payment_error.tpl';
 
-	include(XOOPS_ROOT_PATH.'/footer.php');
+include XOOPS_ROOT_PATH . '/header.php';
+$xoopsTpl->assign('respmsg', $respmsg);
 
-?>
-
-
+include XOOPS_ROOT_PATH . '/footer.php';

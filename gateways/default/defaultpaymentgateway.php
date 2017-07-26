@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -23,54 +23,55 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-if (!defined("XOOPS_ROOT_PATH")) {
-    die("XOOPS root path not defined");
+defined('XOOPS_ROOT_PATH') || exit('XOOPS Root Path not defined');
+if (!defined('SUB_DIR_NAME')) {
+    die('SUB_DIR_NAME not defined');
 }
-if (!defined("SUB_DIR_NAME")) {
-    die("SUB_DIR_NAME not defined");
-}
-include_once XOOPS_ROOT_PATH . "/modules/" . 
-		SUB_DIR_NAME . "/include/paymentgateway.php";
-
-include_once XOOPS_ROOT_PATH . "/modules/" . 
-		SUB_DIR_NAME . "/include/paymentdata.php";
-include_once XOOPS_ROOT_PATH . "/modules/" . 
-		SUB_DIR_NAME . "/include/paymentresponse.php";
+require_once XOOPS_ROOT_PATH . '/modules/' . SUB_DIR_NAME . '/class/paymentgateway.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . SUB_DIR_NAME . '/class/paymentdata.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . SUB_DIR_NAME . '/class/paymentresponse.php';
 
 /**
  * base class
  */
+class DefaultPaymentGateway extends PaymentGateway
+{
+    /**
+     * @return bool
+     */
+    public function isDirect()
+    {
+        return true;
+    }
 
-class DefaultPaymentGateway extends PaymentGateway {
+    /**
+     * @param $details
+     * @return PaymentResponse
+     */
+    public function submitPayment($details)
+    {
+        $this->logger->addExtra('DEFAULT', $details->toString());
 
-	function isDirect() {
-		return true;
-	}
+        $response = $this->_processCard($details);
 
-	function submitPayment(&$details) {
-		$this->logger->addExtra("DEFAULT", $details->toString());
+        return $response;
+    }
 
+    /**
+     * @param $details
+     * @return PaymentResponse
+     */
+    public function _processCard($details)
+    {
+        if (true) {
+            return new PaymentResponse(0, '000-RES', 'SUCCESS', 'Default Payment Gateway Info');
+        } else {
+            return new PaymentResponse(10, '010-RES', 'DECLINED', 'Default Payment Gateway Info');
+        }
+    }
 
-		$response = $this->_processCard($details);
-	
-		return $response;
-		
-	}
-
-	function _processCard($details) {
-		if (TRUE) {
-			return new PaymentResponse(0, "000-RES","SUCCESS",
-					"Default Payment Gateway Info");
-		}
-		else {
-			return new PaymentResponse(10, "010-RES","DECLINED",
-					"Default Payment Gateway Info");
-		}
-	}
-
-	function test() {
-		$this->logger->addExtra("DEFAULT", "test");
-	}
+    public function test()
+    {
+        $this->logger->addExtra('DEFAULT', 'test');
+    }
 }
-
-

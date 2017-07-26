@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -23,84 +23,58 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-include "header.php";
-require("include/paymentgatewayfactory.php");
-include_once("include/paymentdata.php");
-include_once("include/paymentgateway.php");
+include __DIR__ . '/header.php';
+require_once __DIR__ . '/class/paymentgatewayfactory.php';
+require_once __DIR__ . '/class/paymentdata.php';
+require_once __DIR__ . '/class/paymentgateway.php';
 
 global $xoopsLogger, $xoopsDB, $xoopsUser, $xoopsModuleConfig, $_POST;
 
 if (!is_object($xoopsUser)) {
-	redirect_header(XOOPS_URL, 0, _NOPERM);
+    redirect_header(XOOPS_URL, 0, _NOPERM);
 }
 
 if (isset($_POST)) {
-	foreach ($_POST as $k => $v) {
-		${$k} = $v;
-	}
+    foreach ($_POST as $k => $v) {
+        ${$k} = $v;
+    }
 }
 if ($xoopsUser->getVar('uid') != $uid) {
-	redirect_header("index.php", 5, _NOPERM);
+    redirect_header('index.php', 5, _NOPERM);
 }
 
-if(!isset($agree)) {
-	redirect_header("index.php", 5, "You must agree to the terms.");
+if (!isset($agree)) {
+    redirect_header('index.php', 5, 'You must agree to the terms.');
 }
 
-$gatewayConfig = getGatewayConfig($xoopsModuleConfig['gateway']);
+$gatewayConfig  = SubscriptionUtility::getGatewayConfig($xoopsModuleConfig['gateway']);
 $delayedCapture = $xoopsModuleConfig['delayed_capture'];
 if (strtoupper($delayedCapture) == 'Y') {
-	$txtype = 'A';
-}
-else {
-	$txtype = 'S';
+    $txtype = 'A';
+} else {
+    $txtype = 'S';
 }
 // create paymentdata instance
-$paymentData = new PaymentData(
-		$cardnumber,
-		$name,
-		$address1,
-		$address2,
-		$city,
-		$state,
-		$zipcode,
-		$country,
-		$expirationmonth,
-		$expirationyear,
-		$cvv,
-		$issuerphone,
-		$amount,
-		getNextInvoiceNumber(),
-		$txtype);
+$paymentData = new PaymentData($cardnumber, $name, $address1, $address2, $city, $state, $zipcode, $country, $expirationmonth, $expirationyear, $cvv, $issuerphone, $amount, SubscriptionUtility::getNextInvoiceNumber(), $txtype);
 
-$gw = &PaymentGatewayFactory::getPaymentGateway();
+$gw = PaymentGatewayFactory::getPaymentGateway();
 $gw->setLogger($xoopsLogger);
 $gw->setConfig($gatewayConfig);
 $gw->setDelayedCapture($delayedCapture);
 
-$paymentResponse = 
-		$gw->submitPayment($paymentData);
+$paymentResponse = $gw->submitPayment($paymentData);
 
-$id = recordPaymentTransaction($uid, $subid, $paymentData, $paymentResponse);
+$id = SubscriptionUtility::recordPaymentTransaction($uid, $subid, $paymentData, $paymentResponse);
 
 if ($paymentResponse->responseCode == 0) {
-		if (strtoupper($delayedCapture) != 'Y') {
-			addUserSubscription($xoopsUser->getVar('uid'), $subid);
-			sendSubscriptionEmail($xoopsUser->getVar('uid'), $subid);
-			redirect_header("paymentsuccess.php?tid=$id", 2, 
-					"Your payment has been accepted...");
-		}
-		else {
-			//delayed capture...
-			redirect_header("paymentsuccess.php?tid=$id", 2, 
-					"Your payment has been accepted but is pending approval.  You will " .
-					" receive an email when your payment has been approved.");
-		}
+    if (strtoupper($delayedCapture) != 'Y') {
+        SubscriptionUtility::addUserSubscription($xoopsUser->getVar('uid'), $subid);
+        SubscriptionUtility::sendSubscriptionEmail($xoopsUser->getVar('uid'), $subid);
+        redirect_header("paymentsuccess.php?tid=$id", 2, 'Your payment has been accepted...');
+    } else {
+        //delayed capture...
+        redirect_header("paymentsuccess.php?tid=$id", 2, 'Your payment has been accepted but is pending approval.  You will ' . ' receive an email when your payment has been approved.');
+    }
+} else {
+    redirect_header('paymenterror.php?RESPMSG=' . $paymentResponse->responseMessage, 1, 'Your payment was rejected.');
 }
-else {
-		redirect_header("paymenterror.php?RESPMSG=" . 
-			$paymentResponse->responseMessage, 1, "Your payment was rejected.");
-}
-
-?>
-

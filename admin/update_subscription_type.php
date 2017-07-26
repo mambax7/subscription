@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -23,45 +23,33 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-	include "../../../include/cp_header.php";
-	xoops_cp_header();
-	global $xoopsDB, $xoopsConfig, $xoopsModule, $_POST;
+include __DIR__ . '/../../../include/cp_header.php';
+xoops_cp_header();
+global $xoopsDB, $xoopsConfig, $xoopsModule, $_POST;
 
-	if (isset($_POST)) {
-		foreach ($_POST as $k => $v) {
-			${$k} = $v;
-		}
-	}
-	if (isset($delete)) {
-		$sql = "select count(*) from " . 
-			$xoopsDB->prefix("subscription") . " where subtypeid = " .
-			$subtypeid;
-		$res = $xoopsDB->query($sql);
-		list($ct) = $xoopsDB->fetchRow($res);
-		if (!empty($ct)) {
-			if ($ct > 0) {
-				redirect_header("subscriptiontypes.php", 5, 
-					"Please remove or update any subscription " .
-					"that uses this type.");
-			}
-		}
-		$sql = "delete from " . $xoopsDB->prefix("subscription_type") .
-			" where subtypeid = $subtypeid";
-		$xoopsDB->query($sql);
+if (isset($_POST)) {
+    foreach ($_POST as $k => $v) {
+        ${$k} = $v;
+    }
+}
+if (isset($delete)) {
+    $sql = 'SELECT count(*) FROM ' . $xoopsDB->prefix('subscription') . ' WHERE subtypeid = ' . $subtypeid;
+    $res = $xoopsDB->query($sql);
+    list($ct) = $xoopsDB->fetchRow($res);
+    if (!empty($ct)) {
+        if ($ct > 0) {
+            redirect_header('subscriptiontypes.php', 5, 'Please remove or update any subscription ' . 'that uses this type.');
+        }
+    }
+    $sql = 'delete from ' . $xoopsDB->prefix('subscription_type') . " where subtypeid = $subtypeid";
+    $xoopsDB->query($sql);
 
-		redirect_header('subscriptiontypes.php', 1, 
-			'The subscription type was deleted successfully.');
-	}
-	
-	$sql = "update " . $xoopsDB->prefix("subscription_type") . 
-		" set type = '$type', " . 
-		"groupid = $groupid, psid = $psid where subtypeid = $subtypeid";
-	$xoopsDB->query($sql);
-			
-	redirect_header('subscriptiontypes.php', 1, 'The subscription type has been updated.');
+    redirect_header('subscriptiontypes.php', 1, 'The subscription type was deleted successfully.');
+}
 
-	xoops_cp_footer();
+$sql = 'update ' . $xoopsDB->prefix('subscription_type') . " set type = '$type', " . "groupid = $groupid, psid = $psid where subtypeid = $subtypeid";
+$xoopsDB->query($sql);
 
-?>
+redirect_header('subscriptiontypes.php', 1, 'The subscription type has been updated.');
 
-
+xoops_cp_footer();

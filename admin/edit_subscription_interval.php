@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -23,75 +23,63 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-	include_once "../../../include/cp_header.php";
-	include_once XOOPS_ROOT_PATH . "/class/pagenav.php";
-	include_once XOOPS_ROOT_PATH . "/class/template.php";
-	include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
-	include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar('dirname') .
-		"/include/lists.php";
-	include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar('dirname') .
-		"/include/formselectsubscriptiontype.php";
-	include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar('dirname') .
-		"/include/formselectsubscriptioninterval.php";
+require_once __DIR__ . '/../../../include/cp_header.php';
+require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+require_once XOOPS_ROOT_PATH . '/class/template.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptiontype.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptioninterval.php';
 
-	xoops_cp_header();
-	global $xoopsDB, $xoopsConfig;
+xoops_cp_header();
+global $xoopsDB, $xoopsConfig;
 
-	global $xoopsDB, $xoopsConfig, $xoopsModule;
+global $xoopsDB, $xoopsConfig, $xoopsModule;
 
-	$subintervalid = $_POST['subintervalid'];
-	include(XOOPS_ROOT_PATH.'/header.php');
-	$tpl = new XoopsTpl();
-	
-	$sql = "select s.subintervalid, s.name, s.intervaltype, s.intervalamount, " . 
-			"s.orderbit from " . $xoopsDB->prefix("subscription_interval") . 
-			" s where subintervalid = $subintervalid";
+$subintervalid = $_POST['subintervalid'];
+include XOOPS_ROOT_PATH . '/header.php';
+$tpl = new XoopsTpl();
 
-	$result = $xoopsDB->query($sql);
-	list($subintervalid, $name, $intervaltype, $intervalamount, $orderbit) = 
-		$xoopsDB->fetchRow($result);
+$sql = 'select s.subintervalid, s.name, s.intervaltype, s.intervalamount, ' . 's.orderbit from ' . $xoopsDB->prefix('subscription_interval') . " s where subintervalid = $subintervalid";
 
-	$editForm = new XoopsThemeForm(
-		'Edit Subscription Interval', "subscription", "update_subscription_interval.php");
-	$subid= new XoopsFormHidden('subintervalid', $subintervalid);
-	$editForm->addElement($subid);
-	
-	$subnamebox = new XoopsFormText("Name","name",20,50,$name);
-	$editForm->addElement($subnamebox);
+$result = $xoopsDB->query($sql);
+list($subintervalid, $name, $intervaltype, $intervalamount, $orderbit) = $xoopsDB->fetchRow($result);
 
-	$subintervalselect = new XoopsFormSelect("Interval Type", 
-		"intervaltype", $intervaltype, 1, null);
-	$subintervalselect->addOption('d','Day');
-	$subintervalselect->addOption('w','Week');
-	$subintervalselect->addOption('m','Month');
-	$subintervalselect->addOption('y','Year');
-	$subintervalselect->addOption('p','Permanent');
+$editForm = new XoopsThemeForm('Edit Subscription Interval', 'subscription', 'update_subscription_interval.php');
+$subid    = new XoopsFormHidden('subintervalid', $subintervalid);
+$editForm->addElement($subid);
 
-	$editForm->addElement($subintervalselect);
+$subnamebox = new XoopsFormText('Name', 'name', 20, 50, $name);
+$editForm->addElement($subnamebox);
 
-	$intervalduration = new
-  		XoopsFormText("Duration","intervalamount",2,3,$intervalamount);
-	$editForm->addElement($intervalduration);
+$subintervalselect = new XoopsFormSelect('Interval Type', 'intervaltype', $intervaltype, 1, null);
+$subintervalselect->addOption('d', 'Day');
+$subintervalselect->addOption('w', 'Week');
+$subintervalselect->addOption('m', 'Month');
+$subintervalselect->addOption('y', 'Year');
+$subintervalselect->addOption('p', 'Permanent');
 
-	$order = new
-  		XoopsFormText("Sort Order","orderbit",2,3,$orderbit);
-	$editForm->addElement($order);
-	
-	$deletebox = new XoopsFormCheckBox('Delete?', 'delete');
-	$deletebox->addOption('yes','Yes');
+$editForm->addElement($subintervalselect);
 
-	$editForm->addElement($deletebox);
+$intervalduration = new
+XoopsFormText('Duration', 'intervalamount', 2, 3, $intervalamount);
+$editForm->addElement($intervalduration);
 
-	$submit = new XoopsFormButton('', 'submit', '  Save  ', 'submit');
-	$editForm->addElement($submit);
-	$xoopsTpl->assign('editinstructions', 
-		'Edit the following fields and click \'Save\' to commit your changes.');
+$order = new
+XoopsFormText('Sort Order', 'orderbit', 2, 3, $orderbit);
+$editForm->addElement($order);
 
-	$xoopsTpl->assign('form', $editForm->render());
+$deletebox = new XoopsFormCheckBox('Delete?', 'delete');
+$deletebox->addOption('yes', 'Yes');
 
-	$xoopsTpl->display(XOOPS_ROOT_PATH . 
-			"/modules/subscription/templates/subscription_admin_edit_subscription_interval.html");
+$editForm->addElement($deletebox);
 
-	xoops_cp_footer();
+$submit = new XoopsFormButton('', 'submit', '  Save  ', 'submit');
+$editForm->addElement($submit);
+$xoopsTpl->assign('editinstructions', 'Edit the following fields and click \'Save\' to commit your changes.');
 
-?>
+$xoopsTpl->assign('form', $editForm->render());
+
+$xoopsTpl->display(XOOPS_ROOT_PATH . '/modules/subscription/templates/subscription_admin_edit_subscription_interval.tpl');
+
+xoops_cp_footer();

@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
-//                 <http://products.thirdeyesoftware.com/>									 //
+//                 <http://products.thirdeyesoftware.com>									 //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -23,26 +23,20 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-	include "../../../include/cp_header.php";
-	xoops_cp_header();
-	global $xoopsDB, $xoopsConfig, $xoopsModule;
+include __DIR__ . '/../../../include/cp_header.php';
+xoops_cp_header();
+global $xoopsDB, $xoopsConfig, $xoopsModule;
 
-	if (isset($_POST)) {
-		foreach ($_POST as $k => $v) {
-			${$k} = $v;
-		}
-	}
+if (isset($_POST)) {
+    foreach ($_POST as $k => $v) {
+        ${$k} = $v;
+    }
+}
 
-	$sql = "insert into " . $xoopsDB->prefix("subscription") . " (name, subtypeid, " . 
-		" subintervalid, price, orderbit, alternatesubid) " .
-		" values ('$subname', $subtypeid, $subintervalid, $price, $orderbit,
+$sql = 'insert into ' . $xoopsDB->prefix('subscription') . ' (name, subtypeid, ' . ' subintervalid, price, orderbit, alternatesubid) ' . " values ('$subname', $subtypeid, $subintervalid, $price, $orderbit,
 		$altsubid)";
-	$xoopsDB->query($sql);
-		
-	redirect_header('subscriptions.php', 1, 'The subscription has been created.');
+$xoopsDB->query($sql);
 
-	xoops_cp_footer();
+redirect_header('subscriptions.php', 1, 'The subscription has been created.');
 
-?>
-
-
+xoops_cp_footer();
