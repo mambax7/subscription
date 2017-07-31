@@ -34,7 +34,7 @@ define('_MI_SSL_ENABLED_DESC', 'SSL Enabled for Direct Payments');
 //1.00
 //Help
 define('_MI_SUBSCRIPTION_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_SUBSCRIPTION_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_SUBSCRIPTION_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_SUBSCRIPTION_BACK_2_ADMIN', 'Back to Administration of ');
 define('_MI_SUBSCRIPTION_OVERVIEW', 'Overview');
 
