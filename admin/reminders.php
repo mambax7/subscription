@@ -48,7 +48,7 @@ if (isset($_POST['expdate'])) {
         $res = $xoopsDB->query($sql);
         list($ct) = $xoopsDB->fetchRow($res);
 
-        xoops_confirm(array('confirm' => true, 'expdate' => $_POST['expdate']), 'reminders.php', 'Are you sure you want to send reminders to these ' . $ct . ' users?');
+        xoops_confirm(['confirm' => true, 'expdate' => $_POST['expdate']], 'reminders.php', 'Are you sure you want to send reminders to these ' . $ct . ' users?');
     } else {
         $sql = 'SELECT u.uid, uname, s.name, su.expiration_date FROM '
                . $xoopsDB->prefix('subscription')

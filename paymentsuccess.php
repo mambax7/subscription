@@ -30,7 +30,6 @@ global $xoopsUser, $xoopsDB, $xoopsConfig, $xoopsOption;
 
 if (!is_object($xoopsUser)) {
     redirect_header('index.php', 0, _NOPERM);
-    exit();
 }
 $uname                                   = $xoopsUser->getVar('uname', 'E');
 $GLOBALS['xoopsOption']['template_main'] = 'payment_success.tpl';

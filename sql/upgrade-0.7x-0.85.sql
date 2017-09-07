@@ -45,21 +45,21 @@ CREATE TABLE XOOPS_subscription2_transaction (
   response        VARCHAR(255),
   authcode        VARCHAR(50)   NOT NULL DEFAULT '',
   amount          DECIMAL(7, 2) NOT NULL,
-  transactiondate DATETIME      NOT NULL DEFAULT '0000-00-00 00:00:00',
+  transactiondate DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
   transactiontype CHAR(1)       NOT NULL DEFAULT 'S',
   PRIMARY KEY (id)
-) TYPE = MyISAM;
+) ENGINE = MyISAM;
 
 CREATE TABLE XOOPS_subscription2_user (
   id              INT      NOT NULL PRIMARY KEY AUTO_INCREMENT,
   subid           INT(11)  NOT NULL,
   uid             INT(11)  NOT NULL,
-  expiration_date DATETIME NOT NULL             DEFAULT '0000-00-00 00:00:00',
+  expiration_date DATETIME NOT NULL             DEFAULT CURRENT_TIMESTAMP,
   intervaltype    CHAR(1),
   intervalamount  SMALLINT,
   amount          DECIMAL(7, 2),
   cancel          CHAR(1)  NOT NULL             DEFAULT 'N'
-) TYPE = MyISAM;
+) ENGINE = MyISAM;
 
 CREATE TABLE XOOPS_sequences2 (
   sequencename VARCHAR(50) NOT NULL PRIMARY KEY,

@@ -30,69 +30,69 @@ if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
 } else {
     $moduleHelper = Xmf\Module\Helper::getHelper('system');
 }
-$adminObject = \Xmf\Module\Admin::getInstance();
+
 
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
 //$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
 
 $moduleHelper->loadLanguage('modinfo');
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _AM_MODULEADMIN_HOME,
     'link'  => 'admin/index.php',
     'icon'  => $pathIcon32 . '/home.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_SUBSCRIPTION_ADMIN_MENU_SUBSCRIPTION_INTERVALS,
     'link'  => 'admin/subscriptionintervals.php',
     'icon'  => $pathIcon32 . '/event.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_SUBSCRIPTION_ADMIN_MENU_SUBSCRIPTION_TYPES,
     'link'  => 'admin/subscriptiontypes.php',
     'icon'  => $pathIcon32 . '/type.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_SUBSCRIPTION_ADMIN_MENU_SUBSCRIPTIONS,
     'link'  => 'admin/subscriptions.php',
     'icon'  => $pathIcon32 . '/button_ok.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_SUBSCRIPTION_ADMIN_MENU_GATEWAYS,
     'link'  => 'admin/gateways.php',
     'icon'  => $pathIcon32 . '/cash_stack.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_SUBSCRIPTION_ADMIN_MENU_TRANSACTIONS,
     'link'  => 'admin/transactions.php',
     'icon'  => $pathIcon32 . '/discount.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_SUBSCRIPTION_ADMIN_MENU_SUBS,
     'link'  => 'admin/currentsubs.php',
     'icon'  => $pathIcon32 . '/users.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_SUBSCRIPTION_ADMIN_MENU_REMINDERS,
     'link'  => 'admin/reminders.php',
     'icon'  => $pathIcon32 . '/mail_foward.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_SUBSCRIPTION_ADMIN_MENU_CRON,
     'link'  => 'admin/cron.php',
     'icon'  => $pathIcon32 . '/update.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _AM_MODULEADMIN_ABOUT,
     'link'  => 'admin/about.php',
     'icon'  => $pathIcon32 . '/about.png'
-);
+];

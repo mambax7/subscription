@@ -87,7 +87,7 @@ switch ($inttype) {
 if (empty($subname)) {
     $subname = '<i>not available</i>';
 }
-$tpl->assign('sub', array(
+$tpl->assign('sub', [
     'sid'      => $sid,
     'uid'      => $uid,
     'subid'    => $subid,
@@ -98,7 +98,7 @@ $tpl->assign('sub', array(
     'intamt'   => $intamount,
     'amount'   => $amount,
     'cancel'   => $cancel
-));
+]);
 
 $tpl->display(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/templates/subscription_admin_sub_detail.tpl');
 

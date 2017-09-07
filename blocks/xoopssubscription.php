@@ -22,7 +22,7 @@
  */
 function b_xoopssubscription_show()
 {
-    $block                     = array();
+    $block                     = [];
     $block['links'][1]['name'] = 'Upgrade Subscription';
     $block['links'][1]['url']  = 'subscription/index.php';
     $block['links'][2]['name'] = 'Cancel Subscription';

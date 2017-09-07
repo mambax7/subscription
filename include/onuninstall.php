@@ -35,7 +35,7 @@ function xoops_module_uninstall_subscription(XoopsModule $module)
 
 //=======================================================
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 /**
  * @param XoopsModule $module

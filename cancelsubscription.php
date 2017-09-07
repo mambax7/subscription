@@ -42,7 +42,7 @@ $sql = 'SELECT su.subid, s.name, su.cancel FROM ' . $xoopsDB->prefix('subscripti
 
 $result = $xoopsDB->query($sql);
 
-$subs = array();
+$subs = [];
 
 $i = 0;
 

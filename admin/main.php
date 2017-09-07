@@ -32,43 +32,43 @@ global $xoopsDB, $xoopsConfig, $xoopsModule;
 
 $tpl = new XoopsTpl();
 
-$tpl->append('links', array(
+$tpl->append('links', [
     'desc' => 'Manage Subscription Intervals',
     'url'  => 'subscriptionintervals.php'
-));
-$tpl->append('links', array(
+]);
+$tpl->append('links', [
     'desc' => 'Manage Subscription Types',
     'url'  => 'subscriptiontypes.php'
-));
-$tpl->append('links', array(
+]);
+$tpl->append('links', [
     'desc' => 'Manage Subscriptions',
     'url'  => 'subscriptions.php'
-));
+]);
 
-$tpl->append('links', array(
+$tpl->append('links', [
     'desc' => 'Manage Payment Gateways',
     'url'  => 'gateways.php'
-));
+]);
 
-$tpl->append('links', array(
+$tpl->append('links', [
     'desc' => 'Payment Transactions Report',
     'url'  => 'transactions.php'
-));
+]);
 
-$tpl->append('links', array(
+$tpl->append('links', [
     'desc' => 'Current Subscriptions Report',
     'url'  => 'currentsubs.php'
-));
+]);
 
-$tpl->append('links', array(
+$tpl->append('links', [
     'desc' => 'Send Subscription Expiration Reminders',
     'url'  => 'reminders.php'
-));
+]);
 
-$tpl->append('links', array(
+$tpl->append('links', [
     'desc' => 'Run Expiration Script',
     'url'  => 'cron.php'
-));
+]);
 
 $tpl->display(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/templates/' . 'subscription_admin_index.tpl');
 

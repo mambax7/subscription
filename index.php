@@ -40,26 +40,26 @@ if (!is_object($xoopsUser)) {
 
 $sql           = 'SELECT subid, expiration_date, cancel FROM ' . $xoopsDB->prefix('subscription_user') . " su WHERE cancel = 'N' AND uid = " . $xoopsUser->getVar('uid');
 $result        = $xoopsDB->query($sql);
-$existing_subs = array();
+$existing_subs = [];
 while (list($subid, $exp, $cancel) = $xoopsDB->fetchRow($result)) {
-    $existing_subs[$subid] = array(
+    $existing_subs[$subid] = [
         'subid'          => $subid,
         'expirationdate' => $exp,
         'cancel'         => $cancel
-    );
+    ];
 }
 
 $sql = 'SELECT subtypeid, type FROM ' . $xoopsDB->prefix('subscription_type');
 
 $result = $xoopsDB->query($sql);
-$types  = array();
+$types  = [];
 $i      = 0;
 while (list($subtypeid, $subtypename) = $xoopsDB->fetchRow($result)) {
     $sql = 'select xs.subid, xs.name, xs.subintervalid, i.name, xs.price from ' . $xoopsDB->prefix('subscription') . ' xs, ' . $xoopsDB->prefix('subscription_interval') . ' i where ' . 'i.subintervalid = xs.subintervalid and ' . "xs.subtypeid = $subtypeid order by " . 'xs.orderbit asc ';
     $xoopsLogger->addExtra('sql', $sql);
     $subresult = $xoopsDB->query($sql);
     $z         = 0;
-    $subs      = array();
+    $subs      = [];
 
     while (list($subid, $name, $intervalid, $intervalname, $price) = $xoopsDB->fetchRow($subresult)) {
         $subs[$z]['subid']        = $subid;
@@ -98,12 +98,12 @@ while (list($subtypeid, $subtypename) = $xoopsDB->fetchRow($result)) {
         $xoopsTpl->assign('formurl', $url . 'indirectpayment.php');
     }
 
-    $xoopsTpl->append('types', array(
+    $xoopsTpl->append('types', [
         'name'     => $subtypename,
         'id'       => $subtypeid,
         'subs'     => $subs,
         'subcount' => count($subs)
-    ));
+    ]);
 }
 $symbol = SubscriptionUtility::getCurrencySymbol($xoopsModuleConfig['currency']);
 

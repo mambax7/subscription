@@ -28,7 +28,7 @@ include __DIR__ . '/../../../include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 $module_id = $xoopsModule->getVar('mid');
 
-$item_list = array('1' => 'Chat Host Detail');
+$item_list = ['1' => 'Chat Host Detail'];
 $title     = 'Subscription Permissions';
 $name      = 'Category Permissions';
 $desc      = 'Category Permissions Description';

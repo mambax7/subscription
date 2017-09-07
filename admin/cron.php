@@ -42,7 +42,7 @@ if (!isset($confirm)) {
 
     $aboutAdmin = \Xmf\Module\Admin::getInstance();
     $adminObject->displayNavigation(basename(__FILE__));
-    xoops_confirm(array('cron' => true), 'cron.php', 'Are you sure you want to run this job');
+    xoops_confirm(['cron' => true], 'cron.php', 'Are you sure you want to run this job');
     xoops_cp_footer();
 } else {
     SubscriptionUtility::runRenewals();

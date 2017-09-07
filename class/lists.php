@@ -19,7 +19,7 @@ if (!defined('SUB_LISTS_INCLUDED')) {
                 $sql .= " where psid = $psid";
             }
             $sql    .= ' order by type asc';
-            $ret    = array();
+            $ret    = [];
             $result = $db->query($sql);
             $ret[0] = 'None';
             while ($row = $db->fetchArray($result)) {
@@ -36,7 +36,7 @@ if (!defined('SUB_LISTS_INCLUDED')) {
         {
             $db     = XoopsDatabaseFactory::getDatabaseConnection();
             $sql    = 'SELECT subintervalid, name FROM ' . $db->prefix('subscription_interval') . ' ORDER BY orderbit ASC';
-            $ret    = array();
+            $ret    = [];
             $result = $db->query($sql);
             while ($row = $db->fetchArray($result)) {
                 $ret[$row['subintervalid']] = $row['name'];
@@ -52,7 +52,7 @@ if (!defined('SUB_LISTS_INCLUDED')) {
         {
             $db     = XoopsDatabaseFactory::getDatabaseConnection();
             $sql    = 'SELECT subid, name, type FROM ' . $db->prefix('subscription') . ',' . $db->prefix('subscription_type') . ' WHERE ' . $db->prefix('subscription') . '.subtypeid = ' . $db->prefix('subscription_type') . '.subtypeid' . ' ORDER BY orderbit ASC';
-            $ret    = array();
+            $ret    = [];
             $result = $db->query($sql);
             while ($row = $db->fetchArray($result)) {
                 $ret[$row['subid']] = ($row['name'] . ' ' . $row['type']);
@@ -67,7 +67,7 @@ if (!defined('SUB_LISTS_INCLUDED')) {
         public static function getGatewayList()
         {
             global $xoopsModule;
-            $ret    = array();
+            $ret    = [];
             $db     = XoopsDatabaseFactory::getDatabaseConnection();
             $sql    = 'SELECT conf_id , conf_value FROM ' . $db->prefix('config') . " WHERE conf_name = 'gateway' AND conf_modid = " . $xoopsModule->getVar('mid');
             $result = $db->query($sql);

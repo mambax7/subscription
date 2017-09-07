@@ -26,7 +26,6 @@
 require_once __DIR__ . '/header.php';
 if (!is_object($xoopsUser)) {
     redirect_header('index.php', 0, _NOPERM);
-    exit();
 }
 $respmsg = $_GET['RESPMSG'];
 

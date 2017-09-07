@@ -32,7 +32,6 @@ global $xoopsUser, $xoopsDB, $xoopsConfig, $xoopsModuleConfig;
 
 if (!is_object($xoopsUser)) {
     redirect_header('index.php', 0, _NOPERM);
-    exit();
 }
 
 if (isset($_POST)) {

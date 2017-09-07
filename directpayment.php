@@ -30,12 +30,10 @@ global $_POST, $xoopsUser, $xoopsModule;
 
 if (!is_object($xoopsUser)) {
     redirect_header('index.php', 0, _NOPERM);
-    exit();
 }
 
 if (!isset($_POST)) {
     redirect_header('index.php', 3, 'There is a problem with the previous form.');
-    exit();
 }
 
 if (isset($_POST)) {

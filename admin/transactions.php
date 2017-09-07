@@ -104,7 +104,7 @@ while (list($txid, $uid, $uname, $subname, $amt, $rescode, $ttype, $date) = $xoo
             $txtype_desc = 'Authorization';
             break;
     }
-    $tpl->append('transactions', array(
+    $tpl->append('transactions', [
         'uid'          => $uid,
         'uname'        => $uname,
         'subname'      => $subname,
@@ -115,7 +115,7 @@ while (list($txid, $uid, $uname, $subname, $amt, $rescode, $ttype, $date) = $xoo
         'txtype'       => $ttype,
         'rescode'      => $rescode,
         'txtype_desc'  => $txtype_desc
-    ));
+    ]);
 }
 $nav = new XoopsPageNav($txcount, 10, $startpos, 'start', $extra);
 

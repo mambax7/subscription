@@ -104,7 +104,7 @@ while (list($sid, $uid, $uname, $subid, $subname, $expdate, $inttype, $intamount
     if (empty($subname)) {
         $subname = '<i>not available</i>';
     }
-    $tpl->append('subs', array(
+    $tpl->append('subs', [
         'sid'      => $sid,
         'uid'      => $uid,
         'subid'    => $subid,
@@ -115,7 +115,7 @@ while (list($sid, $uid, $uname, $subid, $subname, $expdate, $inttype, $intamount
         'intamt'   => $intamount,
         'amount'   => $amount,
         'cancel'   => $cancel
-    ));
+    ]);
 }
 
 $nav = new XoopsPageNav($txcount, 10, $startpos, 'start');

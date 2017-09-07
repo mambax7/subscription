@@ -8,7 +8,6 @@ global $xoopsDB, $xoopsConfig, $xoopsModuleConfig;
 
 /*if (!is_object($xoopsUser)) {
     redirect_header("index.php", 0, _NOPERM);
-    exit();
 }
 */
 //$uid = $xoopsUser->getVar('uid','E');
@@ -18,7 +17,7 @@ if (isset($xoopsModuleConfig['gateway'])) {
     $payment = PaymentFactory::getInstance();
 }
 
-$payment_data = array();
+$payment_data = [];
 
 $agree = '';
 

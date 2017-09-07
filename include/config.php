@@ -42,53 +42,53 @@ define($capsDirName . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . $moduleDirName);
 
 //constant($cloned_lang . '_CATEGORY_NOTIFY')
 
-$uploadFolders = array(
+$uploadFolders = [
     constant($capsDirName . '_UPLOAD_PATH'),
     constant($capsDirName . '_UPLOAD_PATH') . '/images',
     constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails'
-);
+];
 
-$copyFiles = array(
+$copyFiles = [
     constant($capsDirName . '_UPLOAD_PATH'),
     constant($capsDirName . '_UPLOAD_PATH') . '/images',
     constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails'
-);
+];
 
-$oldFiles = array(
+$oldFiles = [
     '/include/update_functions.php',
     '/include/install_functions.php'
-);
+];
 
 //Configurator
-return array(
+return [
     'name'          => 'Module Configurator',
-    'uploadFolders' => array(
+    'uploadFolders' => [
         constant($capsDirName . '_UPLOAD_PATH'),
         constant($capsDirName . '_UPLOAD_PATH') . '/XXX'
-    ),
-    'blankFiles'    => array(
+    ],
+    'blankFiles'    => [
         constant($capsDirName . '_UPLOAD_PATH'),
         constant($capsDirName . '_UPLOAD_PATH') . '/XXXX'
-    ),
+    ],
 
-    'templateFolders' => array(
+    'templateFolders' => [
         '/templates/',
         '/templates/blocks/',
         '/templates/admin/'
 
-    ),
-    'oldFiles'        => array(
+    ],
+    'oldFiles'        => [
         '/include/update_functions.php',
         '/include/install_functions.php'
-    ),
-    'oldFolders'      => array(
+    ],
+    'oldFolders'      => [
         '/images',
         '/css',
         '/js',
         '/tcpdf',
         '/images',
-    ),
-);
+    ],
+];
 
 // module information
 $modCopyright = "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>

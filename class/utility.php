@@ -109,7 +109,7 @@ class SubscriptionUtility extends XoopsObject
             }
         }
 
-        if (!$success) {
+        if (false === $success) {
             $module->setErrors(sprintf(_AM_SUBSCRIPTION_ERROR_BAD_XOOPS, $requiredVer, $currentVer));
         }
 
@@ -248,7 +248,8 @@ class SubscriptionUtility extends XoopsObject
         $db  = XoopsDatabaseFactory::getDatabaseConnection();
         $sql = '';
 
-        $sql = sprintf(' INSERT INTO %s '
+        $sql = sprintf(
+            ' INSERT INTO %s '
                        . '(id, subid, uid, cardnumber, cvv, issuerphone, expirationmonth, '
                        . ' expirationyear, '
                        . ' nameoncard, address, city, state, zipcode, country, amount, '
@@ -256,8 +257,29 @@ class SubscriptionUtility extends XoopsObject
                        . ' responsecode, referencenumber, transactiondate, transactiontype) '
                        . ' VALUES(%u, %u, '
                        . " %u, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', "
-                       . " '%s', '%s', '%s', '%s', '%s', '%s', now(), '%s')", XOOPS_DB_PREFIX . '_subscription_transaction', $data->invoiceNumber, $subid, $uid, $data->cardNumber, $data->cvv, $data->issuerPhone, $data->expirationMonth, $data->expirationYear, $data->nameOnCard, $data->address1,
-                       $data->city, $data->state, $data->zipcode, $data->countrycode, $data->amount, $response->authCode, $response->responseMessage, $response->responseCode, $response->referenceNumber, $data->txType);
+                       . " '%s', '%s', '%s', '%s', '%s', '%s', now(), '%s')",
+            XOOPS_DB_PREFIX . '_subscription_transaction',
+            $data->invoiceNumber,
+            $subid,
+            $uid,
+            $data->cardNumber,
+            $data->cvv,
+            $data->issuerPhone,
+            $data->expirationMonth,
+            $data->expirationYear,
+            $data->nameOnCard,
+            $data->address1,
+                       $data->city,
+            $data->state,
+            $data->zipcode,
+            $data->countrycode,
+            $data->amount,
+            $response->authCode,
+            $response->responseMessage,
+            $response->responseCode,
+            $response->referenceNumber,
+            $data->txType
+        );
         $GLOBALS['xoopsDB']->queryF($sql, $db) || exit(@$GLOBALS['xoopsDB']->error());
 
         return $data->invoiceNumber;
@@ -272,8 +294,15 @@ class SubscriptionUtility extends XoopsObject
     {
         $db  = XoopsDatabaseFactory::getDatabaseConnection();
         $sql = '';
-        $sql = sprintf("UPDATE %s SET referencenumber = '%s', " . "responsecode = %u, response = '%s', transactiondate = now(), " . "transactiontype = '%s' WHERE id = %u", XOOPS_DB_PREFIX . '_subscription_transaction', $response->referenceNumber, $response->responseCode, $response->responseMessage,
-                       $paymentData->txType, $txid);
+        $sql = sprintf(
+            "UPDATE %s SET referencenumber = '%s', " . "responsecode = %u, response = '%s', transactiondate = now(), " . "transactiontype = '%s' WHERE id = %u",
+            XOOPS_DB_PREFIX . '_subscription_transaction',
+            $response->referenceNumber,
+            $response->responseCode,
+            $response->responseMessage,
+                       $paymentData->txType,
+            $txid
+        );
         $GLOBALS['xoopsDB']->queryF($sql, $db);
     }
 
@@ -646,7 +675,7 @@ class SubscriptionUtility extends XoopsObject
         $GLOBALS['xoopsDB']->queryF($sql, $db);
 
         $res    = $GLOBALS['xoopsDB']->queryF($sql, $db);
-        $config = array();
+        $config = [];
 
         while (list($name, $value) = @$GLOBALS['xoopsDB']->fetchRow($res)) {
             $config[$name] = $value;

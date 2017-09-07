@@ -34,7 +34,7 @@ $tpl = new XoopsTpl();
 
 $gw = strtolower($_POST['gateway']);
 
-$config     = array();
+$config     = [];
 $configPath = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/gateways/' . $gw;
 $configFile = $configPath . '/config.php';
 if (!file_exists($configFile)) {

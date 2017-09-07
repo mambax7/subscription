@@ -61,7 +61,7 @@ if ($txtype == 'A') {
 } else {
     $txtype_desc = 'Capture';
 }
-$tpl->assign('tx', array(
+$tpl->assign('tx', [
     'txid'         => $id,
     'number'       => $number,
     'code'         => $cvv,
@@ -79,7 +79,7 @@ $tpl->assign('tx', array(
     'responsecode' => $responsecode,
     'amount'       => $amount,
     'txtype'       => $txtype_desc
-));
+]);
 $tpl->display(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/templates/subscription_admin_tx_detail.tpl');
 
 xoops_cp_footer();

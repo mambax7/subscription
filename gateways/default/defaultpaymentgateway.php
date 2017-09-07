@@ -23,7 +23,7 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-defined('XOOPS_ROOT_PATH') || exit('XOOPS Root Path not defined');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 if (!defined('SUB_DIR_NAME')) {
     die('SUB_DIR_NAME not defined');
 }
