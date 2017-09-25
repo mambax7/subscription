@@ -77,7 +77,7 @@ $sql = 'SELECT subid, xs.name, format(price,2) price,
 $result = $xoopsDB->query($sql);
 if ($result) {
     list($subid, $subname, $price, $intervaltype, $intervalamount) = $xoopsDB->fetchRow($result);
-    $expDate = ($intervaltype == 'p') ? 'Never' : date('m/d/Y h:i:s', SubscriptionUtility::getExpirationDate(time(), $intervaltype, $intervalamount));
+    $expDate = ('p' == $intervaltype) ? 'Never' : date('m/d/Y h:i:s', SubscriptionUtility::getExpirationDate(time(), $intervaltype, $intervalamount));
     $xoopsTpl->assign('subid', $subid);
     $xoopsTpl->assign('subname', $subname);
     $xoopsTpl->assign('price', $price);

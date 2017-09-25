@@ -69,7 +69,7 @@ while (list($subtypeid, $subtypename) = $xoopsDB->fetchRow($result)) {
         $subs[$z]['price']        = $price;
         if (array_key_exists($subid, $existing_subs)) {
             $sub                        = $existing_subs[$subid];
-            $subs[$z]['current']        = ($sub['cancel'] == 'N');
+            $subs[$z]['current']        = ('N' == $sub['cancel']);
             $subs[$z]['expirationdate'] = $sub['expirationdate'];
         } else {
             $subs[$z]['current'] = false;
@@ -79,12 +79,12 @@ while (list($subtypeid, $subtypename) = $xoopsDB->fetchRow($result)) {
     $gw = PaymentGatewayFactory::getPaymentGateway();
 
     $scheme = 'http://';
-    if ($xoopsModuleConfig['ssl_enabled'] == 'Y') {
+    if ('Y' == $xoopsModuleConfig['ssl_enabled']) {
         $scheme = 'https://';
     }
     $uri = parse_url(XOOPS_URL);
 
-    if (!empty($uri['port']) && $uri['port'] != 80) {
+    if (!empty($uri['port']) && 80 != $uri['port']) {
         $prt = ':' . $uri['port'];
     } else {
         $prt = '';

@@ -62,7 +62,7 @@ list($subid, $subname, $price, $intervaltype, $intervalamount, $altsubid) = $xoo
 if (empty($subid)) {
     redirect_header('index.php', 5, 'Could not find subscription.');
 }
-$expDate = ($intervaltype == 'p') ? 'Never' : date('m/d/Y h:i:s', SubscriptionUtility::getExpirationDate(time(), $intervaltype, $intervalamount));
+$expDate = ('p' == $intervaltype) ? 'Never' : date('m/d/Y h:i:s', SubscriptionUtility::getExpirationDate(time(), $intervaltype, $intervalamount));
 
 $email = $xoopsUser->getVar('email');
 $uid   = $xoopsUser->getVar('uid');

@@ -85,7 +85,7 @@ list($txcount) = $xoopsDB->fetchRow($result);
 
 $result = $xoopsDB->query($sql, 10, $startpos);
 while (list($txid, $uid, $uname, $subname, $amt, $rescode, $ttype, $date) = $xoopsDB->fetchRow($result)) {
-    if ($rescode == '0') {
+    if ('0' == $rescode) {
         $res = 'Success (0)';
     } else {
         $res = "Failure ($rescode)";

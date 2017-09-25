@@ -56,8 +56,8 @@ $paymentData                = SubscriptionUtility::getLastPaymentData($uid);
 $paymentData->invoiceNumber = SubscriptionUtility::getNextInvoiceNumber();
 $paymentResponse            = $gw->submitPayment($paymentData);
 $id                         = SubscriptionUtility::recordPaymentTransaction($paymentData->uid, $paymentData->subid, $paymentData, $paymentResponse);
-if ($paymentResponse->responseCode == 0) {
-    if (strtoupper($delayedCapture) != 'Y') {
+if (0 == $paymentResponse->responseCode) {
+    if ('Y' != strtoupper($delayedCapture)) {
         SubscriptionUtility::addUserSubscription($xoopsUser->getVar('uid'), $subid);
         SubscriptionUtility::sendSubscriptionEmail($xoopsUser->getVar('uid'), $subid);
         redirect_header("tx_detail.php?txid=$id", 2, 'This transaction was successful.');

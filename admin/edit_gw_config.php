@@ -56,7 +56,7 @@ if ($gw == $xoopsModuleConfig['gateway']) {
 }
 $defaultbox = new XoopsFormCheckBox('Active Gateway?', 'active', $val);
 $defaultbox->addOption('yes', 'Yes');
-if ($val == 'yes') {
+if ('yes' == $val) {
     $defaultbox->setExtra(' disabled ');
 }
 $form->addElement($defaultbox);

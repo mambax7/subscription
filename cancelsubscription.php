@@ -52,7 +52,7 @@ while (list($subid, $subname, $cancel) = $xoopsDB->fetchRow($result)) {
     $subs[$i]['cancel']  = $cancel;
     $i++;
 }
-if ($i == 0) {
+if (0 == $i) {
     redirect_header('index.php', 3, 'You are not a subscriber.');
 }
 

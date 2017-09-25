@@ -49,7 +49,7 @@ if (!isset($agree)) {
 
 $gatewayConfig  = SubscriptionUtility::getGatewayConfig($xoopsModuleConfig['gateway']);
 $delayedCapture = $xoopsModuleConfig['delayed_capture'];
-if (strtoupper($delayedCapture) == 'Y') {
+if ('Y' == strtoupper($delayedCapture)) {
     $txtype = 'A';
 } else {
     $txtype = 'S';
@@ -66,8 +66,8 @@ $paymentResponse = $gw->submitPayment($paymentData);
 
 $id = SubscriptionUtility::recordPaymentTransaction($uid, $subid, $paymentData, $paymentResponse);
 
-if ($paymentResponse->responseCode == 0) {
-    if (strtoupper($delayedCapture) != 'Y') {
+if (0 == $paymentResponse->responseCode) {
+    if ('Y' != strtoupper($delayedCapture)) {
         SubscriptionUtility::addUserSubscription($xoopsUser->getVar('uid'), $subid);
         SubscriptionUtility::sendSubscriptionEmail($xoopsUser->getVar('uid'), $subid);
         redirect_header("paymentsuccess.php?tid=$id", 2, 'Your payment has been accepted...');

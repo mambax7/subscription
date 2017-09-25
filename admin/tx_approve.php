@@ -45,7 +45,7 @@ $gw->setLogger($xoopsLogger);
 $gw->setConfig($gatewayConfig);
 $gw->setDelayedCapture($delayedCapture);
 
-if ($void === true) {
+if (true === $void) {
     $paymentData->txType = 'V';
 } else {
     $paymentData->txType = 'D';
@@ -54,9 +54,9 @@ $response = $gw->submitPayment($paymentData);
 $uid      = $paymentData->uid;
 $subid    = $paymentData->subid;
 
-if ($response->responseCode == 0) {
+if (0 == $response->responseCode) {
     SubscriptionUtility::updatePaymentTransaction($txid, $paymentData, $response);
-    if ($void === false) {
+    if (false === $void) {
         SubscriptionUtility::addUserSubscription($uid, $subid);
         SubscriptionUtility::sendSubscriptionEmail($uid, $subid);
         redirect_header('transactions.php', 2, 'This payment has been captured and approved.');

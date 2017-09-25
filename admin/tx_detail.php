@@ -52,11 +52,11 @@ $sql = 'select id, subid, uid,cardnumber, expirationmonth, '
 
 $result = $xoopsDB->query($sql);
 list($id, $subid, $uid, $number, $month, $year, $cvv, $issuerphone, $name, $address, $city, $state, $zipcode, $ref, $authcode, $responsecode, $response, $amount, $txdate, $txtype) = $xoopsDB->fetchRow($result);
-if ($txtype == 'A') {
+if ('A' == $txtype) {
     $txtype_desc = 'Authorization';
-} elseif ($txtype == 'S') {
+} elseif ('S' == $txtype) {
     $txtype_desc = 'Sale';
-} elseif ($txtype == 'V') {
+} elseif ('V' == $txtype) {
     $txtype_desc = 'Void';
 } else {
     $txtype_desc = 'Capture';

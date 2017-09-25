@@ -56,7 +56,7 @@ class SubscriptionUtility extends XoopsObject
         $dir = opendir($src);
         //    @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
-            if (($file !== '.') && ($file !== '..')) {
+            if (('.' !== $file) && ('..' !== $file)) {
                 if (is_dir($src . '/' . $file)) {
                     self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
                 } else {
@@ -149,7 +149,7 @@ class SubscriptionUtility extends XoopsObject
      */
     public static function getExpirationDate($tm, $type, $number)
     {
-        if ($type == 'x') {
+        if ('x' == $type) {
             return $tm;
         }
 
@@ -461,7 +461,7 @@ class SubscriptionUtility extends XoopsObject
                         $paymentData->txType        = 'S';
                         $response                   = $gw->submitPayment($paymentData);
                         $id                         = static::recordPaymentTransaction($uid, $subid, $paymentData, $response);
-                        if ($response->responseCode == 0) {
+                        if (0 == $response->responseCode) {
                             $expDate = date('Y-m-d h:i:s', static::getExpirationDate(time(), $intervaltype, $intervalamount));
                             static::renewUserSubscription($uid, $subid, $expDate);
                         } else {
@@ -551,7 +551,7 @@ class SubscriptionUtility extends XoopsObject
         $res = $GLOBALS['xoopsDB']->queryF($sql, $db);
         list($subname, $intamt, $inttype, $amount, $gid) = @$GLOBALS['xoopsDB']->fetchRow($res);
 
-        if ($inttype == 'p') {
+        if ('p' == $inttype) {
             $expDate = 'Permanent - Does Not Expire';
         } else {
             $dt      = static::getExpirationDate(time(), $inttype, $intamt);
@@ -607,7 +607,7 @@ class SubscriptionUtility extends XoopsObject
         $res = $GLOBALS['xoopsDB']->queryF($sql, $db);
         list($subname, $intamt, $inttype, $amount, $gid) = @$GLOBALS['xoopsDB']->fetchRow($res);
 
-        if ($inttype == 'p') {
+        if ('p' == $inttype) {
             $expDate = 'Permanent - Does Not Expire';
         } else {
             $dt      = static::getExpirationDate(time(), $inttype, $intamt);

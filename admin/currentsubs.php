@@ -74,7 +74,7 @@ list($txcount) = $xoopsDB->fetchRow($result);
 
 $result = $xoopsDB->query($sql, 10, $startpos);
 while (list($sid, $uid, $uname, $subid, $subname, $expdate, $inttype, $intamount, $amount, $cancel) = $xoopsDB->fetchRow($result)) {
-    if ($cancel == 'Y') {
+    if ('Y' == $cancel) {
         $cancel = 'Yes';
     } else {
         $cancel = 'No';
