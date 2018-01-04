@@ -20,6 +20,8 @@
 
 defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
+require_once __DIR__ . '/preloads/autoloader.php';
+
 $modversion['version']       = 1.00;
 $modversion['module_status'] = 'Beta 1';
 $modversion['release_date']  = '2017/01/04';
@@ -31,8 +33,8 @@ $modversion['help']          = 'page=help';
 $modversion['license']       = 'GNU GPL 2.0 or later';
 $modversion['license_url']   = 'www.gnu.org/licenses/gpl-2.0.html/';
 $modversion['official']      = 0;
-$modversion['image']         = 'images/logoModule.png';
-$modversion['dirname']       = 'subscription';
+$modversion['image']         = 'assets/images/logoModule.png';
+$modversion['dirname']       = basename(__DIR__);
 $modversion['namemod']       = 'Subscriptions';
 //$modversion['dirmoduleadmin']      = '/Frameworks/moduleclasses/moduleadmin';
 //$modversion['icons16']             = '../../Frameworks/moduleclasses/icons/16';

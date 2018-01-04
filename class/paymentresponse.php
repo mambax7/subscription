@@ -21,7 +21,7 @@ class PaymentResponse
      * @param null $referencenumber
      * @return PaymentResponse
      */
-    public function PaymentResponse(
+    public function __construct(
         $responsecode,
         $authcode,
         $responsemessage,

@@ -37,7 +37,7 @@ if (!defined('XOOPS_SUB_PAYMENT_GATEWAY')) {
          *
          * will always fail, because this is an abstract class!
          */
-        public function PaymentGateway()
+        public function __construct()
         {
             // exit("Cannot instantiate this class directly");
         }

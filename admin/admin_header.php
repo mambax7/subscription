@@ -25,18 +25,18 @@ use Xmf\Module\Helper;
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
-//require_once __DIR__ . '/../class/utility.php';
+//require_once __DIR__ . '/../class/Utility.php';
 //require_once __DIR__ . '/../include/common.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 
-$moduleHelper = Helper::getHelper($moduleDirName);
+$helper = Helper::getHelper($moduleDirName);
 
 $pathIcon16    = Admin::iconUrl('', 16);
 $pathIcon32    = Admin::iconUrl('', 32);
-$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
+$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
     require_once $GLOBALS['xoops']->path('class/template.php');
@@ -44,7 +44,7 @@ if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl))
 }
 
 //Module specific elements
-//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/utility.php");
+//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/Utility.php");
 //require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/config.php");
 
 //Handlers

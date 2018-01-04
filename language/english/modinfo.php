@@ -50,3 +50,6 @@ define('_MI_SUBSCRIPTION_SUPPORT', 'Support');
 //define('_MI_SUBSCRIPTION_UPDATE', 'Update');
 //define('_MI_SUBSCRIPTION_INSTALL', 'Install');
 //define('_MI_SUBSCRIPTION_HISTORY', 'History');
+
+define('_MI_SUBSCRIPTION_HOME', 'Home');
+define('_MI_SUBSCRIPTION_ABOUT', 'About');

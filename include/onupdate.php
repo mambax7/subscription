@@ -45,22 +45,15 @@ function tableExists($tablename)
  */
 function xoops_module_pre_update_subscription(XoopsModule $module)
 {
+    /** @var subscription\Helper $helper */
+    /** @var subscription\Utility $utility */
     $moduleDirName = basename(dirname(__DIR__));
-    $className     = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($className)) {
-        xoops_load('utility', $moduleDirName);
-    }
-    //check for minimum XOOPS version
-    if (!$className::checkVerXoops($module)) {
-        return false;
-    }
+    $helper       = subscription\Helper::getInstance();
+    $utility      = new subscription\Utility();
 
-    // check for minimum PHP version
-    if (!$className::checkVerPhp($module)) {
-        return false;
-    }
-
-    return true;
+    $xoopsSuccess = $utility::checkVerXoops($module);
+    $phpSuccess   = $utility::checkVerPhp($module);
+    return $xoopsSuccess && $phpSuccess;
 }
 
 /**
@@ -78,14 +71,14 @@ function xoops_module_update_subscription(XoopsModule $module, $previousVersion 
     $moduleDirName = basename(dirname(__DIR__));
     $capsDirName   = strtoupper($moduleDirName);
 
+    /** @var subscription\Helper $helper */
+    /** @var subscription\Utility $utility */
+    /** @var subscription\Configurator $configurator */
+    $helper  = subscription\Helper::getInstance();
+    $utility = new subscription\Utility();
+    $configurator = new subscription\Configurator();
+
     if ($previousVersion < 240) {
-        $configurator = include __DIR__ . '/config.php';
-        /** @var SubscriptionUtility $utilityClass */
-        $utilityClass = ucfirst($moduleDirName) . 'Utility';
-        ;
-        if (!class_exists($utilityClass)) {
-            xoops_load('utility', $moduleDirName);
-        }
 
         //delete old HTML templates
         if (count($configurator['templateFolders']) > 0) {
