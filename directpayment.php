@@ -23,6 +23,11 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+
+use XoopsModules\Subscription;
+/** @var Subscription\Helper $helper */
+$helper = Subscription\Helper::getInstance();
+
 require_once __DIR__ . '/header.php';
 include __DIR__ . '/../../class/xoopsformloader.php';
 
@@ -66,7 +71,7 @@ $xoopsTpl->assign('uname', $xoopsUser->getVar('uname', 'E'));
 $mod_url = XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname');
 $xoopsTpl->assign('mod_url', $mod_url);
 
-$select = new XoopsFormSelectCountry('', 'country', SUB_HOME_COUNTRY);
+$select = new \XoopsFormSelectCountry('', 'country', SUB_HOME_COUNTRY);
 $xoopsTpl->assign('countryselect', $select->render());
 
 $sql = 'SELECT subid, xs.name, format(price,2) price, 
@@ -81,7 +86,7 @@ if ($result) {
     $xoopsTpl->assign('subid', $subid);
     $xoopsTpl->assign('subname', $subname);
     $xoopsTpl->assign('price', $price);
-    $xoopsTpl->assign('currencysymbol', SubscriptionUtility::getCurrencySymbol($xoopsModuleConfig['currency']));
+    $xoopsTpl->assign('currencysymbol', SubscriptionUtility::getCurrencySymbol($helper->getConfig('currency')));
     $xoopsTpl->assign('intervaltype', $intervaltype);
     $xoopsTpl->assign('intervalamount', $intervalamount);
     $xoopsTpl->assign('expirationdate', $expDate);

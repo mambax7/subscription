@@ -62,7 +62,7 @@ function make_groups($dbm)
 
 function make_data($dbm, $adminname, $hashedAdminPass, $adminmail, $language, $groups)
 {
-    // $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
+    // $xoopsDB = \XoopsDatabaseFactory::getDatabaseConnection();
     // $dbm = new Db_manager;
     $tables = array();
     // data for table 'groups_users_link'
@@ -165,7 +165,7 @@ function make_data($dbm, $adminname, $hashedAdminPass, $adminmail, $language, $g
     $sql    = 'SELECT bid, side FROM ' . $dbm->prefix('newblocks');
     $result = $dbm->query($sql);
 
-    while ($myrow = $dbm->fetchArray($result)) {
+    while (false !== ($myrow = $dbm->fetchArray($result))) {
         if ($myrow['side'] == 0) {
             $dbm->insert('block_module_link', ' VALUES (' . $myrow['bid'] . ', 0)');
         } else {
@@ -321,7 +321,7 @@ function make_data($dbm, $adminname, $hashedAdminPass, $adminmail, $language, $g
 
     $dbm->insert('config', " VALUES (134, 0, 1, 'redirect_message_ajax', '_MD_AM_CUSTOM_REDIRECT', '1', '_MD_AM_CUSTOM_REDIRECT_DESC', 'yesno', 'int', 12)");
 
-    require_once __DIR__ . '/../class/xoopslists.php';
+    // require_once __DIR__ . '/../class/xoopslists.php';
     $editors = XoopsLists::getDirListAsArray('../class/xoopseditor');
     $conf    = 35;
     foreach ($editors as $dir) {

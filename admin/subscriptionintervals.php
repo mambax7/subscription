@@ -39,33 +39,33 @@ $adminObject->displayNavigation(basename(__FILE__));
 
 global $xoopsDB, $xoopsConfig, $xoopsModule;
 
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
-$existingSubForm = new XoopsThemeForm('Existing Subscription Intervals', 'intervals', 'edit_subscription_interval.php');
+$existingSubForm = new \XoopsThemeForm('Existing Subscription Intervals', 'intervals', 'edit_subscription_interval.php');
 
-$sub_select = new XoopsFormSelect('Subscription Intervals', 'subintervalid');
+$sub_select = new \XoopsFormSelect('Subscription Intervals', 'subintervalid');
 
 $sql = 'SELECT s.subintervalid, s.name, s.intervalamount, s.intervaltype ' . 'from ' . $xoopsDB->prefix('subscription_interval') . ' s order by s.orderbit';
 
 $result = $xoopsDB->query($sql);
 
-while (list($subintervalid, $name) = $xoopsDB->fetchRow($result)) {
+while (false !== (list($subintervalid, $name) = $xoopsDB->fetchRow($result))) {
     $sub_select->addOption($subintervalid, $name);
 }
 
 $existingSubForm->addElement($sub_select);
-$modifybutton = new XoopsFormButton('', 'submit', '  Modify ', 'submit');
+$modifybutton = new \XoopsFormButton('', 'submit', '  Modify ', 'submit');
 
 $existingSubForm->addElement($modifybutton);
 $tpl->assign('existingsubform', $existingSubForm->render());
 $tpl->assign('editinstructions', 'To modify an existing subscription interval, choose subscription from the dropdown.');
 
-$createForm = new XoopsThemeForm('Create New Subscription Interval', 'sub', 'create_subscription_interval.php');
+$createForm = new \XoopsThemeForm('Create New Subscription Interval', 'sub', 'create_subscription_interval.php');
 
-$subtypename = new XoopsFormText('Subscription Interval', 'name', 20, 50, '');
+$subtypename = new \XoopsFormText('Subscription Interval', 'name', 20, 50, '');
 $createForm->addElement($subtypename);
 
-$intervaltypes = new XoopsFormSelect('Interval Types', 'intervaltype');
+$intervaltypes = new \XoopsFormSelect('Interval Types', 'intervaltype');
 $intervaltypes->addOption('d', 'Day');
 $intervaltypes->addOption('w', 'Week');
 $intervaltypes->addOption('m', 'Month');
@@ -73,13 +73,13 @@ $intervaltypes->addOption('y', 'Year');
 $intervaltypes->addOption('p', 'Permanent');
 $createForm->addElement($intervaltypes);
 
-$intervalamount = new XoopsFormText('Interval Amount', 'intervalamount', 2, 3, '0');
+$intervalamount = new \XoopsFormText('Interval Amount', 'intervalamount', 2, 3, '0');
 $createForm->addElement($intervalamount);
 
-$order = new XoopsFormText('Sort Order', 'orderbit', 2, 3, '0');
+$order = new \XoopsFormText('Sort Order', 'orderbit', 2, 3, '0');
 $createForm->addElement($order);
 
-$createbutton = new XoopsFormButton('', 'submit', ' Create ', 'submit');
+$createbutton = new \XoopsFormButton('', 'submit', ' Create ', 'submit');
 $createForm->addElement($createbutton);
 
 $tpl->assign('form', $createForm->render());

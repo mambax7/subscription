@@ -30,7 +30,7 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
 global $xoopsDB, $xoopsConfig, $xoopsModule;
 
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
 $gw = strtolower($_POST['gateway']);
 

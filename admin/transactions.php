@@ -40,7 +40,7 @@ global $xoopsDB, $xoopsConfig;
 
 //die("access denied - under development");
 
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
 if (isset($_POST['uid'])) {
     $uid = $_POST['uid'];
@@ -84,7 +84,7 @@ $result = $xoopsDB->query($ctsql);
 list($txcount) = $xoopsDB->fetchRow($result);
 
 $result = $xoopsDB->query($sql, 10, $startpos);
-while (list($txid, $uid, $uname, $subname, $amt, $rescode, $ttype, $date) = $xoopsDB->fetchRow($result)) {
+while (false !== (list($txid, $uid, $uname, $subname, $amt, $rescode, $ttype, $date) = $xoopsDB->fetchRow($result))) {
     if ('0' == $rescode) {
         $res = 'Success (0)';
     } else {
@@ -117,43 +117,43 @@ while (list($txid, $uid, $uname, $subname, $amt, $rescode, $ttype, $date) = $xoo
         'txtype_desc'  => $txtype_desc
     ]);
 }
-$nav = new XoopsPageNav($txcount, 10, $startpos, 'start', $extra);
+$nav = new \XoopsPageNav($txcount, 10, $startpos, 'start', $extra);
 
-$form = new XoopsThemeForm('Add Manual Transaction', 'subform', 'addmanualtransaction.php');
+$form = new \XoopsThemeForm('Add Manual Transaction', 'subform', 'addmanualtransaction.php');
 
-$name = new XoopsFormText('User Name', 'uname', 10, 20, '');
+$name = new \XoopsFormText('User Name', 'uname', 10, 20, '');
 $form->addElement($name, true);
 
-$realname = new XoopsFormText('Real Name', 'name', 20, 50, '');
+$realname = new \XoopsFormText('Real Name', 'name', 20, 50, '');
 $form->addElement($realname);
 
-$address = new XoopsFormText('Address', 'address', 30, 50, '');
+$address = new \XoopsFormText('Address', 'address', 30, 50, '');
 $form->addElement($address);
 
-$city = new XoopsFormText('City', 'city', 20, 50, '');
+$city = new \XoopsFormText('City', 'city', 20, 50, '');
 $form->addElement($city);
 
-$state = new XoopsFormText('State', 'state', 2, 3, '');
+$state = new \XoopsFormText('State', 'state', 2, 3, '');
 $form->addElement($state);
 
-$zipcode = new XoopsFormText('Zipcode', 'zipcode', 5, 9, '');
+$zipcode = new \XoopsFormText('Zipcode', 'zipcode', 5, 9, '');
 $form->addElement($zipcode);
 
-$checknumber = new XoopsFormText('Check Number', 'checknumber', 5, 6, '');
+$checknumber = new \XoopsFormText('Check Number', 'checknumber', 5, 6, '');
 $form->addElement($checknumber);
 
-$subscription = new XoopsFormSelectSubscription('Subscription', 'subid', 1);
+$subscription = new \XoopsFormSelectSubscription('Subscription', 'subid', 1);
 $form->addElement($subscription);
-$amt = new XoopsFormText('Amount Paid', 'amount', 10, 15, '');
+$amt = new \XoopsFormText('Amount Paid', 'amount', 10, 15, '');
 $form->addElement($amt, true);
 
-$exp = new XoopsFormText('Expires (YYYY-mm-dd hh:mm:ss)', 'expirationdate', 20, 25, '');
+$exp = new \XoopsFormText('Expires (YYYY-mm-dd hh:mm:ss)', 'expirationdate', 20, 25, '');
 $form->addElement($exp, true);
 
-$info = new XoopsFormText('Additional Info', 'info', 50, 200, '');
+$info = new \XoopsFormText('Additional Info', 'info', 50, 200, '');
 $form->addElement($info);
 
-$submit = new XoopsFormButton('', 'submit', ' Add ', 'submit');
+$submit = new \XoopsFormButton('', 'submit', ' Add ', 'submit');
 $form->addElement($submit);
 $tpl->assign('addform', $form->render());
 

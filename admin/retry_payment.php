@@ -23,6 +23,11 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+
+use XoopsModules\Subscription;
+/** @var Subscription\Helper $helper */
+$helper = Subscription\Helper::getInstance();
+
 include __DIR__ . '/../../../include/cp_header.php';
 
 include __DIR__ . '/../class/paymentgatewayfactory.php';
@@ -30,15 +35,15 @@ include __DIR__ . '/../class/paymentdata.php';
 include __DIR__ . '/../class/paymentresponse.php';
 // include __DIR__ . '/../class/Utility.php';
 
-global $xoopsUser, $xoopsDB, $xoopsConfig, $xoopsLogger, $xoopsModuleConfig;
+global $xoopsUser, $xoopsDB, $xoopsConfig, $xoopsLogger;
 
 $txid = $_GET['txid'];
 
-$delayedCapture = $xoopsModuleConfig['delayed_capture'];
+$delayedCapture = $helper->getConfig('delayed_capture');
 
 //get sub types
 $gw       = PaymentGatewayFactory::getPaymentGateway();
-$gwconfig = SubscriptionUtility::getGatewayConfig($xoopsModuleConfig['gateway']);
+$gwconfig = SubscriptionUtility::getGatewayConfig($helper->getConfig('gateway'));
 $gw->setConfig($gwconfig);
 $gw->setLogger($xoopsLogger);
 $gw->setDelayedCapture($delayedCapture);
@@ -57,7 +62,7 @@ $paymentData->invoiceNumber = SubscriptionUtility::getNextInvoiceNumber();
 $paymentResponse            = $gw->submitPayment($paymentData);
 $id                         = SubscriptionUtility::recordPaymentTransaction($paymentData->uid, $paymentData->subid, $paymentData, $paymentResponse);
 if (0 == $paymentResponse->responseCode) {
-    if ('Y' != strtoupper($delayedCapture)) {
+    if ('Y' !== strtoupper($delayedCapture)) {
         SubscriptionUtility::addUserSubscription($xoopsUser->getVar('uid'), $subid);
         SubscriptionUtility::sendSubscriptionEmail($xoopsUser->getVar('uid'), $subid);
         redirect_header("tx_detail.php?txid=$id", 2, 'This transaction was successful.');

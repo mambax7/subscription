@@ -26,7 +26,7 @@ use Xmf\Language;
  *
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_install_subscription(XoopsModule $module)
+function xoops_module_pre_install_subscription(\XoopsModule $module)
 {
     $moduleDirName = basename(dirname(__DIR__));
     $utilityClass  = ucfirst($moduleDirName) . 'Utility';
@@ -58,7 +58,7 @@ function xoops_module_pre_install_subscription(XoopsModule $module)
  *
  * @return bool true if installation successful, false if not
  */
-function xoops_module_install_subscription(XoopsModule $module)
+function xoops_module_install_subscription(\XoopsModule $module)
 {
     require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 

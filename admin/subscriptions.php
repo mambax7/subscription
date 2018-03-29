@@ -37,45 +37,45 @@ $aboutAdmin = \Xmf\Module\Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));
 global $xoopsDB, $xoopsConfig, $xoopsModule;
 
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
-$existingSubForm = new XoopsThemeForm('Existing Subscriptions', 'subs', 'edit_subscription.php');
+$existingSubForm = new \XoopsThemeForm('Existing Subscriptions', 'subs', 'edit_subscription.php');
 
-$sub_select = new XoopsFormSelect('Subscription', 'subid');
+$sub_select = new \XoopsFormSelect('Subscription', 'subid');
 
 $sql    = 'SELECT s.subid, s.name FROM ' . $xoopsDB->prefix('subscription') . ' s ORDER BY s.orderbit ASC';
 $result = $xoopsDB->query($sql);
 
-while (list($subid, $subname) = $xoopsDB->fetchRow($result)) {
+while (false !== (list($subid, $subname) = $xoopsDB->fetchRow($result))) {
     $sub_select->addOption($subid, $subname);
 }
 
 $existingSubForm->addElement($sub_select);
-$modifybutton = new XoopsFormButton('', 'submit', '  Modify ', 'submit');
+$modifybutton = new \XoopsFormButton('', 'submit', '  Modify ', 'submit');
 
 $existingSubForm->addElement($modifybutton);
 $tpl->assign('existingsubform', $existingSubForm->render());
 $tpl->assign('editinstructions', 'To modify an existing subscription, choose subscription from the dropdown.');
 
-$createForm = new XoopsThemeForm('Create Subscription', 'sub', 'create_subscription.php');
+$createForm = new \XoopsThemeForm('Create Subscription', 'sub', 'create_subscription.php');
 
-$altsubid = new XoopsFormText('Alternate Subscription ID', 'altsubid', 20, 50, '');
+$altsubid = new \XoopsFormText('Alternate Subscription ID', 'altsubid', 20, 50, '');
 $createForm->addElement($altsubid);
 
-$subtypeselect = new XoopsFormSelectSubscriptionType('Subscription Type', 'subtypeid', '', 1);
+$subtypeselect = new \XoopsFormSelectSubscriptionType('Subscription Type', 'subtypeid', '', 1);
 $createForm->addElement($subtypeselect);
 
-$subintervalselect = new XoopsFormSelectSubscriptionInterval('Subscription Interval', 'subintervalid', '1', 1);
+$subintervalselect = new \XoopsFormSelectSubscriptionInterval('Subscription Interval', 'subintervalid', '1', 1);
 $createForm->addElement($subintervalselect);
 
-$subname = new XoopsFormText('Subscription Name', 'subname', 20, 50, '');
+$subname = new \XoopsFormText('Subscription Name', 'subname', 20, 50, '');
 $createForm->addElement($subname);
 
-$price = new XoopsFormText('Price (0.00)', 'price', 10, 6, '');
+$price = new \XoopsFormText('Price (0.00)', 'price', 10, 6, '');
 $createForm->addElement($price);
-$order = new XoopsFormText('Sort Order', 'orderbit', 2, 3, '0');
+$order = new \XoopsFormText('Sort Order', 'orderbit', 2, 3, '0');
 $createForm->addElement($order);
-$createbutton = new XoopsFormButton('', 'submit', ' Finished ', 'submit');
+$createbutton = new \XoopsFormButton('', 'submit', ' Finished ', 'submit');
 $createForm->addElement($createbutton);
 
 $tpl->assign('form', $createForm->render());

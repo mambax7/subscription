@@ -4,16 +4,17 @@ use Xmf\Request;
 use XoopsModules\Subscription;
 use XoopsModules\Subscription\Common;
 
+
 /**
  * Class Utility
  */
 class Utility
 {
-    use common\VersionChecks; //checkVerXoops, checkVerPhp Traits
+    use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
 
-    use common\ServerStats; // getServerStats Trait
+    use Common\ServerStats; // getServerStats Trait
 
-    use common\FilesManagement; // Files Management Trait
+    use Common\FilesManagement; // Files Management Trait
 
     //--------------- Custom module methods -----------------------------
 
@@ -26,7 +27,7 @@ class Utility
      */
     public static function getExpirationDate($tm, $type, $number)
     {
-        if ('x' == $type) {
+        if ('x' === $type) {
             return $tm;
         }
 
@@ -65,7 +66,7 @@ class Utility
      */
     public static function addUserSubscription($uid, $subid, $expDate = null)
     {
-        $db = XoopsDatabaseFactory::getDatabaseConnection();
+        $db = \XoopsDatabaseFactory::getDatabaseConnection();
 
         $sql = 'select si.intervalamount, si.intervaltype, s.price, t.groupid from '
                . XOOPS_DB_PREFIX
@@ -122,7 +123,7 @@ class Utility
      */
     public static function recordPaymentTransaction($uid, $subid, $data, $response)
     {
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
+        $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = '';
 
         $sql = sprintf(
@@ -169,7 +170,7 @@ class Utility
      */
     public static function updatePaymentTransaction($txid, $paymentData, $response)
     {
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
+        $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = '';
         $sql = sprintf(
             "UPDATE %s SET referencenumber = '%s', " . "responsecode = %u, response = '%s', transactiondate = now(), " . "transactiontype = '%s' WHERE id = %u",
@@ -189,7 +190,7 @@ class Utility
      */
     public static function revokeUserSubscription($uid, $subid)
     {
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
+        $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = 'select groupid from ' . XOOPS_DB_PREFIX . '_subscription_type t, ' . XOOPS_DB_PREFIX . '_subscription s WHERE s.subtypeid = t.subtypeid and ' . " s.subid = $subid";
         $res = $GLOBALS['xoopsDB']->queryF($sql, $db);
         if ($res) {
@@ -211,7 +212,7 @@ class Utility
      */
     public static function renewUserSubscription($uid, $subid, $expdate)
     {
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
+        $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = 'update ' . XOOPS_DB_PREFIX . '_subscription_user ' . " set expiration_date = '$expdate'" . ", cancel = 'N' where uid = $uid and subid = $subid";
         $GLOBALS['xoopsDB']->queryF($sql, $db);
         //$GLOBALS['xoopsDB']->close($db);
@@ -223,7 +224,7 @@ class Utility
      */
     public static function getPaymentDataById($txid)
     {
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
+        $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = 'select id, uid, subid, cardnumber, cvv, issuerphone, ' . 'expirationmonth, expirationyear, nameoncard, address, city, state, ' . 'zipcode,  country, amount, referencenumber,transactiontype  from ' . XOOPS_DB_PREFIX . '_subscription_transaction ' . " where id = $txid";
 
         $data = null;
@@ -249,7 +250,7 @@ class Utility
      */
     public static function getPaymentByReferenceNumber($uid, $pnref)
     {
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
+        $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = 'select id, uid, subid, cardnumber, cvv, issuerphone, '
                . 'expirationmonth, expirationyear, nameoncard, address, city, state, '
                . 'zipcode,  country, amount, referencenumber, transactiontype from '
@@ -276,7 +277,7 @@ class Utility
      */
     public static function getLastPaymentData($uid)
     {
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
+        $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = 'select id, uid, subid, cardnumber, cvv, issuerphone, '
                . 'expirationmonth, expirationyear, nameoncard, address, city, state, '
                . 'zipcode,  country, amount, referencenumber,transactiontype from '
@@ -310,18 +311,19 @@ class Utility
     //    }
     public static function runRenewals()
     {
-        global $xoopsModuleConfig;
+        /** @var Subscription\Helper $helper */
+        $helper = Subscription\Helper::getInstance();
 
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
+        $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $now = date('Y-m-d H:i:s', time());
 
         $sql           = 'select uid, subid, intervaltype, intervalamount, amount, cancel ' . 'from ' . XOOPS_DB_PREFIX . '_subscription_user where expiration_date ' . " <= '$now' and intervaltype not in ('x', 'p')  and cancel = 'N'";
         $res           = $GLOBALS['xoopsDB']->queryF($sql, $db);
         $gw            = PaymentGatewayFactory::getPaymentGateway();
-        $gatewayConfig = static::getGatewayConfig($xoopsModuleConfig['gateway']);
+        $gatewayConfig = static::getGatewayConfig($helper->getConfig('gateway'));
         $gw->setConfig($gatewayConfig);
 
-        while (list($uid, $subid, $intervaltype, $intervalamount, $amt, $cancel) = $GLOBALS['xoopsDB']->fetchRow($res)) {
+        while (false !== (list($uid, $subid, $intervaltype, $intervalamount, $amt, $cancel) = $GLOBALS['xoopsDB']->fetchRow($res))) {
             $disable = false;
             switch ($intervaltype) {
                 case 'p':
@@ -363,7 +365,7 @@ class Utility
         $mailer->useMail();
         $mailer->setTemplateDir(XOOPS_ROOT_PATH . '/modules/' . SUB_DIR_NAME . '/language/' . $xoopsConfig['language'] . '/mail');
         $mailer->setTemplate('subscription_reminder.tpl');
-        $mailer->setToUsers(new XoopsUser($uid));
+        $mailer->setToUsers(new \XoopsUser($uid));
         $mailer->assign('SUBNAME', $subname);
         $mailer->assign('USERNAME', $uname);
         $mailer->assign('EXPDATE', $expdate);
@@ -383,7 +385,7 @@ class Utility
     public static function sendCancelEmail($uid, $subid)
     {
         global $xoopsConfig;
-        $db = XoopsDatabaseFactory::getDatabaseConnection();
+        $db = \XoopsDatabaseFactory::getDatabaseConnection();
 
         $sql = 'select uname, s.name from ' . XOOPS_DB_PREFIX . '_subscription_transaction t, ' . XOOPS_DB_PREFIX . '_users u, ' . XOOPS_DB_PREFIX . '_subscription s  where ' . 's.subid = t.subid and u.uid = t.uid and ' . "t.uid = $uid and t.subid = $subid";
         $res = $GLOBALS['xoopsDB']->queryF($sql, $db);
@@ -411,9 +413,9 @@ class Utility
     public static function sendSubscriptionEmail($uid, $subid)
     {
         global $xoopsConfig;
-        $user = new XoopsUser($uid);
+        $user = new \XoopsUser($uid);
 
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
+        $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = 'select s.name, si.intervalamount, si.intervaltype, s.price, '
                . ' t.groupid from '
                . XOOPS_DB_PREFIX
@@ -428,7 +430,7 @@ class Utility
         $res = $GLOBALS['xoopsDB']->queryF($sql, $db);
         list($subname, $intamt, $inttype, $amount, $gid) = @$GLOBALS['xoopsDB']->fetchRow($res);
 
-        if ('p' == $inttype) {
+        if ('p' === $inttype) {
             $expDate = 'Permanent - Does Not Expire';
         } else {
             $dt      = static::getExpirationDate(time(), $inttype, $intamt);
@@ -469,7 +471,7 @@ class Utility
     {
         global $xoopsConfig;
 
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
+        $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = 'select s.name, si.intervalamount, si.intervaltype, s.price, '
                . ' t.groupid from '
                . XOOPS_DB_PREFIX
@@ -484,7 +486,7 @@ class Utility
         $res = $GLOBALS['xoopsDB']->queryF($sql, $db);
         list($subname, $intamt, $inttype, $amount, $gid) = @$GLOBALS['xoopsDB']->fetchRow($res);
 
-        if ('p' == $inttype) {
+        if ('p' === $inttype) {
             $expDate = 'Permanent - Does Not Expire';
         } else {
             $dt      = static::getExpirationDate(time(), $inttype, $intamt);
@@ -493,7 +495,7 @@ class Utility
 
         $mailer =& getMailer();
         $mailer->useMail();
-        $user = new XoopsUser($uid);
+        $user = new \XoopsUser($uid);
 
         $mailer->setTemplateDir(XOOPS_ROOT_PATH . '/modules/' . SUB_DIR_NAME . '/language/' . $xoopsConfig['language'] . '/mail');
         $mailer->setTemplate('subscription_void.tpl');
@@ -525,7 +527,7 @@ class Utility
      */
     public static function getNextInvoiceNumber()
     {
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
+        $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = 'update ' . XOOPS_DB_PREFIX . '_sequences set nextval = ';
         $sql .= "nextval + 1 where sequencename = 'subscription_transaction_seq'";
 
@@ -547,14 +549,14 @@ class Utility
      */
     public static function getGatewayConfig($gateway)
     {
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
+        $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = 'select name, value from ' . XOOPS_DB_PREFIX . "_subscription_gateway_config where gateway = '$gateway'";
         $GLOBALS['xoopsDB']->queryF($sql, $db);
 
         $res    = $GLOBALS['xoopsDB']->queryF($sql, $db);
         $config = [];
 
-        while (list($name, $value) = @$GLOBALS['xoopsDB']->fetchRow($res)) {
+        while (false !== (list($name, $value) = @$GLOBALS['xoopsDB']->fetchRow($res))) {
             $config[$name] = $value;
         }
 
@@ -567,7 +569,7 @@ class Utility
      */
     public static function cancelSubscription($uid, $subid)
     {
-        $db  = XoopsDatabaseFactory::getDatabaseConnection();
+        $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = 'update ' . XOOPS_DB_PREFIX . '_subscription_user' . " set cancel = 'Y' where uid = $uid " . " and cancel = 'N' and subid = $subid ";
         $GLOBALS['xoopsDB']->queryF($sql, $db);
     }

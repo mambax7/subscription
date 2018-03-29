@@ -27,7 +27,7 @@ require_once __DIR__ . '/admin_header.php';
 require_once __DIR__ . '/../../../include/cp_header.php';
 
 //	define("SUB_DIR_NAME", "subscription");
-require_once __DIR__ . '/../class/Utility.php';
+// require_once __DIR__ . '/../class/Utility.php';
 require_once XOOPS_ROOT_PATH . '/class/template.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -38,7 +38,7 @@ $aboutAdmin = \Xmf\Module\Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));
 global $xoopsDB, $xoopsConfig;
 
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
 global $xoopsDB, $xoopsConfig, $xoopsModule;
 
@@ -63,16 +63,16 @@ if (isset($_POST['expdate'])) {
                . "'";
         $res = $xoopsDB->query($sql);
         $i   = 0;
-        while (list($uid, $uname, $subname, $exp) = $xoopsDB->fetchRow($res)) {
+        while (false !== (list($uid, $uname, $subname, $exp) = $xoopsDB->fetchRow($res))) {
             SubscriptionUtility::sendReminderEmail($uid, $uname, $subname, $exp);
             $i++;
         }
         redirect_header('index.php', 3, "$i reminder(s) were sent for " . "subscriptions that expire before $expdate.");
     }
 } else {
-    $form = new XoopsThemeForm('Send Expiration Reminders', 'form', 'reminders.php');
-    $form->addElement(new XoopsFormText('Expiration Date (YYYY-mm-dd hh:mi:ss)', 'expdate', 50, 100, ''));
-    $submit = new XoopsFormButton('', 'submit', '  Send  ', 'submit');
+    $form = new \XoopsThemeForm('Send Expiration Reminders', 'form', 'reminders.php');
+    $form->addElement(new \XoopsFormText('Expiration Date (YYYY-mm-dd hh:mi:ss)', 'expdate', 50, 100, ''));
+    $submit = new \XoopsFormButton('', 'submit', '  Send  ', 'submit');
     $form->addElement($submit);
     $tpl->assign('form', $form->render());
     $tpl->display(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/templates/subscription_admin_reminders.tpl');

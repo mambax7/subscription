@@ -42,32 +42,32 @@ global $xoopsDB, $xoopsConfig, $xoopsModule;
 
 $subtypeid = $_POST['subtypeid'];
 include XOOPS_ROOT_PATH . '/header.php';
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
 $sql = 'select s.subtypeid, s.type, s.groupid, s.psid from ' . $xoopsDB->prefix('subscription_type') . "  s where subtypeid = $subtypeid";
 
 $result = $xoopsDB->query($sql);
 list($subtypeid, $type, $groupid, $psid) = $xoopsDB->fetchRow($result);
 
-$editForm = new XoopsThemeForm('Edit Subscription Type', 'subscription', 'update_subscription_type.php');
-$subid    = new XoopsFormHidden('subtypeid', $subtypeid);
+$editForm = new \XoopsThemeForm('Edit Subscription Type', 'subscription', 'update_subscription_type.php');
+$subid    = new \XoopsFormHidden('subtypeid', $subtypeid);
 $editForm->addElement($subid);
 
-$subnamebox = new XoopsFormText('Type', 'type', 20, 50, $type);
+$subnamebox = new \XoopsFormText('Type', 'type', 20, 50, $type);
 $editForm->addElement($subnamebox);
 
-$subtypeselect = new XoopsFormSelectSubscriptionType('Parent Subscription Type', 'psid', $psid, 1, null);
+$subtypeselect = new \XoopsFormSelectSubscriptionType('Parent Subscription Type', 'psid', $psid, 1, null);
 $editForm->addElement($subtypeselect);
 
-$group_select = new XoopsFormSelectGroup('Group Permission', 'groupid', false, $groupid, 5, false);
+$group_select = new \XoopsFormSelectGroup('Group Permission', 'groupid', false, $groupid, 5, false);
 $editForm->addElement($group_select);
 
-$deletebox = new XoopsFormCheckBox('Delete?', 'delete');
+$deletebox = new \XoopsFormCheckBox('Delete?', 'delete');
 $deletebox->addOption('yes', 'Yes');
 
 $editForm->addElement($deletebox);
 
-$submit = new XoopsFormButton('', 'submit', '  Save  ', 'submit');
+$submit = new \XoopsFormButton('', 'submit', '  Save  ', 'submit');
 $editForm->addElement($submit);
 $xoopsTpl->assign('editinstructions', 'Edit the following fields and click \'Save\' to commit your changes.');
 

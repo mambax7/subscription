@@ -38,21 +38,21 @@ global $xoopsDB, $xoopsConfig, $xoopsModule;
 
 $subintervalid = $_POST['subintervalid'];
 include XOOPS_ROOT_PATH . '/header.php';
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
 $sql = 'select s.subintervalid, s.name, s.intervaltype, s.intervalamount, ' . 's.orderbit from ' . $xoopsDB->prefix('subscription_interval') . " s where subintervalid = $subintervalid";
 
 $result = $xoopsDB->query($sql);
 list($subintervalid, $name, $intervaltype, $intervalamount, $orderbit) = $xoopsDB->fetchRow($result);
 
-$editForm = new XoopsThemeForm('Edit Subscription Interval', 'subscription', 'update_subscription_interval.php');
-$subid    = new XoopsFormHidden('subintervalid', $subintervalid);
+$editForm = new \XoopsThemeForm('Edit Subscription Interval', 'subscription', 'update_subscription_interval.php');
+$subid    = new \XoopsFormHidden('subintervalid', $subintervalid);
 $editForm->addElement($subid);
 
-$subnamebox = new XoopsFormText('Name', 'name', 20, 50, $name);
+$subnamebox = new \XoopsFormText('Name', 'name', 20, 50, $name);
 $editForm->addElement($subnamebox);
 
-$subintervalselect = new XoopsFormSelect('Interval Type', 'intervaltype', $intervaltype, 1, null);
+$subintervalselect = new \XoopsFormSelect('Interval Type', 'intervaltype', $intervaltype, 1, null);
 $subintervalselect->addOption('d', 'Day');
 $subintervalselect->addOption('w', 'Week');
 $subintervalselect->addOption('m', 'Month');
@@ -69,12 +69,12 @@ $order = new
 XoopsFormText('Sort Order', 'orderbit', 2, 3, $orderbit);
 $editForm->addElement($order);
 
-$deletebox = new XoopsFormCheckBox('Delete?', 'delete');
+$deletebox = new \XoopsFormCheckBox('Delete?', 'delete');
 $deletebox->addOption('yes', 'Yes');
 
 $editForm->addElement($deletebox);
 
-$submit = new XoopsFormButton('', 'submit', '  Save  ', 'submit');
+$submit = new \XoopsFormButton('', 'submit', '  Save  ', 'submit');
 $editForm->addElement($submit);
 $xoopsTpl->assign('editinstructions', 'Edit the following fields and click \'Save\' to commit your changes.');
 

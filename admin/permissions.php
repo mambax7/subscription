@@ -32,7 +32,7 @@ $item_list = ['1' => 'Chat Host Detail'];
 $title     = 'Subscription Permissions';
 $name      = 'Category Permissions';
 $desc      = 'Category Permissions Description';
-$form      = new XoopsGroupPermForm($title, $module_id, $name, $desc);
+$form      = new \XoopsGroupPermForm($title, $module_id, $name, $desc);
 foreach ($item_list as $item_id => $item_name) {
     $form->addItem($item_id, $item_name);
 }

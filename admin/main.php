@@ -30,7 +30,7 @@ global $xoopsDB, $xoopsConfig;
 
 global $xoopsDB, $xoopsConfig, $xoopsModule;
 
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
 $tpl->append('links', [
     'desc' => 'Manage Subscription Intervals',

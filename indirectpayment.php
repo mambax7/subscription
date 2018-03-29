@@ -23,12 +23,17 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+
+use XoopsModules\Subscription;
+/** @var Subscription\Helper $helper */
+$helper = Subscription\Helper::getInstance();
+
 include __DIR__ . '/header.php';
 require_once __DIR__ . '/class/paymentgatewayfactory.php';
 require_once __DIR__ . '/class/paymentdata.php';
 require_once __DIR__ . '/class/paymentgateway.php';
 
-global $xoopsUser, $xoopsDB, $xoopsConfig, $xoopsModuleConfig;
+global $xoopsUser, $xoopsDB, $xoopsConfig;
 
 if (!is_object($xoopsUser)) {
     redirect_header('index.php', 0, _NOPERM);
@@ -62,7 +67,7 @@ list($subid, $subname, $price, $intervaltype, $intervalamount, $altsubid) = $xoo
 if (empty($subid)) {
     redirect_header('index.php', 5, 'Could not find subscription.');
 }
-$expDate = ('p' == $intervaltype) ? 'Never' : date('m/d/Y h:i:s', SubscriptionUtility::getExpirationDate(time(), $intervaltype, $intervalamount));
+$expDate = ('p' === $intervaltype) ? 'Never' : date('m/d/Y h:i:s', SubscriptionUtility::getExpirationDate(time(), $intervaltype, $intervalamount));
 
 $email = $xoopsUser->getVar('email');
 $uid   = $xoopsUser->getVar('uid');
@@ -70,8 +75,8 @@ $uname = $xoopsUser->getVar('uname');
 
 $invoiceNumber = SubscriptionUtility::getNextInvoiceNumber();
 
-$gatewayConfig = SubscriptionUtility::getGatewayConfig($xoopsModuleConfig['gateway']);
+$gatewayConfig = SubscriptionUtility::getGatewayConfig($helper->getConfig('gateway'));
 
-include __DIR__ . '/gateways/' . $xoopsModuleConfig['gateway'] . '/' . $gw->indirectUrl;
+include __DIR__ . '/gateways/' . $helper->getConfig('gateway') . '/' . $gw->indirectUrl;
 
 include __DIR__ . '/../../footer.php';

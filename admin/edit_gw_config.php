@@ -23,6 +23,11 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+
+use XoopsModules\Subscription;
+/** @var Subscription\Helper $helper */
+$helper = Subscription\Helper::getInstance();
+
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/template.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
@@ -31,41 +36,41 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 xoops_cp_header();
 global $xoopsDB, $xoopsConfig;
 
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
-global $xoopsDB, $xoopsConfig, $xoopsModule, $xoopsModuleConfig;
+global $xoopsDB, $xoopsConfig, $xoopsModule;
 
 $gw = $_POST['gateway'];
 
-$form = new XoopsThemeForm(ucfirst($gw) . ' ' . 'Gateway Configuration', 'form', 'update_gw_config.php');
-$form->addElement(new XoopsFormHidden('gateway', $gw));
+$form = new \XoopsThemeForm(ucfirst($gw) . ' ' . 'Gateway Configuration', 'form', 'update_gw_config.php');
+$form->addElement(new \XoopsFormHidden('gateway', $gw));
 
 $sql = 'select name, title, value, orderbit  from ' . $xoopsDB->prefix('subscription_gateway_config') . " where gateway = '$gw'";
 $sql .= ' order by orderbit asc';
 
 $result = $xoopsDB->query($sql);
-while (list($conf_name, $conf_title, $conf_value, $orderbit) = $xoopsDB->fetchRow($result)) {
-    $form->addElement(new XoopsFormText($conf_title, $gw . ':' . $conf_name . ':' . $orderbit, 50, 150, $conf_value));
+while (false !== (list($conf_name, $conf_title, $conf_value, $orderbit) = $xoopsDB->fetchRow($result))) {
+    $form->addElement(new \XoopsFormText($conf_title, $gw . ':' . $conf_name . ':' . $orderbit, 50, 150, $conf_value));
 
-    $form->addElement(new XoopsFormHidden($conf_name, $conf_title));
+    $form->addElement(new \XoopsFormHidden($conf_name, $conf_title));
 }
 
 $val = '';
-if ($gw == $xoopsModuleConfig['gateway']) {
+if ($gw == $helper->getConfig('gateway')) {
     $val = 'yes';
 }
-$defaultbox = new XoopsFormCheckBox('Active Gateway?', 'active', $val);
+$defaultbox = new \XoopsFormCheckBox('Active Gateway?', 'active', $val);
 $defaultbox->addOption('yes', 'Yes');
-if ('yes' == $val) {
+if ('yes' === $val) {
     $defaultbox->setExtra(' disabled ');
 }
 $form->addElement($defaultbox);
 
-$deletebox = new XoopsFormCheckBox('Remove this Gateway?', 'delete');
+$deletebox = new \XoopsFormCheckBox('Remove this Gateway?', 'delete');
 $deletebox->addOption('yes', 'Yes');
 $form->addElement($deletebox);
 
-$submit = new XoopsFormButton('', 'submit', '  Save  ', 'submit');
+$submit = new \XoopsFormButton('', 'submit', '  Save  ', 'submit');
 $form->addElement($submit);
 $tpl->assign('form', $form->render());
 

@@ -36,7 +36,7 @@ global $xoopsDB, $xoopsConfig;
 global $xoopsDB, $xoopsConfig, $xoopsModule;
 
 //	include(XOOPS_ROOT_PATH.'/header.php');
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
 $tpl->display(XOOPS_ROOT_PATH . '/modules/subscription/templates/subscription_admin_reports.tpl');
 

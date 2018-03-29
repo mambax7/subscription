@@ -37,7 +37,7 @@ global $xoopsDB, $xoopsConfig;
 
 //die("access denied - under development");
 
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
 if (isset($_GET['start'])) {
     $startpos = $_GET['start'];
@@ -73,7 +73,7 @@ $result = $xoopsDB->query($ctsql);
 list($txcount) = $xoopsDB->fetchRow($result);
 
 $result = $xoopsDB->query($sql, 10, $startpos);
-while (list($sid, $uid, $uname, $subid, $subname, $expdate, $inttype, $intamount, $amount, $cancel) = $xoopsDB->fetchRow($result)) {
+while (false !== (list($sid, $uid, $uname, $subid, $subname, $expdate, $inttype, $intamount, $amount, $cancel) = $xoopsDB->fetchRow($result))) {
     if ('Y' == $cancel) {
         $cancel = 'Yes';
     } else {
@@ -118,7 +118,7 @@ while (list($sid, $uid, $uname, $subid, $subname, $expdate, $inttype, $intamount
     ]);
 }
 
-$nav = new XoopsPageNav($txcount, 10, $startpos, 'start');
+$nav = new \XoopsPageNav($txcount, 10, $startpos, 'start');
 $tpl->assign('nav', $nav->renderNav());
 $tpl->display(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/templates/subscription_admin_currentsubs.tpl');
 

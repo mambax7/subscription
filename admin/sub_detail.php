@@ -34,7 +34,7 @@ xoops_cp_header();
 
 global $xoopsDB, $xoopsConfig, $xoopsModule;
 
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
 if (isset($_GET['sid'])) {
     $sid = $_GET['sid'];
@@ -57,7 +57,7 @@ $sql    .= ' order by su.cancel asc, su.expiration_date desc';
 $result = $xoopsDB->query($sql);
 list($sid, $uid, $uname, $subid, $subname, $expdate, $inttype, $intamount, $amount, $cancel) = $xoopsDB->fetchRow($result);
 
-if ('Y' == $cancel) {
+if ('Y' === $cancel) {
     $cancel = 'Yes';
 } else {
     $cancel = 'No';

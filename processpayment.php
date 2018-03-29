@@ -1,10 +1,15 @@
 <?php
+
+use XoopsModules\Subscription;
+/** @var Subscription\Helper $helper */
+$helper = Subscription\Helper::getInstance();
+
 require_once __DIR__ . '/header.php';
 include __DIR__ . '/functions.php';
 require_once XOOPS_ROOT_PATH . '/modules/subscription/config.php';
 require_once XOOPS_ROOT_PATH . '/modules/subscription/class/paymentfactory.php';
 
-global $xoopsDB, $xoopsConfig, $xoopsModuleConfig;
+global $xoopsDB, $xoopsConfig;
 
 /*if (!is_object($xoopsUser)) {
     redirect_header("index.php", 0, _NOPERM);
@@ -13,7 +18,7 @@ global $xoopsDB, $xoopsConfig, $xoopsModuleConfig;
 //$uid = $xoopsUser->getVar('uid','E');
 $uid = $_POST['uid'];
 
-if (isset($xoopsModuleConfig['gateway'])) {
+if  (null !== ($helper->getConfig('gateway'))) {
     $payment = PaymentFactory::getInstance();
 }
 
@@ -28,7 +33,7 @@ if (isset($_POST)) {
     }
 }
 if (!$agree) {
-    redirect_header("$referer", 5, 'You must agree to the terms of this purchse.');
+    redirect_header((string)$referer, 5, 'You must agree to the terms of this purchse.');
 }
 
 $sql    = 'select s.price, s.setupamount, s.subintervalid,t.groupid, s.name,' . 'xsi.intervalamount from ' . 'xoops_subscription s, xoops_subscription_interval xsi, ' . " xoops_subscription_type t where subid = $subid " . ' and s.subtypeid = t.subtypeid and xsi.subintervalid = s.subintervalid';
@@ -50,7 +55,7 @@ $ret = $payment->processPayment();
 
 if ($ret) {
     $oldgroupid = 0;
-    $sql        = 'select groupid from xoops_subscriptions_users where uid = ' . "$uid";
+    $sql        = 'select groupid from xoops_subscriptions_users where uid = ' . (string)$uid;
     $result     = $xoopsDB->query($sql);
     list($oldgroupid) = $xoopsDB->fetchRow($result);
 

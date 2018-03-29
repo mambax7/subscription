@@ -39,41 +39,41 @@ global $xoopsDB, $xoopsConfig, $xoopsModule;
 
 $subid = $_POST['subid'];
 include XOOPS_ROOT_PATH . '/header.php';
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
 $sql = 'select s.subid, s.name, s.subintervalid, s.subtypeid, s.price, ' . ' s.alternatesubid, s.orderbit from ' . $xoopsDB->prefix('subscription') . '  s ' . ' where s.subid = ' . $subid;
 
 $result = $xoopsDB->query($sql);
 list($subid, $subname, $subintervalid, $subtypeid, $price, $altsubid, $orderbit) = $xoopsDB->fetchRow($result);
 
-$editForm = new XoopsThemeForm('Edit Subscription', 'subscription', 'update_subscription.php');
-$subid    = new XoopsFormHidden('subid', $subid);
+$editForm = new \XoopsThemeForm('Edit Subscription', 'subscription', 'update_subscription.php');
+$subid    = new \XoopsFormHidden('subid', $subid);
 $editForm->addElement($subid);
 
-$altsubidbox = new XoopsFormText('Alternate Subscription ID', 'altsubid', 20, 50, $altsubid);
+$altsubidbox = new \XoopsFormText('Alternate Subscription ID', 'altsubid', 20, 50, $altsubid);
 $editForm->addElement($altsubidbox);
 
-$subnamebox = new XoopsFormText('Name', 'subname', 20, 50, $subname);
+$subnamebox = new \XoopsFormText('Name', 'subname', 20, 50, $subname);
 $editForm->addElement($subnamebox);
 
-$intervalselect = new XoopsFormSelectSubscriptionInterval('Billing Interval', 'subintervalid', $subintervalid);
+$intervalselect = new \XoopsFormSelectSubscriptionInterval('Billing Interval', 'subintervalid', $subintervalid);
 $editForm->addElement($intervalselect);
 
-$typeselect = new XoopsFormSelectSubscriptionType('Subscription Type', 'subtypeid', $subtypeid, 1);
+$typeselect = new \XoopsFormSelectSubscriptionType('Subscription Type', 'subtypeid', $subtypeid, 1);
 $editForm->addElement($typeselect);
 
-$pricebox = new XoopsFormText('Price', 'price', 10, 6, $price);
+$pricebox = new \XoopsFormText('Price', 'price', 10, 6, $price);
 $editForm->addElement($pricebox);
 
-$order = new XoopsFormText('Sort Order', 'orderbit', 3, 2, $orderbit);
+$order = new \XoopsFormText('Sort Order', 'orderbit', 3, 2, $orderbit);
 $editForm->addElement($order);
 
-$deletebox = new XoopsFormCheckBox('Delete?', 'delete');
+$deletebox = new \XoopsFormCheckBox('Delete?', 'delete');
 $deletebox->addOption('yes', 'Yes');
 
 $editForm->addElement($deletebox);
 
-$submit = new XoopsFormButton('', 'submit', '  Save  ', 'submit');
+$submit = new \XoopsFormButton('', 'submit', '  Save  ', 'submit');
 $editForm->addElement($submit);
 $xoopsTpl->assign('editinstructions', 'Edit the following fields and click \'Save\' to commit your changes.');
 

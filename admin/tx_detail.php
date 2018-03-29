@@ -34,7 +34,7 @@ xoops_cp_header();
 
 global $xoopsDB, $xoopsConfig, $xoopsModule;
 
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
 if (isset($_GET['txid'])) {
     $txid = $_GET['txid'];
@@ -52,11 +52,11 @@ $sql = 'select id, subid, uid,cardnumber, expirationmonth, '
 
 $result = $xoopsDB->query($sql);
 list($id, $subid, $uid, $number, $month, $year, $cvv, $issuerphone, $name, $address, $city, $state, $zipcode, $ref, $authcode, $responsecode, $response, $amount, $txdate, $txtype) = $xoopsDB->fetchRow($result);
-if ('A' == $txtype) {
+if ('A' === $txtype) {
     $txtype_desc = 'Authorization';
-} elseif ('S' == $txtype) {
+} elseif ('S' === $txtype) {
     $txtype_desc = 'Sale';
-} elseif ('V' == $txtype) {
+} elseif ('V' === $txtype) {
     $txtype_desc = 'Void';
 } else {
     $txtype_desc = 'Capture';

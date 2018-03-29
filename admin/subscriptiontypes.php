@@ -40,38 +40,38 @@ $adminObject->displayNavigation(basename(__FILE__));
 
 global $xoopsDB, $xoopsConfig, $xoopsModule;
 
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
-$existingSubForm = new XoopsThemeForm('Existing Subscription Types', 'subtypes', 'edit_subscription_type.php');
+$existingSubForm = new \XoopsThemeForm('Existing Subscription Types', 'subtypes', 'edit_subscription_type.php');
 
-$sub_select = new XoopsFormSelect('Subscription Types', 'subtypeid');
+$sub_select = new \XoopsFormSelect('Subscription Types', 'subtypeid');
 
 $sql    = 'SELECT s.subtypeid, s.type FROM ' . $xoopsDB->prefix('subscription_type') . ' s ' . ' ORDER BY s.type ASC';
 $result = $xoopsDB->query($sql);
 
-while (list($subtypeid, $type) = $xoopsDB->fetchRow($result)) {
+while (false !== (list($subtypeid, $type) = $xoopsDB->fetchRow($result))) {
     $sub_select->addOption($subtypeid, $type);
 }
 
 $existingSubForm->addElement($sub_select);
-$modifybutton = new XoopsFormButton('', 'submit', '  Modify ', 'submit');
+$modifybutton = new \XoopsFormButton('', 'submit', '  Modify ', 'submit');
 
 $existingSubForm->addElement($modifybutton);
 $tpl->assign('existingsubform', $existingSubForm->render());
 $tpl->assign('editinstructions', 'To modify an existing subscription type, choose subscription from the dropdown.');
 
-$createForm = new XoopsThemeForm('Create New Subscription Type', 'sub', 'create_subscription_type.php');
+$createForm = new \XoopsThemeForm('Create New Subscription Type', 'sub', 'create_subscription_type.php');
 
-$subtypename = new XoopsFormText('Subscription Type', 'type', 20, 50, '');
+$subtypename = new \XoopsFormText('Subscription Type', 'type', 20, 50, '');
 $createForm->addElement($subtypename);
-$subtypeselect = new XoopsFormSelectSubscriptionType('Parent Subscription Type', 'psid', '', 1, null);
+$subtypeselect = new \XoopsFormSelectSubscriptionType('Parent Subscription Type', 'psid', '', 1, null);
 
 $createForm->addElement($subtypeselect);
 
-$group_select = new XoopsFormSelectGroup('Group Permission', 'groupid', false, null, 5, false);
+$group_select = new \XoopsFormSelectGroup('Group Permission', 'groupid', false, null, 5, false);
 $createForm->addElement($group_select);
 
-$createbutton = new XoopsFormButton('', 'submit', ' Create ', 'submit');
+$createbutton = new \XoopsFormButton('', 'submit', ' Create ', 'submit');
 $createForm->addElement($createbutton);
 
 $tpl->assign('form', $createForm->render());

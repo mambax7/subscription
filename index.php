@@ -24,7 +24,11 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-global $xoopsUser, $xoopsDB, $xoopsConfig, $xoopsModuleConfig;
+use XoopsModules\Subscription;
+/** @var Subscription\Helper $helper */
+$helper = Subscription\Helper::getInstance();
+
+global $xoopsUser, $xoopsDB, $xoopsConfig;
 $GLOBALS['xoopsOption']['template_main'] = 'subscription_index.tpl';
 
 include __DIR__ . '/header.php';
@@ -41,7 +45,7 @@ if (!is_object($xoopsUser)) {
 $sql           = 'SELECT subid, expiration_date, cancel FROM ' . $xoopsDB->prefix('subscription_user') . " su WHERE cancel = 'N' AND uid = " . $xoopsUser->getVar('uid');
 $result        = $xoopsDB->query($sql);
 $existing_subs = [];
-while (list($subid, $exp, $cancel) = $xoopsDB->fetchRow($result)) {
+while (false !== (list($subid, $exp, $cancel) = $xoopsDB->fetchRow($result))) {
     $existing_subs[$subid] = [
         'subid'          => $subid,
         'expirationdate' => $exp,
@@ -54,14 +58,14 @@ $sql = 'SELECT subtypeid, type FROM ' . $xoopsDB->prefix('subscription_type');
 $result = $xoopsDB->query($sql);
 $types  = [];
 $i      = 0;
-while (list($subtypeid, $subtypename) = $xoopsDB->fetchRow($result)) {
+while (false !== (list($subtypeid, $subtypename) = $xoopsDB->fetchRow($result))) {
     $sql = 'select xs.subid, xs.name, xs.subintervalid, i.name, xs.price from ' . $xoopsDB->prefix('subscription') . ' xs, ' . $xoopsDB->prefix('subscription_interval') . ' i where ' . 'i.subintervalid = xs.subintervalid and ' . "xs.subtypeid = $subtypeid order by " . 'xs.orderbit asc ';
     $xoopsLogger->addExtra('sql', $sql);
     $subresult = $xoopsDB->query($sql);
     $z         = 0;
     $subs      = [];
 
-    while (list($subid, $name, $intervalid, $intervalname, $price) = $xoopsDB->fetchRow($subresult)) {
+    while (false !== (list($subid, $name, $intervalid, $intervalname, $price) = $xoopsDB->fetchRow($subresult))) {
         $subs[$z]['subid']        = $subid;
         $subs[$z]['name']         = $name;
         $subs[$z]['intervalid']   = $intervalid;
@@ -69,7 +73,7 @@ while (list($subtypeid, $subtypename) = $xoopsDB->fetchRow($result)) {
         $subs[$z]['price']        = $price;
         if (array_key_exists($subid, $existing_subs)) {
             $sub                        = $existing_subs[$subid];
-            $subs[$z]['current']        = ('N' == $sub['cancel']);
+            $subs[$z]['current']        = ('N' === $sub['cancel']);
             $subs[$z]['expirationdate'] = $sub['expirationdate'];
         } else {
             $subs[$z]['current'] = false;
@@ -79,7 +83,7 @@ while (list($subtypeid, $subtypename) = $xoopsDB->fetchRow($result)) {
     $gw = PaymentGatewayFactory::getPaymentGateway();
 
     $scheme = 'http://';
-    if ('Y' == $xoopsModuleConfig['ssl_enabled']) {
+    if ('Y' === $helper->getConfig('ssl_enabled')) {
         $scheme = 'https://';
     }
     $uri = parse_url(XOOPS_URL);
@@ -105,7 +109,7 @@ while (list($subtypeid, $subtypename) = $xoopsDB->fetchRow($result)) {
         'subcount' => count($subs)
     ]);
 }
-$symbol = SubscriptionUtility::getCurrencySymbol($xoopsModuleConfig['currency']);
+$symbol = SubscriptionUtility::getCurrencySymbol($helper->getConfig('currency'));
 
 $xoopsTpl->assign('currencysymbol', $symbol);
 

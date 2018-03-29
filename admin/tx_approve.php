@@ -23,15 +23,20 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+
+use XoopsModules\Subscription;
+/** @var Subscription\Helper $helper */
+$helper = Subscription\Helper::getInstance();
+
 include __DIR__ . '/../../../include/cp_header.php';
 // include __DIR__ . '/../class/Utility.php';
-require_once __DIR__ . '/../class/paymentgatewayfactory.php';
-require_once __DIR__ . '/../class/paymentdata.php';
-require_once __DIR__ . '/../class/paymentgateway.php';
+// require_once __DIR__ . '/../class/paymentgatewayfactory.php';
+// require_once __DIR__ . '/../class/paymentdata.php';
+// require_once __DIR__ . '/../class/paymentgateway.php';
 
-global $xoopsLogger, $xoopsDB, $xoopsConfig, $xoopsModule, $xoopsModuleConfig;
-$gatewayConfig  = SubscriptionUtility::getGatewayConfig($xoopsModuleConfig['gateway']);
-$delayedCapture = $xoopsModuleConfig['delayed_capture'];
+global $xoopsLogger, $xoopsDB, $xoopsConfig, $xoopsModule;
+$gatewayConfig  = SubscriptionUtility::getGatewayConfig($helper->getConfig('gateway'));
+$delayedCapture = $helper->getConfig('delayed_capture');
 
 $void = isset($_GET['void']) ? true : false;
 $txid = isset($_GET['txid']) ? $_GET['txid'] : 0;

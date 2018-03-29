@@ -23,6 +23,11 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+
+use XoopsModules\Subscription;
+/** @var Subscription\Helper $helper */
+$helper = Subscription\Helper::getInstance();
+
 require_once __DIR__ . '/admin_header.php';
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/template.php';
@@ -38,30 +43,30 @@ $aboutAdmin = \Xmf\Module\Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));
 global $xoopsDB, $xoopsConfig;
 
-global $xoopsDB, $xoopsConfig, $xoopsModule, $xoopsModuleConfig;
+global $xoopsDB, $xoopsConfig, $xoopsModule;
 
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 
-$gwForm = new XoopsThemeForm('Installed Gateways', 'gateway', 'edit_gw_config.php');
+$gwForm = new \XoopsThemeForm('Installed Gateways', 'gateway', 'edit_gw_config.php');
 
-$gwselect = new XoopsFormSelectGateway('Gateways', 'gateway', $xoopsModuleConfig['gateway'], 1);
+$gwselect = new \XoopsFormSelectGateway('Gateways', 'gateway', $helper->getConfig('gateway'), 1);
 
 $gwForm->addElement($gwselect);
 
-$modifybutton = new XoopsFormButton('', 'submit', '  Modify ', 'submit');
+$modifybutton = new \XoopsFormButton('', 'submit', '  Modify ', 'submit');
 
 $gwForm->addElement($modifybutton);
 $tpl->assign('gwform', $gwForm->render());
 
 $tpl->assign('editinstructions', 'To configure a payment gateway, select it from the list and click ' . "'Modify'");
 
-$createForm = new XoopsThemeForm('Add Gateway', 'gw', 'add_gw.php');
+$createForm = new \XoopsThemeForm('Add Gateway', 'gw', 'add_gw.php');
 
-$gwname = new XoopsFormText('Gateway Name', 'gateway', 20, 50, '');
+$gwname = new \XoopsFormText('Gateway Name', 'gateway', 20, 50, '');
 
 $createForm->addElement($gwname);
 
-$createbutton = new XoopsFormButton('', 'submit', ' Create ', 'submit');
+$createbutton = new \XoopsFormButton('', 'submit', ' Create ', 'submit');
 $createForm->addElement($createbutton);
 
 $tpl->assign('form', $createForm->render());

@@ -45,7 +45,7 @@ if (isset($_POST['delete'])) {
     $query = 'INSERT INTO ' . $xoopsDB->prefix('subscription_gateway_config') . ' (gateway, name, title, value, orderbit) ' . " VALUES('%s', '%s', '%s', '%s', %d)";
 
     foreach ($_POST as $k => $v) {
-        if (eregi("$gw" . ':', $k)) {
+        if (eregi((string)$gw . ':', $k)) {
             $names = explode(':', $k);
             $name  = $names[1];
             $title = $_POST[$name]; // this is the title;

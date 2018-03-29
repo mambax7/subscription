@@ -48,9 +48,9 @@ if (!defined('XOOPS_SUB_PAYMENT_GATEWAY')) {
          * @see XoopsLogger
          * @param object $logger reference to a {@link XoopsLogger} object
          */
-        public function setLogger(&$logger)
+        public function setLogger($logger)
         {
-            $this->logger =& $logger;
+            $this->logger = $logger;
         }
 
         /**
