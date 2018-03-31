@@ -31,8 +31,8 @@ global $xoopsUser, $xoopsDB, $xoopsConfig;
 
 //get sub types
 
-$subid = isset($_GET['subid']) ? $_GET['subid'] : '';
-$uid   = isset($_GET['uid']) ? $_GET['uid'] : '';
+$subid = \Xmf\Request::getString('subid', '', 'GET');
+$uid   = \Xmf\Request::getString('uid', '', 'GET');
 
 if (empty($subid) || empty($uid)) {
     redirect_header('currentsubs.php', 5, 'Missing values.');
