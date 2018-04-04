@@ -8,6 +8,8 @@
  * @link            https://xoops.org XOOPS
  */
 
+use XoopsModules\Subscription;
+
 /**
  * Prepares system prior to attempting to uninstall module
  * @param XoopsModule $module {@link XoopsModule}
@@ -31,77 +33,4 @@ function xoops_module_pre_uninstall_subscription(\XoopsModule $module)
 function xoops_module_uninstall_subscription(\XoopsModule $module)
 {
     return true;
-}
-
-//=======================================================
-
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
-/**
- * @param XoopsModule $module
- *
- * @return bool
- */
-function xoops_module_uninstall_subscription(\XoopsModule $module)
-{
-    // global $xoopsDB,$xoopsConfig;
-    //
-    // nothing to do yet
-    return true;
-
-    //routine to delete a cache directory
-    /*
-     $cacheDir = XOOPS_ROOT_PATH . '/uploads/shoutbox';
-    //Always check if a directory exists prior to creation
-    if (!is_dir($cacheDir)) {
-        return true;
-    } else {
-        return rmdirr($cacheDir); // see the function below
-    }
-     */
-
-    //------------- example from user log --------------
-    /*
-     $logsetObj = UserlogSetting::getInstance();
-
-    return $logsetObj->cleanCache(); // delete all settings caches
-
-     */
-}
-
-/**
- * Delete a file, or a folder and its contents
- *
- * @author      Aidan Lister <aidan@php.net>
- * @param  string $dirname The directory to delete
- * @return bool   Returns true on success, false on failure
- */
-
-function rmdirr($dirname)
-{
-    // Simple delete for a file
-    if (is_file($dirname)) {
-        return unlink($dirname);
-    }
-
-    // Loop through the folder
-    $dir = dir($dirname);
-    while (false !== $entry = $dir->read()) {
-        // Skip pointers
-        if ('.' === $entry || '..' === $entry) {
-            continue;
-        }
-
-        // Deep delete directories
-        if (is_dir("$dirname/$entry")) {
-            rmdirr("$dirname/$entry");
-        } else {
-            unlink("$dirname/$entry");
-        }
-    }
-
-    // Clean up
-    $dir->close();
-
-    return rmdir($dirname);
 }

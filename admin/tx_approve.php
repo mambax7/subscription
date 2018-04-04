@@ -39,7 +39,7 @@ $gatewayConfig  = SubscriptionUtility::getGatewayConfig($helper->getConfig('gate
 $delayedCapture = $helper->getConfig('delayed_capture');
 
 $void = isset($_GET['void']) ? true : false;
-$txid = \Xmf\Request::getInt('txid', 0, GET);
+$txid = \Xmf\Request::getInt('txid', 0, 'GET');
 if (empty($txid)) {
     redirect_header('transactions.php', 5, 'Transaction Id can not be ' . 'missing.');
 }

@@ -19,7 +19,6 @@ class PaymentResponse
      * @param      $authcode
      * @param      $responsemessage
      * @param null $referencenumber
-     * @return PaymentResponse
      */
     public function __construct(
         $responsecode,

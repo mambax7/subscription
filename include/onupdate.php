@@ -18,6 +18,7 @@
  */
 
 use Xmf\Language;
+use XoopsModules\Subscription;
 
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
     || !$GLOBALS['xoopsUser']->IsAdmin()) {
@@ -45,11 +46,11 @@ function tableExists($tablename)
  */
 function xoops_module_pre_update_subscription(\XoopsModule $module)
 {
-    /** @var subscription\Helper $helper */
-    /** @var subscription\Utility $utility */
+    /** @var Subscription\Helper $helper */
+    /** @var Subscription\Utility $utility */
     $moduleDirName = basename(dirname(__DIR__));
-    $helper       = subscription\Helper::getInstance();
-    $utility      = new subscription\Utility();
+    $helper       = Subscription\Helper::getInstance();
+    $utility      = new Subscription\Utility();
 
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
@@ -71,12 +72,12 @@ function xoops_module_update_subscription(\XoopsModule $module, $previousVersion
     $moduleDirName = basename(dirname(__DIR__));
     $capsDirName   = strtoupper($moduleDirName);
 
-    /** @var subscription\Helper $helper */
-    /** @var subscription\Utility $utility */
-    /** @var subscription\Configurator $configurator */
-    $helper  = subscription\Helper::getInstance();
-    $utility = new subscription\Utility();
-    $configurator = new subscription\Configurator();
+    /** @var Subscription\Helper $helper */
+    /** @var Subscription\Utility $utility */
+    /** @var Subscription\Common\Configurator $configurator */
+    $helper  = Subscription\Helper::getInstance();
+    $utility = new Subscription\Utility();
+    $configurator = new Subscription\Common\Configurator();
 
     if ($previousVersion < 240) {
 
@@ -125,7 +126,7 @@ function xoops_module_update_subscription(\XoopsModule $module, $previousVersion
         if (count($configurator['uploadFolders']) > 0) {
             //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
             foreach (array_keys($configurator['uploadFolders']) as $i) {
-                $utilityClass::createFolder($configurator['uploadFolders'][$i]);
+                $utility::createFolder($configurator['uploadFolders'][$i]);
             }
         }
 
@@ -134,7 +135,7 @@ function xoops_module_update_subscription(\XoopsModule $module, $previousVersion
             $file = __DIR__ . '/../assets/images/blank.png';
             foreach (array_keys($configurator['copyFiles']) as $i) {
                 $dest = $configurator['copyFiles'][$i] . '/blank.png';
-                $utilityClass::copyFile($file, $dest);
+                $utility::copyFile($file, $dest);
             }
         }
 
