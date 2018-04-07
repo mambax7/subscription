@@ -127,7 +127,7 @@ class Utility
         $sql = '';
 
         $sql = sprintf(
-            ' INSERT INTO %s '
+            ' INSERT INTO `%s` '
                        . '(id, subid, uid, cardnumber, cvv, issuerphone, expirationmonth, '
                        . ' expirationyear, '
                        . ' nameoncard, address, city, state, zipcode, country, amount, '
@@ -173,7 +173,7 @@ class Utility
         $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = '';
         $sql = sprintf(
-            "UPDATE %s SET referencenumber = '%s', " . "responsecode = %u, response = '%s', transactiondate = now(), " . "transactiontype = '%s' WHERE id = %u",
+            "UPDATE `%s` SET referencenumber = '%s', " . "responsecode = %u, response = '%s', transactiondate = now(), " . "transactiontype = '%s' WHERE id = %u",
             XOOPS_DB_PREFIX . '_subscription_transaction',
             $response->referenceNumber,
             $response->responseCode,
