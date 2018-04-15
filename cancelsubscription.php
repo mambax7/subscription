@@ -25,13 +25,14 @@
 //  ------------------------------------------------------------------------ //
 
 use XoopsModules\Subscription;
-/** @var Subscription\Helper $helper */
-$helper = Subscription\Helper::getInstance();
 
 include __DIR__ . '/header.php';
 require_once __DIR__ . '/class/paymentgatewayfactory.php';
 require_once __DIR__ . '/class/paymentdata.php';
 require_once __DIR__ . '/class/paymentgateway.php';
+
+/** @var Subscription\Helper $helper */
+$helper = Subscription\Helper::getInstance();
 
 global $xoopsUser, $xoopsDB, $xoopsConfig;
 
@@ -80,7 +81,7 @@ if (!empty($_POST['email'])) {
         redirect_header('cancelsubscription.php', 3, 'You did not enter the correct email address.');
     }
 }
-include __DIR__ . '/../../header.php';
+include  dirname(dirname(__DIR__)) . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'subscription_cancel.tpl';
 $xoopsTpl->assign('subs', $subs);
-include __DIR__ . '/../../footer.php';
+include  dirname(dirname(__DIR__)) . '/footer.php';

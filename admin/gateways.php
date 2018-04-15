@@ -25,11 +25,9 @@
 //  ------------------------------------------------------------------------ //
 
 use XoopsModules\Subscription;
-/** @var Subscription\Helper $helper */
-$helper = Subscription\Helper::getInstance();
 
 require_once __DIR__ . '/admin_header.php';
-require_once __DIR__ . '/../../../include/cp_header.php';
+require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/template.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
@@ -38,6 +36,9 @@ require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectgateway.php';
 
 xoops_cp_header();
+
+/** @var Subscription\Helper $helper */
+$helper = Subscription\Helper::getInstance();
 
 $aboutAdmin = \Xmf\Module\Admin::getInstance();
 $adminObject->displayNavigation(basename(__FILE__));

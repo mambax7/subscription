@@ -132,7 +132,7 @@ function xoops_module_update_subscription(\XoopsModule $module, $previousVersion
 
         //  ---  COPY blank.png FILES ---------------
         if (count($configurator['copyFiles']) > 0) {
-            $file = __DIR__ . '/../assets/images/blank.png';
+            $file =  dirname(__DIR__) . '/assets/images/blank.png';
             foreach (array_keys($configurator['copyFiles']) as $i) {
                 $dest = $configurator['copyFiles'][$i] . '/blank.png';
                 $utility::copyFile($file, $dest);

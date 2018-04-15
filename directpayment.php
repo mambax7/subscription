@@ -25,11 +25,12 @@
 //  ------------------------------------------------------------------------ //
 
 use XoopsModules\Subscription;
-/** @var Subscription\Helper $helper */
-$helper = Subscription\Helper::getInstance();
 
 require_once __DIR__ . '/header.php';
-include __DIR__ . '/../../class/xoopsformloader.php';
+include  dirname(dirname(__DIR__)) . '/class/xoopsformloader.php';
+
+/** @var Subscription\Helper $helper */
+$helper = Subscription\Helper::getInstance();
 
 global $_POST, $xoopsUser, $xoopsModule;
 

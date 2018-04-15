@@ -25,14 +25,15 @@
 //  ------------------------------------------------------------------------ //
 
 use XoopsModules\Subscription;
+
+include  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+// include  dirname(__DIR__) . '/class/Utility.php';
+// require_once  dirname(__DIR__) . '/class/paymentgatewayfactory.php';
+// require_once  dirname(__DIR__) . '/class/paymentdata.php';
+// require_once  dirname(__DIR__) . '/class/paymentgateway.php';
+
 /** @var Subscription\Helper $helper */
 $helper = Subscription\Helper::getInstance();
-
-include __DIR__ . '/../../../include/cp_header.php';
-// include __DIR__ . '/../class/Utility.php';
-// require_once __DIR__ . '/../class/paymentgatewayfactory.php';
-// require_once __DIR__ . '/../class/paymentdata.php';
-// require_once __DIR__ . '/../class/paymentgateway.php';
 
 global $xoopsLogger, $xoopsDB, $xoopsConfig, $xoopsModule;
 $gatewayConfig  = SubscriptionUtility::getGatewayConfig($helper->getConfig('gateway'));

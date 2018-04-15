@@ -25,13 +25,14 @@
 //  ------------------------------------------------------------------------ //
 
 use XoopsModules\Subscription;
-/** @var Subscription\Helper $helper */
-$helper = Subscription\Helper::getInstance();
 
 include __DIR__ . '/header.php';
 require_once __DIR__ . '/class/paymentgatewayfactory.php';
 require_once __DIR__ . '/class/paymentdata.php';
 require_once __DIR__ . '/class/paymentgateway.php';
+
+/** @var Subscription\Helper $helper */
+$helper = Subscription\Helper::getInstance();
 
 global $xoopsLogger, $xoopsDB, $xoopsUser,  $_POST;
 

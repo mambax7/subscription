@@ -25,8 +25,6 @@
 //  ------------------------------------------------------------------------ //
 
 use XoopsModules\Subscription;
-/** @var Subscription\Helper $helper */
-$helper = Subscription\Helper::getInstance();
 
 global $xoopsUser, $xoopsDB, $xoopsConfig;
 $GLOBALS['xoopsOption']['template_main'] = 'subscription_index.tpl';
@@ -35,6 +33,9 @@ include __DIR__ . '/header.php';
 require_once __DIR__ . '/class/paymentgatewayfactory.php';
 require_once __DIR__ . '/class/paymentdata.php';
 require_once __DIR__ . '/class/paymentgateway.php';
+
+/** @var Subscription\Helper $helper */
+$helper = Subscription\Helper::getInstance();
 
 if (!is_object($xoopsUser)) {
     redirect_header(XOOPS_URL, 0, _NOPERM);
@@ -113,4 +114,4 @@ $symbol = SubscriptionUtility::getCurrencySymbol($helper->getConfig('currency'))
 
 $xoopsTpl->assign('currencysymbol', $symbol);
 
-include __DIR__ . '/../../footer.php';
+include  dirname(dirname(__DIR__)) . '/footer.php';

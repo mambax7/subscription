@@ -29,11 +29,9 @@ use XoopsModules\Subscription;
  */
 function xoops_module_pre_install_subscription(\XoopsModule $module)
 {
-    $moduleDirName = basename(dirname(__DIR__));
-    $utility  = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($utility)) {
-        xoops_load('utility', $moduleDirName);
-    }
+    /** @var \XoopsModules\Subscription\Utility $utility */
+    $utility = new \XoopsModules\Subscription\Utility();
+
     //check for minimum XOOPS version
     if (!$utility::checkVerXoops($module)) {
         return false;
@@ -69,12 +67,8 @@ function xoops_module_install_subscription(\XoopsModule $module)
     xoops_loadLanguage('modinfo', $moduleDirName);
 
     $configurator = include __DIR__ . '/config.php';
-    /** @var Subscription\Utility $utility */
-    $utility = ucfirst($moduleDirName) . 'Utility';
-    ;
-    if (!class_exists($utility)) {
-        xoops_load('utility', $moduleDirName);
-    }
+    /** @var \XoopsModules\Subscription\Utility $utility */
+    $utility = new \XoopsModules\Subscription\Utility();
 
     //  ---  CREATE FOLDERS ---------------
     if (count($configurator['uploadFolders']) > 0) {
@@ -86,7 +80,7 @@ function xoops_module_install_subscription(\XoopsModule $module)
 
     //  ---  COPY blank.png FILES ---------------
     if (count($configurator['blankFiles']) > 0) {
-        $file = __DIR__ . '/../assets/images/blank.png';
+        $file =  dirname(__DIR__) . '/assets/images/blank.png';
         foreach (array_keys($configurator['blankFiles']) as $i) {
             $dest = $configurator['blankFiles'][$i] . '/blank.png';
             $utility::copyFile($file, $dest);

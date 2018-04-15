@@ -23,9 +23,9 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-include __DIR__ . '/../../../include/cp_header.php';
+include  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
-// include __DIR__ . '/../class/Utility.php';
+// include  dirname(__DIR__) . '/class/Utility.php';
 
 global $xoopsUser, $xoopsDB, $xoopsConfig;
 
@@ -47,4 +47,4 @@ if (isset($_GET['revoke'])) {
 // TO-DO: add revoke code
 redirect_header('currentsubs.php', 5, 'This subscription was canceled.');
 
-include __DIR__ . '/../../../include/cp_footer.php';
+include  dirname(dirname(dirname(__DIR__))) . '/include/cp_footer.php';

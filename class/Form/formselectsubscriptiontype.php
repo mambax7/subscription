@@ -11,7 +11,7 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsform/formselect.php';
 /**
 * Class XoopsFormSelectSubscriptionType
 */
-class XoopsFormSelectSubscriptionType extends XoopsFormSelect
+class XoopsFormSelectSubscriptionType extends \XoopsFormSelect
 {
 /**
 * XoopsFormSelectSubscriptionType constructor.

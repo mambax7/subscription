@@ -1,13 +1,14 @@
 <?php
 
 use XoopsModules\Subscription;
-/** @var Subscription\Helper $helper */
-$helper = Subscription\Helper::getInstance();
 
 require_once __DIR__ . '/header.php';
 include __DIR__ . '/functions.php';
 require_once XOOPS_ROOT_PATH . '/modules/subscription/config.php';
 require_once XOOPS_ROOT_PATH . '/modules/subscription/class/paymentfactory.php';
+
+/** @var Subscription\Helper $helper */
+$helper = Subscription\Helper::getInstance();
 
 global $xoopsDB, $xoopsConfig;
 

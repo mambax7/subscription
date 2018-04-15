@@ -100,14 +100,14 @@ function make_data($dbm, $adminname, $hashedAdminPass, $adminmail, $language, $g
     $dbm->insert('tplset', " VALUES (1, 'default', 'XOOPS Default Template Set', '', " . $time . ')');
     // system modules
     if (file_exists(__DIR__ . '/../modules/system/language/' . $language . '/modinfo.php')) {
-        include __DIR__ . '/../modules/system/language/' . $language . '/modinfo.php';
+        include  dirname(__DIR__) . '/modules/system/language/' . $language . '/modinfo.php';
     } else {
-        include __DIR__ . '/../modules/system/language/english/modinfo.php';
+        include  dirname(__DIR__) . '/modules/system/language/english/modinfo.php';
         $language = 'english';
     }
 
     $modversion = array();
-    require_once __DIR__ . '/../modules/system/xoops_version.php';
+    require_once  dirname(__DIR__) . '/modules/system/xoops_version.php';
     $time = time();
     // RMV-NOTIFY (updated for extra column in table)
     $dbm->insert('modules', " VALUES (1, '" . _MI_SYSTEM_NAME . "', " . ($modversion['version'] * 100) . ', ' . $time . ", 0, 1, 'system', 0, 1, 0, 0, 0, 0)");
@@ -321,8 +321,8 @@ function make_data($dbm, $adminname, $hashedAdminPass, $adminmail, $language, $g
 
     $dbm->insert('config', " VALUES (134, 0, 1, 'redirect_message_ajax', '_MD_AM_CUSTOM_REDIRECT', '1', '_MD_AM_CUSTOM_REDIRECT_DESC', 'yesno', 'int', 12)");
 
-    // require_once __DIR__ . '/../class/xoopslists.php';
-    $editors = XoopsLists::getDirListAsArray('../class/xoopseditor');
+    // require_once  dirname(__DIR__) . '/class/xoopslists.php';
+    $editors = \XoopsLists::getDirListAsArray('../class/xoopseditor');
     $conf    = 35;
     foreach ($editors as $dir) {
         $dbm->insert('configoption', ' VALUES (' . $conf . ", '" . $dir . "', '" . $dir . "', 126)");
@@ -336,17 +336,17 @@ function make_data($dbm, $adminname, $hashedAdminPass, $adminmail, $language, $g
         $dbm->insert('configoption', ' VALUES (' . $conf . ", '" . $dir . "', '" . $dir . "', 128)");
         ++$conf;
     }
-    $icons = XoopsLists::getDirListAsArray('../modules/system/images/icons');
+    $icons = \XoopsLists::getDirListAsArray('../modules/system/images/icons');
     foreach ($icons as $dir) {
         $dbm->insert('configoption', ' VALUES (' . $conf . ", '" . $dir . "', '" . $dir . "', 98)");
         ++$conf;
     }
-    $breadcrumb = XoopsLists::getDirListAsArray('../modules/system/images/breadcrumb');
+    $breadcrumb = \XoopsLists::getDirListAsArray('../modules/system/images/breadcrumb');
     foreach ($breadcrumb as $dir) {
         $dbm->insert('configoption', ' VALUES (' . $conf . ", '" . $dir . "', '" . $dir . "', 99)");
         ++$conf;
     }
-    $jqueryui = XoopsLists::getDirListAsArray('../modules/system/css/ui');
+    $jqueryui = \XoopsLists::getDirListAsArray('../modules/system/css/ui');
     foreach ($jqueryui as $dir) {
         $dbm->insert('configoption', ' VALUES (' . $conf . ", '" . $dir . "', '" . $dir . "', 133)");
         ++$conf;

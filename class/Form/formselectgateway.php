@@ -12,7 +12,7 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsform/formselect.php';
 /**
  * Class XoopsFormSelectGateway
  */
-class XoopsFormSelectGateway extends XoopsFormSelect
+class XoopsFormSelectGateway extends \XoopsFormSelect
 {
     /**
      * XoopsFormSelectGateway constructor.

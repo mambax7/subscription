@@ -25,13 +25,13 @@
 //  ------------------------------------------------------------------------ //
 require_once __DIR__ . '/admin_header.php';
 
-include __DIR__ . '/../../../mainfile.php';
-include __DIR__ . '/../../../include/cp_header.php';
-include __DIR__ . '/../language/english/main.php';
-// include __DIR__ . '/../class/Utility.php';
-include __DIR__ . '/../class/paymentgatewayfactory.php';
-include __DIR__ . '/../class/paymentdata.php';
-include __DIR__ . '/../class/paymentresponse.php';
+include  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+include  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+include  dirname(__DIR__) . '/language/english/main.php';
+// include  dirname(__DIR__) . '/class/Utility.php';
+include  dirname(__DIR__) . '/class/paymentgatewayfactory.php';
+include  dirname(__DIR__) . '/class/paymentdata.php';
+include  dirname(__DIR__) . '/class/paymentresponse.php';
 
 $confirm = isset($_POST['cron']) ? $_POST['cron'] : null;
 if (!isset($confirm)) {
