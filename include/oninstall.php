@@ -66,7 +66,7 @@ function xoops_module_install_subscription(\XoopsModule $module)
     xoops_loadLanguage('admin', $moduleDirName);
     xoops_loadLanguage('modinfo', $moduleDirName);
 
-    $configurator = include __DIR__ . '/config.php';
+    $configurator = require __DIR__ . '/config.php';
     /** @var \XoopsModules\Subscription\Utility $utility */
     $utility = new \XoopsModules\Subscription\Utility();
 
@@ -80,7 +80,7 @@ function xoops_module_install_subscription(\XoopsModule $module)
 
     //  ---  COPY blank.png FILES ---------------
     if (count($configurator['blankFiles']) > 0) {
-        $file =  dirname(__DIR__) . '/assets/images/blank.png';
+        $file = dirname(__DIR__) . '/assets/images/blank.png';
         foreach (array_keys($configurator['blankFiles']) as $i) {
             $dest = $configurator['blankFiles'][$i] . '/blank.png';
             $utility::copyFile($file, $dest);

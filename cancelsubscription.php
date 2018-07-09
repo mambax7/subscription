@@ -26,10 +26,10 @@
 
 use XoopsModules\Subscription;
 
-include __DIR__ . '/header.php';
-require_once __DIR__ . '/class/paymentgatewayfactory.php';
-require_once __DIR__ . '/class/paymentdata.php';
-require_once __DIR__ . '/class/paymentgateway.php';
+require_once __DIR__ . '/header.php';
+//require_once __DIR__ . '/class/paymentgatewayfactory.php';
+//require_once __DIR__ . '/class/paymentdata.php';
+//require_once __DIR__ . '/class/paymentgateway.php';
 
 /** @var Subscription\Helper $helper */
 $helper = Subscription\Helper::getInstance();
@@ -68,11 +68,11 @@ if (!empty($_POST['email'])) {
     }
 
     if (strtolower($xoopsUser->getVar('email')) == strtolower($_POST['email'])) {
-        SubscriptionUtility::cancelSubscription($xoopsUser->getVar('uid'), $_POST['subid']);
+        Subscription\Utility::cancelSubscription($xoopsUser->getVar('uid'), $_POST['subid']);
 
         $rdir = $gw->cancelUrl;
         if (isset($rdir)) {
-            include __DIR__ . '/gateways/' . $helper->getConfig('gateway') . '/' . $rdir;
+            require_once __DIR__ . '/gateways/' . $helper->getConfig('gateway') . '/' . $rdir;
         } else {
             redirect_header(XOOPS_URL . '/index.php', 3, 'Your
 				subscription has ' . 'been canceled.');
@@ -81,7 +81,7 @@ if (!empty($_POST['email'])) {
         redirect_header('cancelsubscription.php', 3, 'You did not enter the correct email address.');
     }
 }
-include  dirname(dirname(__DIR__)) . '/header.php';
+require_once dirname(dirname(__DIR__)) . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'subscription_cancel.tpl';
 $xoopsTpl->assign('subs', $subs);
-include  dirname(dirname(__DIR__)) . '/footer.php';
+require_once dirname(dirname(__DIR__)) . '/footer.php';

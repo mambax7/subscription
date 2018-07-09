@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Subscription;
+
 if (!defined('SUB_LISTS_INCLUDED')) {
     define('SUB_LISTS_INCLUDED', 1);
 
@@ -11,11 +12,11 @@ if (!defined('SUB_LISTS_INCLUDED')) {
          * @param $psid
          * @return array
          */
-        public static function getSubscriptionTypeList($psid)
+        public static function getSubscriptionTypeList($psid = null)
         {
             $db  = \XoopsDatabaseFactory::getDatabaseConnection();
             $sql = 'SELECT subtypeid, type FROM ' . $db->prefix('subscription_type');
-            if (isset($psid)) {
+            if ($psid !== null) {
                 $sql .= " where psid = $psid";
             }
             $sql    .= ' order by type asc';

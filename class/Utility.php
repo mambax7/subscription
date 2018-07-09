@@ -4,7 +4,6 @@ use Xmf\Request;
 use XoopsModules\Subscription;
 use XoopsModules\Subscription\Common;
 
-
 /**
  * Class Utility
  */
@@ -17,7 +16,6 @@ class Utility
     use Common\FilesManagement; // Files Management Trait
 
     //--------------- Custom module methods -----------------------------
-
 
     /**
      * @param $tm
@@ -80,7 +78,7 @@ class Utility
 
         $res =& $GLOBALS['xoopsDB']->queryF($sql, $db);
         list($intamt, $inttype, $amount, $gid) = @$GLOBALS['xoopsDB']->fetchRow($res);
-        if (!isset($expDate)) {
+        if ($expDate === null) {
             $dt      = static::getExpirationDate(time(), $inttype, $intamt);
             $expDate = date('Y-m-d h:i:s', $dt);
         }
@@ -94,12 +92,12 @@ class Utility
     }
 
     /**
-     * @param $db
-     * @param $gid
-     * @param $uid
+     * @param \XoopsDatabase $db
+     * @param                $gid
+     * @param                $uid
      * @return mixed
      */
-    public static function addUserGroup($db, $gid, $uid)
+    public static function addUserGroup(\XoopsDatabase $db, $gid, $uid)
     {
         $sql = 'insert into ' . XOOPS_DB_PREFIX . '_groups_users_link ' . "(groupid, uid) values ($gid, $uid)";
         $GLOBALS['xoopsDB']->queryF($sql, $db);
@@ -110,24 +108,17 @@ class Utility
 
     /**
      * record payment transaction
-     * @param user     $uid
-     * @param the      $subid
-     * @param instance $data
-     * @param instance $response
-     * @return
-     * @internal param user $uid making the payment
-     * @internal param the $subid subid for the subscription being paid for
-     * @internal param instance $data of paymentdata containing the payment details
-     * @internal param instance $response of paymentresponse containing the payment
-     *                                    gateway response.
+     * @param int $uid user  making the payment
+     * @param  int     $subid subid for the subscription being paid for
+     * @param PaymentData $data  instance of payment data containing the payment details
+     * @param mixed $response  instance of payment response containing the payment gateway response.
      */
     public static function recordPaymentTransaction($uid, $subid, $data, $response)
     {
         $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = '';
 
-        $sql = sprintf(
-            ' INSERT INTO `%s` '
+        $sql = sprintf(' INSERT INTO `%s` '
                        . '(id, subid, uid, cardnumber, cvv, issuerphone, expirationmonth, '
                        . ' expirationyear, '
                        . ' nameoncard, address, city, state, zipcode, country, amount, '
@@ -135,29 +126,8 @@ class Utility
                        . ' responsecode, referencenumber, transactiondate, transactiontype) '
                        . ' VALUES(%u, %u, '
                        . " %u, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', "
-                       . " '%s', '%s', '%s', '%s', '%s', '%s', now(), '%s')",
-            XOOPS_DB_PREFIX . '_subscription_transaction',
-            $data->invoiceNumber,
-            $subid,
-            $uid,
-            $data->cardNumber,
-            $data->cvv,
-            $data->issuerPhone,
-            $data->expirationMonth,
-            $data->expirationYear,
-            $data->nameOnCard,
-            $data->address1,
-                       $data->city,
-            $data->state,
-            $data->zipcode,
-            $data->countrycode,
-            $data->amount,
-            $response->authCode,
-            $response->responseMessage,
-            $response->responseCode,
-            $response->referenceNumber,
-            $data->txType
-        );
+                       . " '%s', '%s', '%s', '%s', '%s', '%s', now(), '%s')", XOOPS_DB_PREFIX . '_subscription_transaction', $data->invoiceNumber, $subid, $uid, $data->cardNumber, $data->cvv, $data->issuerPhone, $data->expirationMonth, $data->expirationYear, $data->nameOnCard, $data->address1,
+                       $data->city, $data->state, $data->zipcode, $data->countrycode, $data->amount, $response->authCode, $response->responseMessage, $response->responseCode, $response->referenceNumber, $data->txType);
         $GLOBALS['xoopsDB']->queryF($sql, $db) || exit(@$GLOBALS['xoopsDB']->error());
 
         return $data->invoiceNumber;
@@ -172,15 +142,8 @@ class Utility
     {
         $db  = \XoopsDatabaseFactory::getDatabaseConnection();
         $sql = '';
-        $sql = sprintf(
-            "UPDATE `%s` SET referencenumber = '%s', " . "responsecode = %u, response = '%s', transactiondate = now(), " . "transactiontype = '%s' WHERE id = %u",
-            XOOPS_DB_PREFIX . '_subscription_transaction',
-            $response->referenceNumber,
-            $response->responseCode,
-            $response->responseMessage,
-                       $paymentData->txType,
-            $txid
-        );
+        $sql = sprintf("UPDATE `%s` SET referencenumber = '%s', " . "responsecode = %u, response = '%s', transactiondate = now(), " . "transactiontype = '%s' WHERE id = %u", XOOPS_DB_PREFIX . '_subscription_transaction', $response->referenceNumber, $response->responseCode,
+                       $response->responseMessage, $paymentData->txType, $txid);
         $GLOBALS['xoopsDB']->queryF($sql, $db);
     }
 

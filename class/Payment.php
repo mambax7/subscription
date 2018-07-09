@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Subscription;
 
 /**
  * Created by PhpStorm.
@@ -7,16 +7,24 @@
  * Time: 20:19
  */
 
-namespace Payment;
+//namespace Payment;
 
 use Omnipay\Omnipay;
 use Omnipay\Common\CreditCard;
 
+/**
+ * Class Payment
+ * @package XoopsModules\Subscription
+ */
 class Payment
 {
     private $pay;
     private $card;
 
+    /**
+     * @param $value
+     * @return bool|string
+     */
     public function setCard($value)
     {
         try {
@@ -31,11 +39,16 @@ class Payment
             $this->card = $card;
 
             return true;
-        } catch (\Exception $ex) {
+        }
+        catch (\Exception $ex) {
             return $ex->getMessage();
         }
     }
 
+    /**
+     * @param $value
+     * @return string
+     */
     public function makePayment($value)
     {
         try {
@@ -53,7 +66,9 @@ class Payment
             // Process response
             if ($response->isSuccessful()) {
                 return 'Thankyou for your payment';
-            } elseif ($response->isRedirect()) {
+            }
+
+            if ($response->isRedirect()) {
 
                 // Redirect to offsite payment gateway
                 return $response->getMessage();
@@ -61,7 +76,8 @@ class Payment
                 // Payment failed
                 return $response->getMessage();
             }
-        } catch (\Exception $ex) {
+        }
+        catch (\Exception $ex) {
             return $ex->getMessage();
         }
     }

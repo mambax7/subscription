@@ -26,16 +26,15 @@
 
 use XoopsModules\Subscription;
 
-include  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
-include  dirname(__DIR__) . '/class/paymentgatewayfactory.php';
-include  dirname(__DIR__) . '/class/paymentdata.php';
-include  dirname(__DIR__) . '/class/paymentresponse.php';
-// include  dirname(__DIR__) . '/class/Utility.php';
+//require_once dirname(__DIR__) . '/class/paymentgatewayfactory.php';
+//require_once dirname(__DIR__) . '/class/paymentdata.php';
+//require_once dirname(__DIR__) . '/class/paymentresponse.php';
+// require_once dirname(__DIR__) . '/class/Utility.php';
 
 /** @var Subscription\Helper $helper */
 $helper = Subscription\Helper::getInstance();
-
 
 global $xoopsUser, $xoopsDB, $xoopsConfig, $xoopsLogger;
 
@@ -44,8 +43,8 @@ $txid = $_GET['txid'];
 $delayedCapture = $helper->getConfig('delayed_capture');
 
 //get sub types
-$gw       = PaymentGatewayFactory::getPaymentGateway();
-$gwconfig = SubscriptionUtility::getGatewayConfig($helper->getConfig('gateway'));
+$gw       = Subscription\PaymentGatewayFactory::getPaymentGateway();
+$gwconfig = Subscription\Utility::getGatewayConfig($helper->getConfig('gateway'));
 $gw->setConfig($gwconfig);
 $gw->setLogger($xoopsLogger);
 $gw->setDelayedCapture($delayedCapture);
@@ -59,14 +58,14 @@ list($uid) = $xoopsDB->fetchRow($res);
 if (empty($uid)) {
     redirect_header('tx_detail.php?txid=' . $txid, 2, 'Could not find detail.');
 }
-$paymentData                = SubscriptionUtility::getLastPaymentData($uid);
-$paymentData->invoiceNumber = SubscriptionUtility::getNextInvoiceNumber();
+$paymentData                = Subscription\Utility::getLastPaymentData($uid);
+$paymentData->invoiceNumber = Subscription\Utility::getNextInvoiceNumber();
 $paymentResponse            = $gw->submitPayment($paymentData);
-$id                         = SubscriptionUtility::recordPaymentTransaction($paymentData->uid, $paymentData->subid, $paymentData, $paymentResponse);
+$id                         = Subscription\Utility::recordPaymentTransaction($paymentData->uid, $paymentData->subid, $paymentData, $paymentResponse);
 if (0 == $paymentResponse->responseCode) {
     if ('Y' !== strtoupper($delayedCapture)) {
-        SubscriptionUtility::addUserSubscription($xoopsUser->getVar('uid'), $subid);
-        SubscriptionUtility::sendSubscriptionEmail($xoopsUser->getVar('uid'), $subid);
+        Subscription\Utility::addUserSubscription($xoopsUser->getVar('uid'), $subid);
+        Subscription\Utility::sendSubscriptionEmail($xoopsUser->getVar('uid'), $subid);
         redirect_header("tx_detail.php?txid=$id", 2, 'This transaction was successful.');
     } else {
         redirect_header('transactions.php', 2, 'You must now approve this transaction');

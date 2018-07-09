@@ -7,35 +7,35 @@ extend = require 'node.extend'
 class Card
   initializedDataAttr: "data-jp-card-initialized"
   cardTemplate: '' +
-  '<div class="jp-card-container">' +
-      '<div class="jp-card">' +
-          '<div class="jp-card-front">' +
-              '<div class="jp-card-logo jp-card-elo">' +
-                '<div class="e">e</div>' +
-                '<div class="l">l</div>' +
-                '<div class="o">o</div>' +
-              '</div>' +
-              '<div class="jp-card-logo jp-card-visa">visa</div>' +
-              '<div class="jp-card-logo jp-card-mastercard">MasterCard</div>' +
-              '<div class="jp-card-logo jp-card-maestro">Maestro</div>' +
-              '<div class="jp-card-logo jp-card-amex"></div>' +
-              '<div class="jp-card-logo jp-card-discover">discover</div>' +
-              '<div class="jp-card-logo jp-card-dankort"><div class="dk"><div class="d"></div><div class="k"></div></div></div>' +
-              '<div class="jp-card-lower">' +
-                  '<div class="jp-card-shiny"></div>' +
-                  '<div class="jp-card-cvc jp-card-display">{{cvc}}</div>' +
-                  '<div class="jp-card-number jp-card-display">{{number}}</div>' +
-                  '<div class="jp-card-name jp-card-display">{{name}}</div>' +
-                  '<div class="jp-card-expiry jp-card-display" data-before="{{monthYear}}" data-after="{{validDate}}">{{expiry}}</div>' +
-              '</div>' +
-          '</div>' +
-          '<div class="jp-card-back">' +
-              '<div class="jp-card-bar"></div>' +
-              '<div class="jp-card-cvc jp-card-display">{{cvc}}</div>' +
-              '<div class="jp-card-shiny"></div>' +
-          '</div>' +
-      '</div>' +
-  '</div>'
+    '<div class="jp-card-container">' +
+    '<div class="jp-card">' +
+    '<div class="jp-card-front">' +
+    '<div class="jp-card-logo jp-card-elo">' +
+    '<div class="e">e</div>' +
+    '<div class="l">l</div>' +
+    '<div class="o">o</div>' +
+    '</div>' +
+    '<div class="jp-card-logo jp-card-visa">visa</div>' +
+    '<div class="jp-card-logo jp-card-mastercard">MasterCard</div>' +
+    '<div class="jp-card-logo jp-card-maestro">Maestro</div>' +
+    '<div class="jp-card-logo jp-card-amex"></div>' +
+    '<div class="jp-card-logo jp-card-discover">discover</div>' +
+    '<div class="jp-card-logo jp-card-dankort"><div class="dk"><div class="d"></div><div class="k"></div></div></div>' +
+    '<div class="jp-card-lower">' +
+    '<div class="jp-card-shiny"></div>' +
+    '<div class="jp-card-cvc jp-card-display">{{cvc}}</div>' +
+    '<div class="jp-card-number jp-card-display">{{number}}</div>' +
+    '<div class="jp-card-name jp-card-display">{{name}}</div>' +
+    '<div class="jp-card-expiry jp-card-display" data-before="{{monthYear}}" data-after="{{validDate}}">{{expiry}}</div>' +
+    '</div>' +
+    '</div>' +
+    '<div class="jp-card-back">' +
+    '<div class="jp-card-bar"></div>' +
+    '<div class="jp-card-cvc jp-card-display">{{cvc}}</div>' +
+    '<div class="jp-card-shiny"></div>' +
+    '</div>' +
+    '</div>' +
+    '</div>'
   template: (tpl, data) ->
     tpl.replace /\{\{(.*?)\}\}/g, (match, key, str) ->
       data[key]
@@ -158,24 +158,24 @@ class Card
     expiryFilters.push @validToggler('cardExpiry')
 
     bindVal @$expiryInput, @$expiryDisplay,
-        join: (text) ->
-          if text[0].length == 2 or text[1] then "/" else ""
-        filters: expiryFilters
+      join: (text) ->
+        if text[0].length == 2 or text[1] then "/" else ""
+      filters: expiryFilters
 
     bindVal @$cvcInput, @$cvcDisplay, filters: @validToggler('cardCVC')
     QJ.on @$cvcInput, 'focus', @handle('flipCard')
     QJ.on @$cvcInput, 'blur', @handle('unflipCard')
 
     bindVal @$nameInput, @$nameDisplay,
-        fill: false
-        filters: @validToggler('cardHolderName')
-        join: ' '
+      fill: false
+      filters: @validToggler('cardHolderName')
+      join: ' '
 
   handleInitialPlaceholders: ->
     for name, selector of @options.formSelectors
       el = this["$#{name}"]
       if QJ.val(el)
-        # if the input has a value, we want to trigger a refresh
+# if the input has a value, we want to trigger a refresh
         QJ.trigger el, 'paste'
         # set a timeout because `jquery.payment` does the reset of the val
         # in a timeout
@@ -234,7 +234,7 @@ class Card
     unflipCard: ->
       QJ.removeClass @$card, 'jp-card-flipped'
 
-  bindVal = (el, out, opts={}) ->
+  bindVal = (el, out, opts = {}) ->
     opts.fill = opts.fill || false
     opts.filters = opts.filters || []
     opts.filters = [opts.filters] unless opts.filters instanceof Array

@@ -23,9 +23,12 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-include  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
-// include  dirname(__DIR__) . '/class/Utility.php';
+use XoopsModules\Subscription;
+
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+
+// require_once dirname(__DIR__) . '/class/Utility.php';
 
 global $xoopsUser, $xoopsDB, $xoopsConfig;
 
@@ -38,13 +41,13 @@ if (empty($subid) || empty($uid)) {
     redirect_header('currentsubs.php', 5, 'Missing values.');
 }
 
-if (isset($_GET['revoke'])) {
-    SubscriptionUtility::revokeUserSubscription($uid, $subid);
+if (\Xmf\Request::hasVar('revoke', 'GET')) {
+    Subscription\Utility::revokeUserSubscription($uid, $subid);
 } else {
-    SubscriptionUtility::cancelSubscription($uid, $subid);
+    Subscription\Utility::cancelSubscription($uid, $subid);
 }
 
 // TO-DO: add revoke code
 redirect_header('currentsubs.php', 5, 'This subscription was canceled.');
 
-include  dirname(dirname(dirname(__DIR__))) . '/include/cp_footer.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_footer.php';

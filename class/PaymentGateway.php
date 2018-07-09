@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Subscription;
 
 /**
  * make sure this is only included once!

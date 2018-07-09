@@ -15,7 +15,7 @@
  * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  * @package
  * @since
- * @author     XOOPS Development Team
+ * @author       XOOPS Development Team
  */
 
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -28,7 +28,7 @@ class Helper extends \Xmf\Module\Helper
     public $debug;
 
     /**
-     * 
+     *
      * @param bool $debug
      */
     public function __construct($debug = false)

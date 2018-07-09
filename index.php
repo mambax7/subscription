@@ -29,10 +29,10 @@ use XoopsModules\Subscription;
 global $xoopsUser, $xoopsDB, $xoopsConfig;
 $GLOBALS['xoopsOption']['template_main'] = 'subscription_index.tpl';
 
-include __DIR__ . '/header.php';
-require_once __DIR__ . '/class/paymentgatewayfactory.php';
-require_once __DIR__ . '/class/paymentdata.php';
-require_once __DIR__ . '/class/paymentgateway.php';
+require_once __DIR__ . '/header.php';
+//require_once __DIR__ . '/class/paymentgatewayfactory.php';
+//require_once __DIR__ . '/class/paymentdata.php';
+//require_once __DIR__ . '/class/paymentgateway.php';
 
 /** @var Subscription\Helper $helper */
 $helper = Subscription\Helper::getInstance();
@@ -81,7 +81,7 @@ while (false !== (list($subtypeid, $subtypename) = $xoopsDB->fetchRow($result)))
         }
         $z++;
     }
-    $gw = PaymentGatewayFactory::getPaymentGateway();
+    $gw = \XoopsModules\Subscription\PaymentGatewayFactory::getPaymentGateway();
 
     $scheme = 'http://';
     if ('Y' === $helper->getConfig('ssl_enabled')) {
@@ -110,8 +110,8 @@ while (false !== (list($subtypeid, $subtypename) = $xoopsDB->fetchRow($result)))
         'subcount' => count($subs)
     ]);
 }
-$symbol = SubscriptionUtility::getCurrencySymbol($helper->getConfig('currency'));
+$symbol = Subscription\Utility::getCurrencySymbol($helper->getConfig('currency'));
 
 $xoopsTpl->assign('currencysymbol', $symbol);
 
-include  dirname(dirname(__DIR__)) . '/footer.php';
+require_once dirname(dirname(__DIR__)) . '/footer.php';

@@ -23,15 +23,18 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+
+use XoopsModules\Subscription;
+
 require_once __DIR__ . '/admin_header.php';
 
-include  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-include  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-include  dirname(__DIR__) . '/language/english/main.php';
-// include  dirname(__DIR__) . '/class/Utility.php';
-include  dirname(__DIR__) . '/class/paymentgatewayfactory.php';
-include  dirname(__DIR__) . '/class/paymentdata.php';
-include  dirname(__DIR__) . '/class/paymentresponse.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(__DIR__) . '/language/english/main.php';
+// require_once dirname(__DIR__) . '/class/Utility.php';
+require_once dirname(__DIR__) . '/class/paymentgatewayfactory.php';
+require_once dirname(__DIR__) . '/class/paymentdata.php';
+require_once dirname(__DIR__) . '/class/paymentresponse.php';
 
 $confirm = isset($_POST['cron']) ? $_POST['cron'] : null;
 if (!isset($confirm)) {
@@ -45,6 +48,6 @@ if (!isset($confirm)) {
     xoops_confirm(['cron' => true], 'cron.php', 'Are you sure you want to run this job');
     xoops_cp_footer();
 } else {
-    SubscriptionUtility::runRenewals();
+    Subscription\Utility::runRenewals();
     redirect_header('index.php', 2, 'This job completed successfully.');
 }

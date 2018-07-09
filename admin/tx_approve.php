@@ -26,8 +26,8 @@
 
 use XoopsModules\Subscription;
 
-include  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-// include  dirname(__DIR__) . '/class/Utility.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+// require_once dirname(__DIR__) . '/class/Utility.php';
 // require_once  dirname(__DIR__) . '/class/paymentgatewayfactory.php';
 // require_once  dirname(__DIR__) . '/class/paymentdata.php';
 // require_once  dirname(__DIR__) . '/class/paymentgateway.php';
@@ -36,7 +36,7 @@ include  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 $helper = Subscription\Helper::getInstance();
 
 global $xoopsLogger, $xoopsDB, $xoopsConfig, $xoopsModule;
-$gatewayConfig  = SubscriptionUtility::getGatewayConfig($helper->getConfig('gateway'));
+$gatewayConfig  = Subscription\Utility::getGatewayConfig($helper->getConfig('gateway'));
 $delayedCapture = $helper->getConfig('delayed_capture');
 
 $void = isset($_GET['void']) ? true : false;
@@ -44,9 +44,9 @@ $txid = \Xmf\Request::getInt('txid', 0, 'GET');
 if (empty($txid)) {
     redirect_header('transactions.php', 5, 'Transaction Id can not be ' . 'missing.');
 }
-$paymentData = SubscriptionUtility::getPaymentDataById($txid);
+$paymentData = Subscription\Utility::getPaymentDataById($txid);
 
-$gw = PaymentGatewayFactory::getPaymentGateway();
+$gw = Subscription\PaymentGatewayFactory::getPaymentGateway();
 $gw->setLogger($xoopsLogger);
 $gw->setConfig($gatewayConfig);
 $gw->setDelayedCapture($delayedCapture);
@@ -61,13 +61,13 @@ $uid      = $paymentData->uid;
 $subid    = $paymentData->subid;
 
 if (0 == $response->responseCode) {
-    SubscriptionUtility::updatePaymentTransaction($txid, $paymentData, $response);
+    Subscription\Utility::updatePaymentTransaction($txid, $paymentData, $response);
     if (false === $void) {
-        SubscriptionUtility::addUserSubscription($uid, $subid);
-        SubscriptionUtility::sendSubscriptionEmail($uid, $subid);
+        Subscription\Utility::addUserSubscription($uid, $subid);
+        Subscription\Utility::sendSubscriptionEmail($uid, $subid);
         redirect_header('transactions.php', 2, 'This payment has been captured and approved.');
     } else {
-        SubscriptionUtility::sendVoidEmail($uid, $subid);
+        Subscription\Utility::sendVoidEmail($uid, $subid);
         redirect_header('transactions.php', 2, 'This authorization has been voided (' . $response->referenceNumber . ').');
     }
 } else {

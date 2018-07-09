@@ -49,8 +49,8 @@ function xoops_module_pre_update_subscription(\XoopsModule $module)
     /** @var Subscription\Helper $helper */
     /** @var Subscription\Utility $utility */
     $moduleDirName = basename(dirname(__DIR__));
-    $helper       = Subscription\Helper::getInstance();
-    $utility      = new Subscription\Utility();
+    $helper        = Subscription\Helper::getInstance();
+    $utility       = new Subscription\Utility();
 
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
@@ -75,8 +75,8 @@ function xoops_module_update_subscription(\XoopsModule $module, $previousVersion
     /** @var Subscription\Helper $helper */
     /** @var Subscription\Utility $utility */
     /** @var Subscription\Common\Configurator $configurator */
-    $helper  = Subscription\Helper::getInstance();
-    $utility = new Subscription\Utility();
+    $helper       = Subscription\Helper::getInstance();
+    $utility      = new Subscription\Utility();
     $configurator = new Subscription\Common\Configurator();
 
     if ($previousVersion < 240) {
@@ -132,7 +132,7 @@ function xoops_module_update_subscription(\XoopsModule $module, $previousVersion
 
         //  ---  COPY blank.png FILES ---------------
         if (count($configurator['copyFiles']) > 0) {
-            $file =  dirname(__DIR__) . '/assets/images/blank.png';
+            $file = dirname(__DIR__) . '/assets/images/blank.png';
             foreach (array_keys($configurator['copyFiles']) as $i) {
                 $dest = $configurator['copyFiles'][$i] . '/blank.png';
                 $utility::copyFile($file, $dest);

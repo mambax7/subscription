@@ -20,20 +20,26 @@
 
 use Xmf\Language;
 use Xmf\Module\Admin;
+use XoopsModules\Subscription;
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
 // require_once  dirname(__DIR__) . '/class/Utility.php';
-//require_once  dirname(__DIR__) . '/include/common.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 $moduleDirName = basename(dirname(__DIR__));
+/** @var \XoopsModules\Subscription\Helper $helper */
+$helper = \XoopsModules\Subscription\Helper::getInstance();
 
-$helper = Helper::getHelper($moduleDirName);
+/** @var Xmf\Module\Admin $adminObject */
+$adminObject = \Xmf\Module\Admin::getInstance();
 
-$pathIcon16    = Admin::iconUrl('', 16);
-$pathIcon32    = Admin::iconUrl('', 32);
-$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+// Load language files
+$helper->loadLanguage('admin');
+$helper->loadLanguage('modinfo');
+$helper->loadLanguage('common');
+
 
 $myts = \MyTextSanitizer::getInstance();
 
@@ -48,11 +54,6 @@ if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl))
 
 //Handlers
 //$XXXHandler = xoops_getModuleHandler('XXX', $moduleDirName);
-
-// Load language files
-xoops_loadLanguage('admin', $moduleDirName);
-xoops_loadLanguage('modinfo', $moduleDirName);
-xoops_loadLanguage('main', $moduleDirName);
 
 //xoops_cp_header();
 $adminObject = \Xmf\Module\Admin::getInstance();

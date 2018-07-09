@@ -34,8 +34,8 @@ if (!is_object($xoopsUser)) {
 $uname                                   = $xoopsUser->getVar('uname', 'E');
 $GLOBALS['xoopsOption']['template_main'] = 'payment_success.tpl';
 
-include XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoopsTpl->assign('tid', $_GET['tid']);
 
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

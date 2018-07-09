@@ -26,15 +26,15 @@
 
 use XoopsModules\Subscription;
 
-include __DIR__ . '/header.php';
-require_once __DIR__ . '/class/paymentgatewayfactory.php';
-require_once __DIR__ . '/class/paymentdata.php';
-require_once __DIR__ . '/class/paymentgateway.php';
+require_once __DIR__ . '/header.php';
+//require_once __DIR__ . '/class/paymentgatewayfactory.php';
+//require_once __DIR__ . '/class/paymentdata.php';
+//require_once __DIR__ . '/class/paymentgateway.php';
 
 /** @var Subscription\Helper $helper */
 $helper = Subscription\Helper::getInstance();
 
-global $xoopsLogger, $xoopsDB, $xoopsUser,  $_POST;
+global $xoopsLogger, $xoopsDB, $xoopsUser, $_POST;
 
 if (!is_object($xoopsUser)) {
     redirect_header(XOOPS_URL, 0, _NOPERM);
@@ -53,7 +53,7 @@ if (!isset($agree)) {
     redirect_header('index.php', 5, 'You must agree to the terms.');
 }
 
-$gatewayConfig  = SubscriptionUtility::getGatewayConfig($helper->getConfig('gateway'));
+$gatewayConfig  = Subscription\Utility::getGatewayConfig($helper->getConfig('gateway'));
 $delayedCapture = $helper->getConfig('delayed_capture');
 if ('Y' === strtoupper($delayedCapture)) {
     $txtype = 'A';
@@ -61,21 +61,21 @@ if ('Y' === strtoupper($delayedCapture)) {
     $txtype = 'S';
 }
 // create paymentdata instance
-$paymentData = new PaymentData($cardnumber, $name, $address1, $address2, $city, $state, $zipcode, $country, $expirationmonth, $expirationyear, $cvv, $issuerphone, $amount, SubscriptionUtility::getNextInvoiceNumber(), $txtype);
+$paymentData = new \XoopsModules\Subscription\PaymentData($cardnumber, $name, $address1, $address2, $city, $state, $zipcode, $country, $expirationmonth, $expirationyear, $cvv, $issuerphone, $amount, Subscription\Utility::getNextInvoiceNumber(), $txtype);
 
-$gw = PaymentGatewayFactory::getPaymentGateway();
+$gw = \XoopsModules\Subscription\PaymentGatewayFactory::getPaymentGateway();
 $gw->setLogger($xoopsLogger);
 $gw->setConfig($gatewayConfig);
 $gw->setDelayedCapture($delayedCapture);
 
 $paymentResponse = $gw->submitPayment($paymentData);
 
-$id = SubscriptionUtility::recordPaymentTransaction($uid, $subid, $paymentData, $paymentResponse);
+$id = Subscription\Utility::recordPaymentTransaction($uid, $subid, $paymentData, $paymentResponse);
 
 if (0 == $paymentResponse->responseCode) {
     if ('Y' !== strtoupper($delayedCapture)) {
-        SubscriptionUtility::addUserSubscription($xoopsUser->getVar('uid'), $subid);
-        SubscriptionUtility::sendSubscriptionEmail($xoopsUser->getVar('uid'), $subid);
+        Subscription\Utility::addUserSubscription($xoopsUser->getVar('uid'), $subid);
+        Subscription\Utility::sendSubscriptionEmail($xoopsUser->getVar('uid'), $subid);
         redirect_header("paymentsuccess.php?tid=$id", 2, 'Your payment has been accepted...');
     } else {
         //delayed capture...

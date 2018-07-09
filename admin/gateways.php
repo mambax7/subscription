@@ -27,13 +27,13 @@
 use XoopsModules\Subscription;
 
 require_once __DIR__ . '/admin_header.php';
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/template.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectgateway.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectgateway.php';
 
 xoops_cp_header();
 
@@ -50,7 +50,7 @@ $tpl = new \XoopsTpl();
 
 $gwForm = new \XoopsThemeForm('Installed Gateways', 'gateway', 'edit_gw_config.php');
 
-$gwselect = new \XoopsFormSelectGateway('Gateways', 'gateway', $helper->getConfig('gateway'), 1);
+$gwselect = new \XoopsModules\Subscription\Form\FormSelectGateway('Gateways', 'gateway', $helper->getConfig('gateway'), 1);
 
 $gwForm->addElement($gwselect);
 

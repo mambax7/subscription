@@ -1,20 +1,20 @@
 <table>
-	<tr>
-		<td align="left">
-			<font size=2><b><{$editinstructions}></b></font>
-		</td>
-	</tr>
-	<tr>
-		<td align="left">
-		<table border=0>
-		<tr>
-		
-			<td align="left">
-			<{$form}></td>
-		</tr>
-		</table>
-		</td>
-	</tr>
+    <tr>
+        <td align="left">
+            <span style="font-size: x-small; "><b><{$editinstructions}></b></span>
+        </td>
+    </tr>
+    <tr>
+        <td align="left">
+            <table border=0>
+                <tr>
+
+                    <td align="left">
+                        <{$form}></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 
 			

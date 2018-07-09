@@ -24,13 +24,13 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 require_once __DIR__ . '/admin_header.php';
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/template.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscription.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscription.php';
 
 xoops_cp_header();
 
@@ -42,16 +42,16 @@ global $xoopsDB, $xoopsConfig;
 
 $tpl = new \XoopsTpl();
 
-if (isset($_POST['uid'])) {
+if (\Xmf\Request::hasVar('uid', 'POST')) {
     $uid = $_POST['uid'];
 }
-if (isset($_GET['uid'])) {
+if (\Xmf\Request::hasVar('uid', 'GET')) {
     $uid = $_GET['uid'];
 }
-if (isset($_GET['uname'])) {
+if (\Xmf\Request::hasVar('uname', 'GET')) {
     $uname = $_GET['uname'];
 }
-if (isset($_GET['start'])) {
+if (\Xmf\Request::hasVar('start', 'GET')) {
     $startpos = $_GET['start'];
 }
 
@@ -142,7 +142,7 @@ $form->addElement($zipcode);
 $checknumber = new \XoopsFormText('Check Number', 'checknumber', 5, 6, '');
 $form->addElement($checknumber);
 
-$subscription = new \XoopsFormSelectSubscription('Subscription', 'subid', 1);
+$subscription = new \XoopsModules\Subscription\Form\FormSelectSubscription('Subscription', 'subid', 1);
 $form->addElement($subscription);
 $amt = new \XoopsFormText('Amount Paid', 'amount', 10, 15, '');
 $form->addElement($amt, true);

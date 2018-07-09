@@ -27,7 +27,7 @@
 use XoopsModules\Subscription;
 
 require_once __DIR__ . '/header.php';
-include  dirname(dirname(__DIR__)) . '/class/xoopsformloader.php';
+require_once dirname(dirname(__DIR__)) . '/class/xoopsformloader.php';
 
 /** @var Subscription\Helper $helper */
 $helper = Subscription\Helper::getInstance();
@@ -62,7 +62,7 @@ $GLOBALS['xoopsOption']['template_main'] = 'payment_index.tpl';
 //$xoTheme->addScript('https://code.jquery.com/jquery-migrate-3.0.0.js');
 //$xoTheme->addScript($mod_url . '/assets/js/card-master/dist/jquery.card.js');
 
-include XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoopsTpl->assign('subid', $subid);
 $xoopsTpl->assign('subtypeid', $subtypeid);
@@ -83,11 +83,11 @@ $sql = 'SELECT subid, xs.name, format(price,2) price,
 $result = $xoopsDB->query($sql);
 if ($result) {
     list($subid, $subname, $price, $intervaltype, $intervalamount) = $xoopsDB->fetchRow($result);
-    $expDate = ('p' == $intervaltype) ? 'Never' : date('m/d/Y h:i:s', SubscriptionUtility::getExpirationDate(time(), $intervaltype, $intervalamount));
+    $expDate = ('p' === $intervaltype) ? 'Never' : date('m/d/Y h:i:s', Subscription\Utility::getExpirationDate(time(), $intervaltype, $intervalamount));
     $xoopsTpl->assign('subid', $subid);
     $xoopsTpl->assign('subname', $subname);
     $xoopsTpl->assign('price', $price);
-    $xoopsTpl->assign('currencysymbol', SubscriptionUtility::getCurrencySymbol($helper->getConfig('currency')));
+    $xoopsTpl->assign('currencysymbol', Subscription\Utility::getCurrencySymbol($helper->getConfig('currency')));
     $xoopsTpl->assign('intervaltype', $intervaltype);
     $xoopsTpl->assign('intervalamount', $intervalamount);
     $xoopsTpl->assign('expirationdate', $expDate);
@@ -102,4 +102,4 @@ $xoopsTpl->assign('success', XOOPS_URL . '/modules/' . $xoopsModule->getVar('dir
 
 $xoopsTpl->assign('secure_base', XOOPS_URL);
 
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

@@ -8,7 +8,7 @@ Subscription: {SUBNAME}
 Expiration Date: {EXPDATE}
 
 -----------
-{SITENAME} ({SITEURL}) 
+{SITENAME} ({SITEURL})
 webmaster
 {ADMINMAIL}
 

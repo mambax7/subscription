@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Subscription\Gateways\Standard;
+
 //  ------------------------------------------------------------------------ //
 //                		Subscription Module for XOOPS													 //
 //               Copyright (c) 2005 Third Eye Software, Inc.						 		 //
@@ -23,18 +24,22 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+
+use  XoopsModules\Subscription;
+
+
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 if (!defined('SUB_DIR_NAME')) {
     die('SUB_DIR_NAME not defined');
 }
-require_once XOOPS_ROOT_PATH . '/modules/' . SUB_DIR_NAME . '/class/paymentgateway.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . SUB_DIR_NAME . '/class/paymentdata.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . SUB_DIR_NAME . '/class/paymentresponse.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . SUB_DIR_NAME . '/class/paymentgateway.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . SUB_DIR_NAME . '/class/paymentdata.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . SUB_DIR_NAME . '/class/paymentresponse.php';
 
 /**
  * base class
  */
-class DefaultPaymentGateway extends PaymentGateway
+class StandardPaymentGateway extends Subscription\PaymentGateway
 {
     /**
      * @return bool
@@ -46,27 +51,27 @@ class DefaultPaymentGateway extends PaymentGateway
 
     /**
      * @param $details
-     * @return PaymentResponse
+     * @return  \XoopsModules\Subscription\PaymentResponse
      */
     public function submitPayment($details)
     {
         $this->logger->addExtra('DEFAULT', $details->toString());
 
-        $response = $this->_processCard($details);
+        $response = $this->processCard($details);
 
         return $response;
     }
 
     /**
      * @param $details
-     * @return PaymentResponse
+     * @return \XoopsModules\Subscription\PaymentResponse
      */
-    public function _processCard($details)
+    public function processCard($details)
     {
         if (true) {
-            return new PaymentResponse(0, '000-RES', 'SUCCESS', 'Default Payment Gateway Info');
+            return new Subscription\PaymentResponse(0, '000-RES', 'SUCCESS', 'Default Payment Gateway Info');
         } else {
-            return new PaymentResponse(10, '010-RES', 'DECLINED', 'Default Payment Gateway Info');
+            return new Subscription\PaymentResponse(10, '010-RES', 'DECLINED', 'Default Payment Gateway Info');
         }
     }
 

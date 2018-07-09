@@ -23,8 +23,11 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+
+use XoopsModules\Subscription;
+
 require_once __DIR__ . '/admin_header.php';
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
 //	define("SUB_DIR_NAME", "subscription");
 // require_once  dirname(__DIR__) . '/class/Utility.php';
@@ -42,7 +45,7 @@ $tpl = new \XoopsTpl();
 
 global $xoopsDB, $xoopsConfig, $xoopsModule;
 
-if (isset($_POST['expdate'])) {
+if (\Xmf\Request::hasVar('expdate', 'POST')) {
     if (!isset($_POST['confirm'])) {
         $sql = 'SELECT count(*) FROM ' . $xoopsDB->prefix('subscription') . ' s, ' . $xoopsDB->prefix('subscription_user') . ' su, ' . $xoopsDB->prefix('users') . ' u WHERE ' . "su.uid = u.uid AND su.subid = s.subid AND su.cancel = 'N' AND " . "su.expiration_date <= '" . $_POST['expdate'] . "'";
         $res = $xoopsDB->query($sql);
@@ -64,7 +67,7 @@ if (isset($_POST['expdate'])) {
         $res = $xoopsDB->query($sql);
         $i   = 0;
         while (false !== (list($uid, $uname, $subname, $exp) = $xoopsDB->fetchRow($res))) {
-            SubscriptionUtility::sendReminderEmail($uid, $uname, $subname, $exp);
+            Subscription\Utility::sendReminderEmail($uid, $uname, $subname, $exp);
             $i++;
         }
         redirect_header('index.php', 3, "$i reminder(s) were sent for " . "subscriptions that expire before $expdate.");

@@ -24,13 +24,13 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 require_once __DIR__ . '/admin_header.php';
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/class/template.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptiontype.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptioninterval.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptiontype.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptioninterval.php';
 xoops_cp_header();
 
 $aboutAdmin = \Xmf\Module\Admin::getInstance();
@@ -62,10 +62,10 @@ $createForm = new \XoopsThemeForm('Create Subscription', 'sub', 'create_subscrip
 $altsubid = new \XoopsFormText('Alternate Subscription ID', 'altsubid', 20, 50, '');
 $createForm->addElement($altsubid);
 
-$subtypeselect = new \XoopsFormSelectSubscriptionType('Subscription Type', 'subtypeid', '', 1);
+$subtypeselect = new \XoopsModules\Subscription\Form\FormSelectSubscriptionType('Subscription Type', 'subtypeid', '', 1);
 $createForm->addElement($subtypeselect);
 
-$subintervalselect = new \XoopsFormSelectSubscriptionInterval('Subscription Interval', 'subintervalid', '1', 1);
+$subintervalselect = new \XoopsModules\Subscription\Form\FormSelectSubscriptionInterval('Subscription Interval', 'subintervalid', '1', 1);
 $createForm->addElement($subintervalselect);
 
 $subname = new \XoopsFormText('Subscription Name', 'subname', 20, 50, '');

@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Subscription;
 
 /**
  * Class PaymentData
@@ -58,8 +58,8 @@ class PaymentData
         $issuerphone,
         $amount,
         $invoicenumber,
-        $txtype
-    ) {
+        $txtype)
+    {
         $this->cardNumber      = $cardNumber;
         $this->nameOnCard      = $name;
         $this->address1        = $address1;

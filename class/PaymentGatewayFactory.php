@@ -1,8 +1,6 @@
-<?php
-
+<?php namespace XoopsModules\Subscription;
 
 use XoopsModules\Subscription;
-
 
 /**
  * Class PaymentGatewayFactory
@@ -31,11 +29,10 @@ class PaymentGatewayFactory
         $helper = Subscription\Helper::getInstance();
 
         static $instance;
-        if (!isset($instance)) {
-            $file = XOOPS_ROOT_PATH . '/modules/' . SUB_DIR_NAME . '/gateways/' . $helper->getConfig('gateway') . '/' . $helper->getConfig('gateway') . 'paymentgateway.php';
-
-            require_once $file;
-            $class    = ucfirst($helper->getConfig('gateway')) . 'PaymentGateway';
+        if ($instance === null) {
+//            $file = XOOPS_ROOT_PATH . '/modules/' . SUB_DIR_NAME . '/gateways/' . $helper->getConfig('gateway') . '/' . $helper->getConfig('gateway') . 'paymentgateway.php';
+//            require_once $file;
+            $class    = '\XoopsModules\Subscription\Gateways\\' . ucfirst($helper->getConfig('gateway')) . '\\' . ucfirst($helper->getConfig('gateway')) .'PaymentGateway';
             $instance = new $class();
             $instance->setLogger(\XoopsLogger::getInstance());
         }

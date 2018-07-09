@@ -23,8 +23,11 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+
+use XoopsModules\Subscription;
+
 require_once __DIR__ . '/admin_header.php';
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/template.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -39,11 +42,11 @@ global $xoopsDB, $xoopsConfig;
 
 $tpl = new \XoopsTpl();
 
-if (isset($_GET['start'])) {
+if (\Xmf\Request::hasVar('start', 'GET')) {
     $startpos = $_GET['start'];
 }
 
-if (isset($_GET['uname'])) {
+if (\Xmf\Request::hasVar('uname', 'GET')) {
     $uname = $_GET['uname'];
 }
 
@@ -74,7 +77,7 @@ list($txcount) = $xoopsDB->fetchRow($result);
 
 $result = $xoopsDB->query($sql, 10, $startpos);
 while (false !== (list($sid, $uid, $uname, $subid, $subname, $expdate, $inttype, $intamount, $amount, $cancel) = $xoopsDB->fetchRow($result))) {
-    if ('Y' == $cancel) {
+    if ('Y' === $cancel) {
         $cancel = 'Yes';
     } else {
         $cancel = 'No';

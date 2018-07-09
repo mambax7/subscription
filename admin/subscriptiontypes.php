@@ -25,14 +25,14 @@
 //  ------------------------------------------------------------------------ //
 
 require_once __DIR__ . '/admin_header.php';
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/template.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptiontype.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptioninterval.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptiontype.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptioninterval.php';
 
 xoops_cp_header();
 $aboutAdmin = \Xmf\Module\Admin::getInstance();
@@ -64,7 +64,7 @@ $createForm = new \XoopsThemeForm('Create New Subscription Type', 'sub', 'create
 
 $subtypename = new \XoopsFormText('Subscription Type', 'type', 20, 50, '');
 $createForm->addElement($subtypename);
-$subtypeselect = new \XoopsFormSelectSubscriptionType('Parent Subscription Type', 'psid', '', 1, null);
+$subtypeselect = new \XoopsModules\Subscription\Form\FormSelectSubscriptionType('Parent Subscription Type', 'psid', '', 1, null);
 
 $createForm->addElement($subtypeselect);
 

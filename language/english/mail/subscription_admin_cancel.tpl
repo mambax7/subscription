@@ -2,7 +2,7 @@
 necessary to fully cancel this subscription.
 
 -----------
-{SITENAME} ({SITEURL}) 
+{SITENAME} ({SITEURL})
 webmaster
 {ADMINMAIL}
 

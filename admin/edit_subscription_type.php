@@ -23,15 +23,17 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+use XoopsModules\Subscription;
+
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/template.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
 
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptiontype.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptioninterval.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptiontype.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptioninterval.php';
 
 xoops_cp_header();
 global $xoopsDB, $xoopsConfig;
@@ -41,7 +43,7 @@ global $xoopsDB, $xoopsConfig;
 global $xoopsDB, $xoopsConfig, $xoopsModule;
 
 $subtypeid = $_POST['subtypeid'];
-include XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 $tpl = new \XoopsTpl();
 
 $sql = 'select s.subtypeid, s.type, s.groupid, s.psid from ' . $xoopsDB->prefix('subscription_type') . "  s where subtypeid = $subtypeid";
@@ -56,7 +58,7 @@ $editForm->addElement($subid);
 $subnamebox = new \XoopsFormText('Type', 'type', 20, 50, $type);
 $editForm->addElement($subnamebox);
 
-$subtypeselect = new \XoopsFormSelectSubscriptionType('Parent Subscription Type', 'psid', $psid, 1, null);
+$subtypeselect = new Subscription\Form\FormSelectSubscriptionType('Parent Subscription Type', 'psid', $psid, 1, null);
 $editForm->addElement($subtypeselect);
 
 $group_select = new \XoopsFormSelectGroup('Group Permission', 'groupid', false, $groupid, 5, false);

@@ -23,13 +23,16 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+
+use XoopsModules\Subscription;
+
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/class/template.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptiontype.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptioninterval.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptiontype.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/forms/formselectsubscriptioninterval.php';
 xoops_cp_header();
 global $xoopsDB, $xoopsConfig;
 
@@ -38,7 +41,7 @@ global $xoopsDB, $xoopsConfig;
 global $xoopsDB, $xoopsConfig, $xoopsModule;
 
 $subid = $_POST['subid'];
-include XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 $tpl = new \XoopsTpl();
 
 $sql = 'select s.subid, s.name, s.subintervalid, s.subtypeid, s.price, ' . ' s.alternatesubid, s.orderbit from ' . $xoopsDB->prefix('subscription') . '  s ' . ' where s.subid = ' . $subid;
@@ -56,10 +59,10 @@ $editForm->addElement($altsubidbox);
 $subnamebox = new \XoopsFormText('Name', 'subname', 20, 50, $subname);
 $editForm->addElement($subnamebox);
 
-$intervalselect = new \XoopsFormSelectSubscriptionInterval('Billing Interval', 'subintervalid', $subintervalid);
+$intervalselect = new \XoopsModules\Subscription\Form\FormSelectSubscriptionInterval('Billing Interval', 'subintervalid', $subintervalid);
 $editForm->addElement($intervalselect);
 
-$typeselect = new \XoopsFormSelectSubscriptionType('Subscription Type', 'subtypeid', $subtypeid, 1);
+$typeselect = new \XoopsModules\Subscription\Form\FormSelectSubscriptionType('Subscription Type', 'subtypeid', $subtypeid, 1);
 $editForm->addElement($typeselect);
 
 $pricebox = new \XoopsFormText('Price', 'price', 10, 6, $price);

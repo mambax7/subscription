@@ -26,13 +26,12 @@
 
 use XoopsModules\Subscription;
 
-// require_once  dirname(__DIR__) . '/class/Helper.php';
 //require_once  dirname(__DIR__) . '/include/common.php';
-$helper = subscription\Helper::getInstance();
+/** @var Subscription\Helper $helper */
+$helper = Subscription\Helper::getInstance();
 
-$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+$pathIcon32    = \Xmf\Module\Admin::menuIconPath('');
 $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
-
 
 $adminmenu[] = [
     'title' => _MI_SUBSCRIPTION_HOME,

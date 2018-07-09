@@ -32,7 +32,7 @@ $respmsg = $_GET['RESPMSG'];
 $uname                                   = $xoopsUser->getVar('uname', 'E');
 $GLOBALS['xoopsOption']['template_main'] = 'payment_error.tpl';
 
-include XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 $xoopsTpl->assign('respmsg', $respmsg);
 
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

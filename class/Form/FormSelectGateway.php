@@ -1,21 +1,21 @@
-<?php
+<?php namespace XoopsModules\Subscription\Form;
 
 /**
  * lists of values
  */
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/lists.php';
 /**
  * base class
  */
 require_once XOOPS_ROOT_PATH . '/class/xoopsform/formselect.php';
 
 /**
- * Class XoopsFormSelectGateway
+ * Class FormSelectGateway
  */
-class XoopsFormSelectGateway extends \XoopsFormSelect
+class FormSelectGateway extends \XoopsFormSelect
 {
     /**
-     * XoopsFormSelectGateway constructor.
+     * FormSelectGateway constructor.
      * @param string $caption
      * @param string $name
      * @param null   $value
@@ -25,10 +25,10 @@ class XoopsFormSelectGateway extends \XoopsFormSelect
         $caption,
         $name,
         $value = null,
-        $size = 1
-    ) {
+        $size = 1)
+    {
         parent::__construct($caption, $name, $value, $size);
 
-        $this->addOptionArray(SubscriptionLists::getGatewayList());
+        $this->addOptionArray(\XoopsModules\Subscription\SubscriptionLists::getGatewayList());
     }
 }

@@ -23,7 +23,7 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-include  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
 xoops_cp_header();
 global $xoopsDB, $xoopsConfig, $xoopsModule, $_POST;
@@ -34,7 +34,7 @@ $sql = 'delete from ' . $xoopsDB->prefix('subscription_gateway_config') . " wher
 
 $xoopsDB->query($sql);
 
-if (isset($_POST['delete'])) {
+if (\Xmf\Request::hasVar('delete', 'POST')) {
     $sql    = 'SELECT conf_id FROM ' . $xoopsDB->prefix('config') . " WHERE conf_name = 'gateway' AND conf_modid = " . $xoopsModule->getVar('mid');
     $result = $xoopsDB->query($sql);
     list($confid) = $xoopsDB->fetchRow($result);
@@ -45,7 +45,7 @@ if (isset($_POST['delete'])) {
     $query = 'INSERT INTO ' . $xoopsDB->prefix('subscription_gateway_config') . ' (gateway, name, title, value, orderbit) ' . " VALUES('%s', '%s', '%s', '%s', %d)";
 
     foreach ($_POST as $k => $v) {
-        if (eregi((string)$gw . ':', $k)) {
+        if (preg_match('#' . (string)$gw . ':' . '#i', $k)) {
             $names = explode(':', $k);
             $name  = $names[1];
             $title = $_POST[$name]; // this is the title;
@@ -56,7 +56,7 @@ if (isset($_POST['delete'])) {
     }
 
     // update the module config with the default gw
-    if (isset($_POST['active'])) {
+    if (\Xmf\Request::hasVar('active', 'POST')) {
         $query = 'update ' . $xoopsDB->prefix('config') . " set conf_value = '" . $gw . "' where conf_modid = " . $xoopsModule->getVar('mid') . " and conf_name = 'gateway'";
         $xoopsDB->query($query);
     }

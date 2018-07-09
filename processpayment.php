@@ -3,9 +3,9 @@
 use XoopsModules\Subscription;
 
 require_once __DIR__ . '/header.php';
-include __DIR__ . '/functions.php';
-require_once XOOPS_ROOT_PATH . '/modules/subscription/config.php';
-require_once XOOPS_ROOT_PATH . '/modules/subscription/class/paymentfactory.php';
+require_once __DIR__ . '/functions.php';
+//require_once XOOPS_ROOT_PATH . '/modules/subscription/config.php';
+//require_once XOOPS_ROOT_PATH . '/modules/subscription/class/paymentfactory.php';
 
 /** @var Subscription\Helper $helper */
 $helper = Subscription\Helper::getInstance();
@@ -19,8 +19,8 @@ global $xoopsDB, $xoopsConfig;
 //$uid = $xoopsUser->getVar('uid','E');
 $uid = $_POST['uid'];
 
-if  (null !== ($helper->getConfig('gateway'))) {
-    $payment = PaymentFactory::getInstance();
+if (null !== $helper->getConfig('gateway')) {
+    $payment = Subscription\PaymentGatewayFactory::getInstance();
 }
 
 $payment_data = [];
@@ -76,11 +76,11 @@ if ($ret) {
 
     if (!isset($unattended)) {
         $GLOBALS['xoopsOption']['template_main'] = 'payment_success.tpl';
-        include XOOPS_ROOT_PATH . '/header.php';
+        require_once XOOPS_ROOT_PATH . '/header.php';
         $xoopsTpl->assign('return_code', $payment->getReturnCode());
         $xoopsTpl->assign('txid', $payment->getTransactionId());
         $xoopsTpl->assign('subname', $subname);
-        include XOOPS_ROOT_PATH . '/footer.php';
+        require_once XOOPS_ROOT_PATH . '/footer.php';
     }
 } else {
     foreach ($payment->errors as $k => $v) {

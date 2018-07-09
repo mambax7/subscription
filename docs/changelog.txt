@@ -3,7 +3,7 @@
 
 - XOOPS 2.5.9, PHP 7 (mamba)
 - Converted to XOOPS 2.5.8 Admin GUI (mamba)
-- removed @<h5>(mamba)
+- removed @< h5 >(mamba)
 - PSR-2 code cosmetics (mamba)
 - addNavigation(basename(__FILE__))  (mamba)
 - dirname(__FILE__) to __DIR__ (mamba)
@@ -21,7 +21,7 @@
 - added Contributing.md (mamba)
 - include_once to require_once (mamba)
 - php-cs-fixer updates (mamba)
-- started con<h5>to XMF (mamba)
+- started con< h5 >to XMF (mamba)
     &nbsp;&nbsp;- updated addInfoBoxLine entries (mamba)
     &nbsp;&nbsp;- displayNavigation(basename(__FILE__))  (mamba)
     &nbsp;&nbsp;- changed to ->displayButton('left') (mamba)

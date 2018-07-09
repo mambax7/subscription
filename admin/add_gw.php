@@ -23,7 +23,10 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+
+use XoopsModules\Subscription;
+
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/template.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -61,7 +64,7 @@ $xoopsDB->query($sql);
 
 $query = 'INSERT INTO ' . $xoopsDB->prefix('subscription_gateway_config') . ' (gateway, name, value, title, orderbit) ' . " VALUES('%s', '%s', '%s', '%s', %d)";
 
-for ($i = 0; $i < count($config); $i++) {
+for ($i = 0, $iMax = count($config); $i < $iMax; $i++) {
     $sql = sprintf($query, $gw, $config[$i]['name'], $config[$i]['value'], $config[$i]['title'], $i);
     $xoopsDB->query($sql);
 }
