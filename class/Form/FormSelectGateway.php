@@ -25,8 +25,8 @@ class FormSelectGateway extends \XoopsFormSelect
         $caption,
         $name,
         $value = null,
-        $size = 1)
-    {
+        $size = 1
+    ) {
         parent::__construct($caption, $name, $value, $size);
 
         $this->addOptionArray(\XoopsModules\Subscription\SubscriptionLists::getGatewayList());

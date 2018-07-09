@@ -24,8 +24,8 @@ class PaymentResponse
         $responsecode,
         $authcode,
         $responsemessage,
-        $referencenumber = null)
-    {
+        $referencenumber = null
+    ) {
         $this->responseCode    = $responsecode;
         $this->authCode        = $authcode;
         $this->responseMessage = $responsemessage;

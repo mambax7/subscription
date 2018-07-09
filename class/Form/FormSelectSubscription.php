@@ -27,8 +27,8 @@ class FormSelectSubscription extends \XoopsFormSelect
         $name,
         $value = null,
         $size = 1,
-        $psid = null)
-    {
+        $psid = null
+    ) {
         parent::__construct($caption, $name, $value, $size);
         if ($psid !== null) {
             $this->addOptionArray(\XoopsModules\Subscription\SubscriptionLists::getSubscriptionList($psid));

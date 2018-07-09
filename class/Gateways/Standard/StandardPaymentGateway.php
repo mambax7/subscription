@@ -27,7 +27,6 @@
 
 use  XoopsModules\Subscription;
 
-
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 if (!defined('SUB_DIR_NAME')) {
     die('SUB_DIR_NAME not defined');
